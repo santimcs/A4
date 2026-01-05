@@ -25,3 +25,4 @@ MovieLens/ratings.csv
 
 # Optional: Ignore entire MovieLens folder
 # MovieLens/
+"Data/videos/AWS/" 
