@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Title & Thumbnail Generator</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font family -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a2e; /* Deep purple background */
+        }
+        .card {
+            background-color: #2c2c54; /* Lighter purple card */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background-color: #ff5757; /* Bright red/pink for action */
+            border: none;
+            transition: background-color 0.2s ease;
+        }
+        .btn-primary:hover {
+            background-color: #e64545;
+        }
+        .title-option {
+            cursor: pointer;
+            border: 2px solid #5757ff; /* Blue border */
+            background-color: #3e3e70;
+            transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+        }
+        .title-option:hover {
+            transform: translateY(-2px);
+            background-color: #4c4c8f;
+        }
+        .loader {
+            border-top-color: #ff5757;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8 min-h-screen flex items-center justify-center">
+
+    <div id="app-container" class="w-full max-w-4xl">
+
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-white text-center mb-8 tracking-tight">
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-blue-400">
+                YouTube Creator AI
+            </span>
+        </h1>
+
+        <!-- Step 1: Input and Title Generation -->
+        <div id="step-1" class="card p-6 md:p-10 rounded-xl">
+            <h2 class="text-2xl font-bold text-white mb-4">1. Summarize the Song's Meaning</h2>
+            <p class="text-gray-300 mb-6">Describe the core theme, story, or emotion of the song. *Do not include the song title or artist name.*</p>
+
+            <textarea id="summary-input" rows="5" class="w-full p-3 rounded-lg bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-pink-500 transition duration-150" placeholder="e.g., 'The song is about a young person leaving their small hometown to pursue a dream, feeling a mix of fear and excitement for the unknown future.'"></textarea>
+
+            <button id="generate-titles-btn" class="btn-primary w-full mt-4 py-3 rounded-lg text-lg font-semibold text-white shadow-lg hover:shadow-xl flex items-center justify-center" onclick="generateTitles()">
+                Generate 3 Viral Titles
+                <svg id="generate-icon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <div id="titles-loading" class="loader w-6 h-6 border-4 border-gray-500 rounded-full hidden"></div>
+            </button>
+        </div>
+
+        <!-- Step 2: Title Selection -->
+        <div id="step-2" class="card p-6 md:p-10 rounded-xl mt-8 hidden">
+            <h2 class="text-2xl font-bold text-white mb-4">2. Choose Your Best Title</h2>
+            <p class="text-gray-300 mb-6">Select the title you want to use. We will generate a matching thumbnail.</p>
+
+            <div id="title-options-container" class="space-y-4">
+                <!-- Titles will be injected here -->
+            </div>
+            
+        </div>
+
+        <!-- Step 3: Thumbnail Output -->
+        <div id="step-3" class="card p-6 md:p-10 rounded-xl mt-8 hidden">
+            <h2 class="text-2xl font-bold text-white mb-4">3. Generated Thumbnail</h2>
+            <p class="text-gray-300 mb-6">Your selected title: <span id="selected-title-display" class="font-bold text-pink-400"></span></p>
+
+            <div id="thumbnail-display" class="relative w-full aspect-video rounded-xl overflow-hidden bg-gray-700 flex items-center justify-center">
+                <!-- Image or loading spinner goes here -->
+                <div id="thumbnail-loading" class="loader w-12 h-12 border-8 border-gray-500 rounded-full hidden"></div>
+                <img id="generated-thumbnail" src="" alt="Generated YouTube Thumbnail" class="w-full h-full object-cover hidden">
+            </div>
+
+            <button id="reset-btn" class="btn-primary w-full mt-6 py-3 rounded-lg text-lg font-semibold text-white shadow-lg hover:shadow-xl" onclick="resetApp()">
+                Start Over
+            </button>
+        </div>
+        
+        <!-- Error Message Container -->
+        <div id="error-message" class="mt-8 p-4 bg-red-800 text-white rounded-lg hidden">
+            <p id="error-text" class="font-medium"></p>
+        </div>
+
+    </div>
+
+    <script type="module">
+        // Global Constants
+        const GEMINI_MODEL = "gemini-2.5-flash-preview-09-2025";
+        const IMAGEN_MODEL = "imagen-4.0-generate-001";
+        const apiKey = "AIzaSyCHwaQt6SZe1adstgv4VJ453eQDnlemVBc"; // Canvas will provide this key if needed
+
+        // Firebase-like constants (not strictly needed for this app, but part of the environment)
+        // const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        // const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+        // DOM Elements
+        const summaryInput = document.getElementById('summary-input');
+        const generateTitlesBtn = document.getElementById('generate-titles-btn');
+        const titlesLoading = document.getElementById('titles-loading');
+        const generateIcon = document.getElementById('generate-icon');
+        
+        const step1 = document.getElementById('step-1');
+        const step2 = document.getElementById('step-2');
+        const step3 = document.getElementById('step-3');
+        const titleOptionsContainer = document.getElementById('title-options-container');
+
+        const selectedTitleDisplay = document.getElementById('selected-title-display');
+        const thumbnailDisplay = document.getElementById('thumbnail-display');
+        const generatedThumbnail = document.getElementById('generated-thumbnail');
+        const thumbnailLoading = document.getElementById('thumbnail-loading');
+
+        const errorMessage = document.getElementById('error-message');
+        const errorText = document.getElementById('error-text');
+        
+        // --- Utility Functions ---
+
+        // Function for robust API fetching with exponential backoff
+        async function exponentialBackoffFetch(url, options, maxRetries = 5, delay = 1000) {
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, options);
+                    if (response.ok) {
+                        return response;
+                    }
+                    if (response.status === 429 || response.status >= 500) {
+                        // Rate limit or server error, retry
+                        console.warn(`API call failed with status ${response.status}. Retrying in ${delay}ms...`);
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        delay *= 2; // Exponential backoff
+                        continue;
+                    }
+                    // Non-retriable error
+                    const error = await response.json();
+                    throw new Error(`API error: ${error.error?.message || response.statusText}`);
+                } catch (error) {
+                    if (i === maxRetries - 1) {
+                        throw error;
+                    }
+                    // Network or parsing error, retry
+                    console.error('Fetch attempt failed:', error.message);
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+            throw new Error("API call failed after multiple retries.");
+        }
+
+        function showLoading(element, isLoading) {
+            if (isLoading) {
+                generateTitlesBtn.disabled = true;
+                element.classList.remove('hidden');
+                generateIcon.classList.add('hidden');
+            } else {
+                generateTitlesBtn.disabled = false;
+                element.classList.add('hidden');
+                generateIcon.classList.remove('hidden');
+            }
+        }
+        
+        function showThumbnailLoading(isLoading) {
+            if (isLoading) {
+                thumbnailLoading.classList.remove('hidden');
+                generatedThumbnail.classList.add('hidden');
+                thumbnailDisplay.classList.add('bg-gray-700');
+            } else {
+                thumbnailLoading.classList.add('hidden');
+                thumbnailDisplay.classList.remove('bg-gray-700');
+            }
+        }
+
+        function displayError(message) {
+            errorText.textContent = message;
+            errorMessage.classList.remove('hidden');
+        }
+
+        function hideError() {
+            errorMessage.classList.add('hidden');
+        }
+
+        // --- Step 1: Generate Titles ---
+        // Make the function accessible globally via the window object
+        window.generateTitles = async function() {
+            hideError();
+            const summary = summaryInput.value.trim();
+            if (summary.length < 20) {
+                displayError("Please provide a more detailed summary (at least 20 characters) of the song's meaning.");
+                return;
+            }
+
+            showLoading(titlesLoading, true);
+
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+                
+                const systemPrompt = "You are a professional YouTube title generator. Your goal is to create 3 extremely engaging, click-bait style titles that capture the *meaning and theme* of the user's input (which is a song summary). The generated titles must be descriptive of the content, but must **never** mention the original song's title, artist, or specific music terminology. Output a JSON array of strings.";
+                const userQuery = `Song Summary: "${summary}"`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    generationConfig: {
+                        responseMimeType: "application/json",
+                        responseSchema: {
+                            type: "ARRAY",
+                            description: "An array containing exactly 3 distinct YouTube titles.",
+                            items: { type: "STRING" }
+                        }
+                    }
+                };
+
+                const response = await exponentialBackoffFetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const result = await response.json();
+                
+                const candidate = result.candidates?.[0];
+                if (candidate && candidate.content?.parts?.[0]?.text) {
+                    const jsonString = candidate.content.parts[0].text;
+                    const titles = JSON.parse(jsonString);
+                    displayTitleOptions(titles);
+                } else {
+                    displayError("Failed to generate titles. The AI response was empty or malformed.");
+                }
+
+            } catch (e) {
+                console.error("Error during title generation:", e);
+                displayError(`An error occurred while fetching titles: ${e.message}`);
+            } finally {
+                showLoading(titlesLoading, false);
+            }
+        }
+
+        function displayTitleOptions(titles) {
+            titleOptionsContainer.innerHTML = ''; // Clear previous titles
+            
+            if (Array.isArray(titles) && titles.length > 0) {
+                titles.forEach((title, index) => {
+                    const button = document.createElement('div');
+                    button.className = 'title-option p-4 rounded-lg text-white text-lg font-medium shadow-md flex justify-between items-center';
+                    button.innerHTML = `
+                        <span>${title}</span>
+                        <span class="text-sm bg-pink-500 px-3 py-1 rounded-full ml-4">Select</span>
+                    `;
+                    button.onclick = () => selectTitleAndGenerateThumbnail(title);
+                    titleOptionsContainer.appendChild(button);
+                });
+
+                step1.classList.add('hidden');
+                step2.classList.remove('hidden');
+            } else {
+                 displayError("The AI generated an empty or non-array list of titles. Please try refining your summary.");
+            }
+        }
+
+
+        // --- Step 2 & 3: Select Title and Generate Thumbnail ---
+
+        window.selectTitleAndGenerateThumbnail = async function(selectedTitle) {
+            hideError();
+            
+            // UI transition
+            step2.classList.add('hidden');
+            step3.classList.remove('hidden');
+            selectedTitleDisplay.textContent = selectedTitle;
+            
+            // Prepare thumbnail area
+            generatedThumbnail.src = "";
+            generatedThumbnail.classList.add('hidden');
+            showThumbnailLoading(true);
+
+            try {
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${IMAGEN_MODEL}:predict?key=${apiKey}`;
+                
+                // Prompt engineering for a good thumbnail
+                const imagePrompt = `A cinematic, highly detailed digital art thumbnail for a YouTube video titled: "${selectedTitle}". The scene should be visually striking, suitable for a 16:9 aspect ratio, and evoke the emotional context of the title. No text overlays or logos. Focus on deep colors and high contrast.`;
+                
+                const payload = {
+                    instances: [{ prompt: imagePrompt }],
+                    parameters: {
+                        sampleCount: 1,
+                        aspectRatio: "16:9" // Ensure YouTube-friendly ratio
+                    }
+                };
+
+                const response = await exponentialBackoffFetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                const result = await response.json();
+                
+                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
+                    const base64Data = result.predictions[0].bytesBase64Encoded;
+                    const imageUrl = `data:image/png;base64,${base64Data}`;
+                    
+                    generatedThumbnail.src = imageUrl;
+                    generatedThumbnail.classList.remove('hidden');
+                } else {
+                    displayError("Image generation failed. No image data was returned from the API.");
+                }
+
+            } catch (e) {
+                console.error("Error during image generation:", e);
+                displayError(`An error occurred while generating the thumbnail: ${e.message}`);
+            } finally {
+                showThumbnailLoading(false);
+            }
+        }
+
+        // --- Reset Function ---
+        window.resetApp = function() {
+            summaryInput.value = '';
+            hideError();
+            step1.classList.remove('hidden');
+            step2.classList.add('hidden');
+            step3.classList.add('hidden');
+            titleOptionsContainer.innerHTML = '';
+            generatedThumbnail.src = '';
+            generatedThumbnail.classList.add('hidden');
+        }
+
+    </script>
+</body>
+</html>

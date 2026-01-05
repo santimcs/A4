@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-01-04T16:51:43.353340",
-  "total_songs": 229,
-  "songs_with_youtube_ids": 229,
-  "songs_without_youtube_ids": 0,
+  "generated_at": "2026-01-05T16:12:56.453333",
+  "total_songs": 239,
+  "songs_with_youtube_ids": 238,
+  "songs_without_youtube_ids": 1,
   "songs": [
     {
       "filename": "(Everything I Do) I Do It For You_Bryan Adams.mp4",
@@ -107,6 +107,12 @@
       "youtube_id": "oRdxUFDoQe0"
     },
     {
+      "filename": "Because You Loved Me_Anonymous Singer.mp4",
+      "song_title": "Because You Loved Me",
+      "artist": "Anonymous Singer",
+      "youtube_id": "c5OebIpqKec"
+    },
+    {
       "filename": "Because You Loved Me_Celine Dion.mp4",
       "song_title": "Because You Loved Me",
       "artist": "Celine Dion",
@@ -149,14 +155,26 @@
       "youtube_id": "nEN5eeQbPL4"
     },
     {
+      "filename": "Bridge over Troubled Water_Simon and Garfunkel .mp4",
+      "song_title": "Bridge over Troubled Water",
+      "artist": "Simon and Garfunkel",
+      "youtube_id": "WrcwRt6J32o"
+    },
+    {
       "filename": "Bridge over Troubled Water_Simon and Garfunkel.mp4",
       "song_title": "Bridge over Troubled Water",
       "artist": "Simon and Garfunkel",
       "youtube_id": "WrcwRt6J32o"
     },
     {
-      "filename": "California Dreamin'_Mamas and the Papas The.mp4",
+      "filename": "California Dreamin'_Mamas and The Papas The.mp4",
       "song_title": "California Dreamin'",
+      "artist": "Mamas and The Papas The",
+      "youtube_id": "N-aK6JnyFmk"
+    },
+    {
+      "filename": "California Dreamin_Mamas and the Papas The.mp4",
+      "song_title": "California Dreamin",
       "artist": "Mamas and the Papas The",
       "youtube_id": "N-aK6JnyFmk"
     },
@@ -237,6 +255,12 @@
       "song_title": "Diary",
       "artist": "Bread",
       "youtube_id": "gbiOsYzD-Dc"
+    },
+    {
+      "filename": "Don't Let Me Down_Beatles The.mp4",
+      "song_title": "Don't Let Me Down",
+      "artist": "Beatles The",
+      "youtube_id": "NCtzkaL2t_Y"
     },
     {
       "filename": "Don't Stop Believin'_Journey .mp4",
@@ -324,6 +348,12 @@
     },
     {
       "filename": "Forever Young_UNDRESSD .mp4",
+      "song_title": "Forever Young",
+      "artist": "UNDRESSD",
+      "youtube_id": "7c5S50Eh36k"
+    },
+    {
+      "filename": "Forever Young_UNDRESSD.mp4",
       "song_title": "Forever Young",
       "artist": "UNDRESSD",
       "youtube_id": "7c5S50Eh36k"
@@ -569,6 +599,12 @@
       "youtube_id": "xv1EprTdgBE"
     },
     {
+      "filename": "Let Her Go_Passenger.mp4",
+      "song_title": "Let Her Go",
+      "artist": "Passenger",
+      "youtube_id": "xv1EprTdgBE"
+    },
+    {
       "filename": "Let It Be_Beatles The.mp4",
       "song_title": "Let It Be",
       "artist": "Beatles The",
@@ -645,6 +681,12 @@
       "song_title": "Memories",
       "artist": "Maroon 5",
       "youtube_id": "SlPhMPnQ58k"
+    },
+    {
+      "filename": "Million Reasons_Lady Gaga.mp4",
+      "song_title": "Million Reasons",
+      "artist": "Lady Gaga",
+      "youtube_id": "en2D_5TzXCA"
     },
     {
       "filename": "More Than Words_Extreme .mp4",
@@ -1253,6 +1295,12 @@
       "youtube_id": "6Ejga4kJUts"
     },
     {
+      "filename": "_I Don't Want to Talk About It_Rod Stewart.mp4",
+      "song_title": "",
+      "artist": "I Don't Want to Talk About It Rod Stewart",
+      "youtube_id": ""
+    },
+    {
       "filename": "ขอใจเธอแลกเบอร์โทร (TH)_หญิงลี ศรีจุมพล.mp4",
       "song_title": "ขอใจเธอแลกเบอร์โทร (TH)",
       "artist": "หญิงลี ศรีจุมพล",
@@ -1301,6 +1349,12 @@
       "youtube_id": "V4pdp4d4NWo"
     },
     {
+      "filename": "ถั่งโถมโหมแรงไฟ (TH)_หงา คาราวาน.mp4",
+      "song_title": "ถั่งโถมโหมแรงไฟ (TH)",
+      "artist": "หงา คาราวาน",
+      "youtube_id": "U5kzBaIqrY0"
+    },
+    {
       "filename": "ถ้าหัวใจมีปีก (TH)_ไข่มุก เพ็ญสินี.mp4",
       "song_title": "ถ้าหัวใจมีปีก (TH)",
       "artist": "ไข่มุก เพ็ญสินี",
@@ -1335,6 +1389,12 @@
       "song_title": "ลุงขี้เมา (TH)",
       "artist": "คาราบาว",
       "youtube_id": "IHvzsDAZCzc"
+    },
+    {
+      "filename": "สวยจริงๆ (TH)_สุรพล สมบัติเจริญ.mp4",
+      "song_title": "สวยจริงๆ (TH)",
+      "artist": "สุรพล สมบัติเจริญ",
+      "youtube_id": "RqiKNIU9pxU"
     },
     {
       "filename": "อยู่ตรงนี้ (TH)_พงษ์สิทธิ์ คำภีร์.mp4",
