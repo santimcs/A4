@@ -4,16 +4,24 @@ node_modules/
 # Ignore YouTube folder as it contains API key
 YouTube/
 
-
 # Ignore log files
 *.log
 
 # Ignore .env file
 .env
 
-# Ignore .pdf file
-.pdf"MovieLens/genome-scores.csv" 
-"MovieLens/ratings.csv" 
+# Ignore PDF files
+*.pdf
 
-# Ignore .mp4 file
-.mp4
+# Ignore MP4 files
+*.mp4
+
+# Ignore specific CSV files in MovieLens folder
+MovieLens/genome-scores.csv
+MovieLens/ratings.csv
+
+# Optional: Ignore all CSV files in MovieLens folder
+# MovieLens/*.csv
+
+# Optional: Ignore entire MovieLens folder
+# MovieLens/
