@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-01-05T16:12:56.453333",
-  "total_songs": 239,
-  "songs_with_youtube_ids": 238,
-  "songs_without_youtube_ids": 1,
+  "generated_at": "2026-02-02T16:09:09.925995",
+  "total_songs": 277,
+  "songs_with_youtube_ids": 277,
+  "songs_without_youtube_ids": 0,
   "songs": [
     {
       "filename": "(Everything I Do) I Do It For You_Bryan Adams.mp4",
@@ -27,6 +27,12 @@
       "song_title": "A Day in the Life",
       "artist": "Beatles The",
       "youtube_id": "usNsCeOV4GM"
+    },
+    {
+      "filename": "A Horse With No Name_America .mp4",
+      "song_title": "A Horse With No Name",
+      "artist": "America",
+      "youtube_id": "Xxh9Da_EJB4"
     },
     {
       "filename": "Against the Wind_Bob Seger.mp4",
@@ -95,10 +101,28 @@
       "youtube_id": "9IWxocGm21U"
     },
     {
+      "filename": "BIRDS OF A FEATHER_Billie Eilish.mp4",
+      "song_title": "BIRDS OF A FEATHER",
+      "artist": "Billie Eilish",
+      "youtube_id": "ceOjTNrMHj4"
+    },
+    {
+      "filename": "Baby I'm-a Want You_Bread .mp4",
+      "song_title": "Baby I'm-a Want You",
+      "artist": "Bread",
+      "youtube_id": "NzBUQ01g4tM"
+    },
+    {
       "filename": "Bad Guy_Billie Eilish.mp4",
       "song_title": "Bad Guy",
       "artist": "Billie Eilish",
       "youtube_id": "DyDfgMOUjCI"
+    },
+    {
+      "filename": "Bad Moon Rising_Creedence Clearwater Revival .mp4",
+      "song_title": "Bad Moon Rising",
+      "artist": "Creedence Clearwater Revival",
+      "youtube_id": "wkqfPuQhW9I"
     },
     {
       "filename": "Beat It_Michael Jackson.mp4",
@@ -161,21 +185,9 @@
       "youtube_id": "WrcwRt6J32o"
     },
     {
-      "filename": "Bridge over Troubled Water_Simon and Garfunkel.mp4",
-      "song_title": "Bridge over Troubled Water",
-      "artist": "Simon and Garfunkel",
-      "youtube_id": "WrcwRt6J32o"
-    },
-    {
       "filename": "California Dreamin'_Mamas and The Papas The.mp4",
       "song_title": "California Dreamin'",
       "artist": "Mamas and The Papas The",
-      "youtube_id": "N-aK6JnyFmk"
-    },
-    {
-      "filename": "California Dreamin_Mamas and the Papas The.mp4",
-      "song_title": "California Dreamin",
-      "artist": "Mamas and the Papas The",
       "youtube_id": "N-aK6JnyFmk"
     },
     {
@@ -203,16 +215,22 @@
       "youtube_id": "GexT3LET3Ts"
     },
     {
-      "filename": "Chan Fu_Ma Jiantao.mp4",
-      "song_title": "Chan Fu",
-      "artist": "Ma Jiantao",
-      "youtube_id": "GexT3LET3Ts"
-    },
-    {
       "filename": "Child (PH)_Freddie Aguilar.mp4",
       "song_title": "Child (PH)",
       "artist": "Freddie Aguilar",
       "youtube_id": "o-n6ok1uLjQ"
+    },
+    {
+      "filename": "Child in Time_Deep Purple .mp4",
+      "song_title": "Child in Time",
+      "artist": "Deep Purple",
+      "youtube_id": "OorZcOzNcgE"
+    },
+    {
+      "filename": "Clocks_Coldplay .mp4",
+      "song_title": "Clocks",
+      "artist": "Coldplay",
+      "youtube_id": "d020hcWA_Wg"
     },
     {
       "filename": "Cold Heart_Elton John.mp4",
@@ -233,6 +251,12 @@
       "youtube_id": "wpFo_E9Fq2k"
     },
     {
+      "filename": "Cotton Fields_Creedence Clearwater Revival .mp4",
+      "song_title": "Cotton Fields",
+      "artist": "Creedence Clearwater Revival",
+      "youtube_id": "AlSjx6F5Pl8"
+    },
+    {
       "filename": "Crazy_Patsy Cline.mp4",
       "song_title": "Crazy",
       "artist": "Patsy Cline",
@@ -245,6 +269,12 @@
       "youtube_id": "xFrGuyw1V8s"
     },
     {
+      "filename": "Daniel_Elton John.mp4",
+      "song_title": "Daniel",
+      "artist": "Elton John",
+      "youtube_id": "x3QhLow5THk"
+    },
+    {
       "filename": "Desperado_Eagles The.mp4",
       "song_title": "Desperado",
       "artist": "Eagles The",
@@ -255,6 +285,12 @@
       "song_title": "Diary",
       "artist": "Bread",
       "youtube_id": "gbiOsYzD-Dc"
+    },
+    {
+      "filename": "Do You Really Want To Hurt Me_Culture Club .mp4",
+      "song_title": "Do You Really Want To Hurt Me",
+      "artist": "Culture Club",
+      "youtube_id": "2nXGPZaTKik"
     },
     {
       "filename": "Don't Let Me Down_Beatles The.mp4",
@@ -287,6 +323,12 @@
       "youtube_id": "sZfZ8uWaOFI"
     },
     {
+      "filename": "Dreams_Cranberries The.mp4",
+      "song_title": "Dreams",
+      "artist": "Cranberries The",
+      "youtube_id": "Yam5uK6e-bQ"
+    },
+    {
       "filename": "Dreams_Fleetwood Mac .mp4",
       "song_title": "Dreams",
       "artist": "Fleetwood Mac",
@@ -297,6 +339,12 @@
       "song_title": "Dust in the Wind",
       "artist": "Kansas",
       "youtube_id": "tH2w6Oxx0kQ"
+    },
+    {
+      "filename": "Easy On Me_Adele .mp4",
+      "song_title": "Easy On Me",
+      "artist": "Adele",
+      "youtube_id": "U3ASj1L6_sY"
     },
     {
       "filename": "End Of The Road_Boyz II Men .mp4",
@@ -311,10 +359,22 @@
       "youtube_id": "YpGs0grxfvU"
     },
     {
+      "filename": "Evergreen Tree_Cliff Richard.mp4",
+      "song_title": "Evergreen Tree",
+      "artist": "Cliff Richard",
+      "youtube_id": "R5y1uy3abDM"
+    },
+    {
       "filename": "Every Breath You Take_Police The.mp4",
       "song_title": "Every Breath You Take",
       "artist": "Police The",
       "youtube_id": "OMOGaugKpzs"
+    },
+    {
+      "filename": "Everything I Own_Bread .mp4",
+      "song_title": "Everything I Own",
+      "artist": "Bread",
+      "youtube_id": "hlOwOFJJ-RI"
     },
     {
       "filename": "Faded_Alan Walker.mp4",
@@ -353,10 +413,10 @@
       "youtube_id": "7c5S50Eh36k"
     },
     {
-      "filename": "Forever Young_UNDRESSD.mp4",
-      "song_title": "Forever Young",
-      "artist": "UNDRESSD",
-      "youtube_id": "7c5S50Eh36k"
+      "filename": "Fortunate Son_Creedence Clearwater Revival .mp4",
+      "song_title": "Fortunate Son",
+      "artist": "Creedence Clearwater Revival",
+      "youtube_id": "ZWijx_AgPiA"
     },
     {
       "filename": "Gimme Shelter_Rolling Stones The.mp4",
@@ -381,6 +441,12 @@
       "song_title": "Goodbye Yellow Brick Road",
       "artist": "Elton John",
       "youtube_id": "wy709iNG6i8"
+    },
+    {
+      "filename": "Grenade_Bruno Mars.mp4",
+      "song_title": "Grenade",
+      "artist": "Bruno Mars",
+      "youtube_id": "SR6iYWJxHqs"
     },
     {
       "filename": "Gypsy_Fleetwood Mac .mp4",
@@ -417,6 +483,12 @@
       "song_title": "Hey Jude",
       "artist": "Beatles The",
       "youtube_id": "A_MjCqQoLLA"
+    },
+    {
+      "filename": "Highway Star_Deep Purple .mp4",
+      "song_title": "Highway Star",
+      "artist": "Deep Purple",
+      "youtube_id": "7ZhFFxvrbgk"
     },
     {
       "filename": "Highway to Hell_ACDC .mp4",
@@ -458,7 +530,7 @@
       "filename": "How Can You Mend a Broken Heart_Bee Gees .mp4",
       "song_title": "How Can You Mend a Broken Heart",
       "artist": "Bee Gees",
-      "youtube_id": "kL9wJAND1WI"
+      "youtube_id": "ZInWGC5L2T8"
     },
     {
       "filename": "How Deep Is Your Love_Bee Gees .mp4",
@@ -471,6 +543,12 @@
       "song_title": "How Do I Live",
       "artist": "LeAnn Rimes",
       "youtube_id": "MUFasKZcH_c"
+    },
+    {
+      "filename": "I Can’t Make You Love Me_Bonnie Raitt.mp4",
+      "song_title": "I Can’t Make You Love Me",
+      "artist": "Bonnie Raitt",
+      "youtube_id": "nW9Cu6GYqxo"
     },
     {
       "filename": "I Don't Want to Talk About It_Rod Stewart.mp4",
@@ -494,7 +572,7 @@
       "filename": "I Started A Joke_Bee Gees .mp4",
       "song_title": "I Started A Joke",
       "artist": "Bee Gees",
-      "youtube_id": "XYb-w39sGlY"
+      "youtube_id": "b3kBDtjRtB0"
     },
     {
       "filename": "I Want to Know What Love Is_Foreigner .mp4",
@@ -545,6 +623,12 @@
       "youtube_id": "QR1CwJTXUIk"
     },
     {
+      "filename": "It's Too Late_Carole King.mp4",
+      "song_title": "It's Too Late",
+      "artist": "Carole King",
+      "youtube_id": "aFnbDPXNDmw"
+    },
+    {
       "filename": "Jive Talkin'_Bee Gees .mp4",
       "song_title": "Jive Talkin'",
       "artist": "Bee Gees",
@@ -563,10 +647,10 @@
       "youtube_id": "OpQFFLBMEPI"
     },
     {
-      "filename": "Just Like You (CN)_Chris Lee.mp4",
-      "song_title": "Just Like You (CN)",
-      "artist": "Chris Lee",
-      "youtube_id": "3Sj8F6Rdjg0"
+      "filename": "Just The Way You Are_Bruno Mars.mp4",
+      "song_title": "Just The Way You Are",
+      "artist": "Bruno Mars",
+      "youtube_id": "LjhCEhWiKXk"
     },
     {
       "filename": "Karma Chameleon_Culture Club .mp4",
@@ -599,12 +683,6 @@
       "youtube_id": "xv1EprTdgBE"
     },
     {
-      "filename": "Let Her Go_Passenger.mp4",
-      "song_title": "Let Her Go",
-      "artist": "Passenger",
-      "youtube_id": "xv1EprTdgBE"
-    },
-    {
       "filename": "Let It Be_Beatles The.mp4",
       "song_title": "Let It Be",
       "artist": "Beatles The",
@@ -623,6 +701,18 @@
       "youtube_id": "IwOfCgkyEj0"
     },
     {
+      "filename": "Linger_Cranberries The.mp4",
+      "song_title": "Linger",
+      "artist": "Cranberries The",
+      "youtube_id": "G6Kspj3OO0s"
+    },
+    {
+      "filename": "Lose Yourself_Eminem .mp4",
+      "song_title": "Lose Yourself",
+      "artist": "Eminem",
+      "youtube_id": "_Yhyp-_hX2s"
+    },
+    {
       "filename": "Love Story_Taylor Swift.mp4",
       "song_title": "Love Story",
       "artist": "Taylor Swift",
@@ -633,6 +723,18 @@
       "song_title": "Love and Hate",
       "artist": "Michael Kiwanuka",
       "youtube_id": "w44dlsnJ1no"
+    },
+    {
+      "filename": "Lover_Taylor Swift.mp4",
+      "song_title": "Lover",
+      "artist": "Taylor Swift",
+      "youtube_id": "-BjZmE2gtdo"
+    },
+    {
+      "filename": "Lyin' Eyes_Eagles The.mp4",
+      "song_title": "Lyin' Eyes",
+      "artist": "Eagles The",
+      "youtube_id": "PqccEpqvwPY"
     },
     {
       "filename": "Maggie May_Rod Stewart.mp4",
@@ -689,16 +791,16 @@
       "youtube_id": "en2D_5TzXCA"
     },
     {
+      "filename": "Moonlight Shadow_Dana Winner.mp4",
+      "song_title": "Moonlight Shadow",
+      "artist": "Dana Winner",
+      "youtube_id": "z4LEo1isbpE"
+    },
+    {
       "filename": "More Than Words_Extreme .mp4",
       "song_title": "More Than Words",
       "artist": "Extreme",
       "youtube_id": "UrIiLvg58SY"
-    },
-    {
-      "filename": "Morning Has Broken_Cat Stevens.mp4",
-      "song_title": "Morning Has Broken",
-      "artist": "Cat Stevens",
-      "youtube_id": "j_efw1-3OvU"
     },
     {
       "filename": "Mr. Tambourine Man_Bob Dylan.mp4",
@@ -737,6 +839,12 @@
       "youtube_id": "SkypZuY6ZvA"
     },
     {
+      "filename": "Nikita_Elton John.mp4",
+      "song_title": "Nikita",
+      "artist": "Elton John",
+      "youtube_id": "Tg-Q-Acv4qs"
+    },
+    {
       "filename": "No Woman, No Cry_Bob Marley and the Wailers .mp4",
       "song_title": "No Woman, No Cry",
       "artist": "Bob Marley and the Wailers",
@@ -761,10 +869,22 @@
       "youtube_id": "kXYiU_JCYtU"
     },
     {
+      "filename": "Ode to Billie Joe_Bobbie Gentry.mp4",
+      "song_title": "Ode to Billie Joe",
+      "artist": "Bobbie Gentry",
+      "youtube_id": "cJZ_ViDADOE"
+    },
+    {
       "filename": "Old Love_Eric Clapton.mp4",
       "song_title": "Old Love",
       "artist": "Eric Clapton",
       "youtube_id": "vSHPkq6aYSs"
+    },
+    {
+      "filename": "One Moment In Time_Dana Winner.mp4",
+      "song_title": "One Moment In Time",
+      "artist": "Dana Winner",
+      "youtube_id": "Wul5bWO3rvo"
     },
     {
       "filename": "One More Light_Linkin Park .mp4",
@@ -809,6 +929,12 @@
       "youtube_id": "PPYYfYAWoj8"
     },
     {
+      "filename": "Penny Lane_Beatles The.mp4",
+      "song_title": "Penny Lane",
+      "artist": "Beatles The",
+      "youtube_id": "S-rB0pHI9fU"
+    },
+    {
       "filename": "People Get Ready_Rod Stewart.mp4",
       "song_title": "People Get Ready",
       "artist": "Rod Stewart",
@@ -825,6 +951,12 @@
       "song_title": "Please Forgive Me",
       "artist": "Bryan Adams",
       "youtube_id": "7x8wPt8xarE"
+    },
+    {
+      "filename": "Poor Boy_Cliff Richard.mp4",
+      "song_title": "Poor Boy",
+      "artist": "Cliff Richard",
+      "youtube_id": "uDgvZ3d-rE0"
     },
     {
       "filename": "Proud Mary_Creedence Clearwater Revival .mp4",
@@ -911,6 +1043,12 @@
       "youtube_id": "4TYv2PhG89A"
     },
     {
+      "filename": "So Far Away_Carole King.mp4",
+      "song_title": "So Far Away",
+      "artist": "Carole King",
+      "youtube_id": "QjDv_pWiJeM"
+    },
+    {
       "filename": "Somebody That I Used To Know_Gotye .mp4",
       "song_title": "Somebody That I Used To Know",
       "artist": "Gotye",
@@ -957,6 +1095,12 @@
       "song_title": "Stayin’ Alive",
       "artist": "Bee Gees",
       "youtube_id": "I_izvAbhExY"
+    },
+    {
+      "filename": "Straight From The Heart_Bryan Adams.mp4",
+      "song_title": "Straight From The Heart",
+      "artist": "Bryan Adams",
+      "youtube_id": "ImCTOtOJyi0"
     },
     {
       "filename": "Strawberry Fields Forever_Beatles The.mp4",
@@ -1011,6 +1155,18 @@
       "song_title": "Take It Easy",
       "artist": "Eagles The",
       "youtube_id": "AaBw37-nWaY"
+    },
+    {
+      "filename": "Tangled Up in Blue_Bob Dylan.mp4",
+      "song_title": "Tangled Up in Blue",
+      "artist": "Bob Dylan",
+      "youtube_id": "YwSZvHqf9qM"
+    },
+    {
+      "filename": "Teach Your Children_Crosby, Stills, Nash and Young .mp4",
+      "song_title": "Teach Your Children",
+      "artist": "Crosby, Stills, Nash and Young",
+      "youtube_id": "EkaKwXddT_I"
     },
     {
       "filename": "Tears in Heaven_Eric Clapton.mp4",
@@ -1073,10 +1229,22 @@
       "youtube_id": "90WD_ats6eE"
     },
     {
+      "filename": "The Young Ones_Cliff Richard.mp4",
+      "song_title": "The Young Ones",
+      "artist": "Cliff Richard",
+      "youtube_id": "5_mG-wxmbLA"
+    },
+    {
       "filename": "Thinking Out Loud_Ed Sheeran.mp4",
       "song_title": "Thinking Out Loud",
       "artist": "Ed Sheeran",
       "youtube_id": "H9kcLTStfpQ"
+    },
+    {
+      "filename": "This Love_Maroon 5 .mp4",
+      "song_title": "This Love",
+      "artist": "Maroon 5",
+      "youtube_id": "XPpTgCho5ZA"
     },
     {
       "filename": "Thriller_Michael Jackson.mp4",
@@ -1091,16 +1259,22 @@
       "youtube_id": "tc2tW0jFHPo"
     },
     {
+      "filename": "Time After Time_Cyndi Lauper.mp4",
+      "song_title": "Time After Time",
+      "artist": "Cyndi Lauper",
+      "youtube_id": "VdQY7BusJNU"
+    },
+    {
       "filename": "Time of Our LIves (CN)_Zhao Lei.mp4",
       "song_title": "Time of Our LIves (CN)",
       "artist": "Zhao Lei",
       "youtube_id": "WtYx1geh_sg"
     },
     {
-      "filename": "Time of Our LIves_Zhao Lei.mp4",
-      "song_title": "Time of Our LIves",
-      "artist": "Zhao Lei",
-      "youtube_id": "WtYx1geh_sg"
+      "filename": "Time_Culture Club .mp4",
+      "song_title": "Time",
+      "artist": "Culture Club",
+      "youtube_id": "8tI1_KlO6xI"
     },
     {
       "filename": "Tiny Dancer_Elton John.mp4",
@@ -1127,6 +1301,18 @@
       "youtube_id": "lcOxhH8N3Bo"
     },
     {
+      "filename": "Tragedy_Bee Gees .mp4",
+      "song_title": "Tragedy",
+      "artist": "Bee Gees",
+      "youtube_id": "I248-SyRDnU"
+    },
+    {
+      "filename": "True Colors_Cyndi Lauper.mp4",
+      "song_title": "True Colors",
+      "artist": "Cyndi Lauper",
+      "youtube_id": "LPn0KFlbqX8"
+    },
+    {
       "filename": "Un-Break My Heart_Toni Braxton.mp4",
       "song_title": "Un-Break My Heart",
       "artist": "Toni Braxton",
@@ -1137,6 +1323,12 @@
       "song_title": "Unchained Melody",
       "artist": "Righteous Brothers The",
       "youtube_id": "EQTLtVjsabM"
+    },
+    {
+      "filename": "Viva La Vida_Coldplay .mp4",
+      "song_title": "Viva La Vida",
+      "artist": "Coldplay",
+      "youtube_id": "dvgZkm1xWPE"
     },
     {
       "filename": "Waiting for a Girl Like You_Foreigner .mp4",
@@ -1163,10 +1355,22 @@
       "youtube_id": "6NXnxTNIWkc"
     },
     {
+      "filename": "When I Was Your Man_Bruno Mars.mp4",
+      "song_title": "When I Was Your Man",
+      "artist": "Bruno Mars",
+      "youtube_id": "ekzHIouo8Q4"
+    },
+    {
       "filename": "When a Man Loves a Woman_Percy Sledge.mp4",
       "song_title": "When a Man Loves a Woman",
       "artist": "Percy Sledge",
       "youtube_id": "zQHrNfCg6v4"
+    },
+    {
+      "filename": "Where Does My Heart Beat Now_Celine Dion.mp4",
+      "song_title": "Where Does My Heart Beat Now",
+      "artist": "Celine Dion",
+      "youtube_id": "Hij_QxDkIJI"
     },
     {
       "filename": "While My Guitar Gently Weeps_Beatles The.mp4",
@@ -1185,6 +1389,12 @@
       "song_title": "Whiter Shade of Pale",
       "artist": "Procol Harum",
       "youtube_id": "_BADDeIQWVQ"
+    },
+    {
+      "filename": "Who’ll Stop the Rain_Creedence Clearwater Revival .mp4",
+      "song_title": "Who’ll Stop the Rain",
+      "artist": "Creedence Clearwater Revival",
+      "youtube_id": "T5ozcAQeUUw"
     },
     {
       "filename": "Wild Horses_Rolling Stones The.mp4",
@@ -1229,6 +1439,18 @@
       "youtube_id": "vUSzL2leaFM"
     },
     {
+      "filename": "Woodstock_Crosby, Stills, Nash and Young .mp4",
+      "song_title": "Woodstock",
+      "artist": "Crosby, Stills, Nash and Young",
+      "youtube_id": "HKdsRWhyH30"
+    },
+    {
+      "filename": "Words_Bee Gees .mp4",
+      "song_title": "Words",
+      "artist": "Bee Gees",
+      "youtube_id": "pkqwRC23HN8"
+    },
+    {
       "filename": "Yellow_Coldplay .mp4",
       "song_title": "Yellow",
       "artist": "Coldplay",
@@ -1239,6 +1461,12 @@
       "song_title": "Yesterday",
       "artist": "Beatles The",
       "youtube_id": "fCV9oqtwyVA"
+    },
+    {
+      "filename": "You Are Not Alone_Michael Jackson.mp4",
+      "song_title": "You Are Not Alone",
+      "artist": "Michael Jackson",
+      "youtube_id": "pAyKJAtDNCw"
     },
     {
       "filename": "You Belong With Me_Taylor Swift.mp4",
@@ -1295,10 +1523,16 @@
       "youtube_id": "6Ejga4kJUts"
     },
     {
-      "filename": "_I Don't Want to Talk About It_Rod Stewart.mp4",
-      "song_title": "",
-      "artist": "I Don't Want to Talk About It Rod Stewart",
-      "youtube_id": ""
+      "filename": "cardigan_Taylor Swift.mp4",
+      "song_title": "cardigan",
+      "artist": "Taylor Swift",
+      "youtube_id": "K-a8s8OLBSE"
+    },
+    {
+      "filename": "lovely_Billie Eilish.mp4",
+      "song_title": "lovely",
+      "artist": "Billie Eilish",
+      "youtube_id": "V1Pl8CzNzCw"
     },
     {
       "filename": "ขอใจเธอแลกเบอร์โทร (TH)_หญิงลี ศรีจุมพล.mp4",
@@ -1347,12 +1581,6 @@
       "song_title": "ตราบธุลีดิน (TH)",
       "artist": "ปู่จ๋านลองไมค์",
       "youtube_id": "V4pdp4d4NWo"
-    },
-    {
-      "filename": "ถั่งโถมโหมแรงไฟ (TH)_หงา คาราวาน.mp4",
-      "song_title": "ถั่งโถมโหมแรงไฟ (TH)",
-      "artist": "หงา คาราวาน",
-      "youtube_id": "U5kzBaIqrY0"
     },
     {
       "filename": "ถ้าหัวใจมีปีก (TH)_ไข่มุก เพ็ญสินี.mp4",

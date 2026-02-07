@@ -1,0 +1,3 @@
+I need an online shop project using php and MySQL
+I am going to make this project through opencode cli
+so give me a prompt at first
