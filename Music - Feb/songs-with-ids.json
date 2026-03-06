@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-02-06T15:19:23.229504",
-  "total_songs": 286,
-  "songs_with_youtube_ids": 286,
+  "generated_at": "2026-03-05T00:06:59.357935",
+  "total_songs": 307,
+  "songs_with_youtube_ids": 307,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -15,6 +15,12 @@
       "song_title": "(I Can't Get No) Satisfaction",
       "artist": "Rolling Stones The",
       "youtube_id": "nrIPxlFzDi0"
+    },
+    {
+      "filename": "(Sittin' On) The Dock of the Bay_Otis Redding.mp4",
+      "song_title": "(Sittin' On) The Dock of the Bay",
+      "artist": "Otis Redding",
+      "youtube_id": "rTVjnBo96Ug"
     },
     {
       "filename": "A Change Is Gonna Come_Sam Cooke.mp4",
@@ -39,6 +45,12 @@
       "song_title": "Against the Wind",
       "artist": "Bob Seger",
       "youtube_id": "lB9sBvE254E"
+    },
+    {
+      "filename": "All Along the Watchtower_Jimi Hendrix Experience The.mp4",
+      "song_title": "All Along the Watchtower",
+      "artist": "Jimi Hendrix Experience The",
+      "youtube_id": "TLV4_xaYynY"
     },
     {
       "filename": "All By Myself_Celine Dion.mp4",
@@ -125,6 +137,12 @@
       "youtube_id": "wkqfPuQhW9I"
     },
     {
+      "filename": "Bad Reputation_Joan Jett and the Blackhearts .mp4",
+      "song_title": "Bad Reputation",
+      "artist": "Joan Jett and the Blackhearts",
+      "youtube_id": "nO6YL09T8Fw"
+    },
+    {
       "filename": "Beat It_Michael Jackson.mp4",
       "song_title": "Beat It",
       "artist": "Michael Jackson",
@@ -141,6 +159,18 @@
       "song_title": "Because You Loved Me",
       "artist": "Celine Dion",
       "youtube_id": "fpl4if07ics"
+    },
+    {
+      "filename": "Before You Go_Lewis Capaldi.mp4",
+      "song_title": "Before You Go",
+      "artist": "Lewis Capaldi",
+      "youtube_id": "Jtauh8GcxBY"
+    },
+    {
+      "filename": "Believer_Imagine Dragons .mp4",
+      "song_title": "Believer",
+      "artist": "Imagine Dragons",
+      "youtube_id": "7wtfhZwyrcc"
     },
     {
       "filename": "Bennie and the Jets_Elton John.mp4",
@@ -189,6 +219,12 @@
       "song_title": "California Dreamin'",
       "artist": "Mamas and The Papas The",
       "youtube_id": "N-aK6JnyFmk"
+    },
+    {
+      "filename": "Can't Get You Out of My Head_Kylie Minogue.mp4",
+      "song_title": "Can't Get You Out of My Head",
+      "artist": "Kylie Minogue",
+      "youtube_id": "c18441Eh_WE"
     },
     {
       "filename": "Candle in the Wind_Elton John.mp4",
@@ -261,6 +297,12 @@
       "song_title": "Crazy",
       "artist": "Patsy Cline",
       "youtube_id": "YWKeuYcDAoo"
+    },
+    {
+      "filename": "Crying_Roy Orbison.mp4",
+      "song_title": "Crying",
+      "artist": "Roy Orbison",
+      "youtube_id": "qLC9o_unLq4"
     },
     {
       "filename": "Dancing Queen_Abba .mp4",
@@ -443,6 +485,12 @@
       "youtube_id": "wy709iNG6i8"
     },
     {
+      "filename": "Grace_Jeff Buckley.mp4",
+      "song_title": "Grace",
+      "artist": "Jeff Buckley",
+      "youtube_id": "A3adFWKE9JE"
+    },
+    {
       "filename": "Grenade_Bruno Mars.mp4",
       "song_title": "Grenade",
       "artist": "Bruno Mars",
@@ -459,6 +507,12 @@
       "song_title": "Hallelujah",
       "artist": "Jeff Buckley",
       "youtube_id": "y8AWFf7EAc4"
+    },
+    {
+      "filename": "Handy Man_James Taylor.mp4",
+      "song_title": "Handy Man",
+      "artist": "James Taylor",
+      "youtube_id": "W551fO839oc"
     },
     {
       "filename": "Have You Ever Seen the Rain_Creedence Clearwater Revival .mp4",
@@ -569,6 +623,12 @@
       "youtube_id": "bpNw7jYkbVc"
     },
     {
+      "filename": "I Love Rock ‘N Roll_Joan Jett and the Blackhearts .mp4",
+      "song_title": "I Love Rock ‘N Roll",
+      "artist": "Joan Jett and the Blackhearts",
+      "youtube_id": "xL5spALs-eA"
+    },
+    {
       "filename": "I Love You_Vanny Vabiola.mp4",
       "song_title": "I Love You",
       "artist": "Vanny Vabiola",
@@ -647,6 +707,12 @@
       "youtube_id": "aFnbDPXNDmw"
     },
     {
+      "filename": "I’m So Lonesome I Could Cry_Hank Williams.mp4",
+      "song_title": "I’m So Lonesome I Could Cry",
+      "artist": "Hank Williams",
+      "youtube_id": "4WXYjm74WFI"
+    },
+    {
       "filename": "Jailhouse Rock_Elvis Presley.mp4",
       "song_title": "Jailhouse Rock",
       "artist": "Elvis Presley",
@@ -681,6 +747,12 @@
       "song_title": "Karma Chameleon",
       "artist": "Culture Club",
       "youtube_id": "JmcA9LIIXWw"
+    },
+    {
+      "filename": "Kashmir_Led Zeppelin .mp4",
+      "song_title": "Kashmir",
+      "artist": "Led Zeppelin",
+      "youtube_id": "tzVJPgCn-Z8"
     },
     {
       "filename": "Knockin’ on Heaven’s Door_Bob Dylan.mp4",
@@ -729,6 +801,12 @@
       "song_title": "Linger",
       "artist": "Cranberries The",
       "youtube_id": "G6Kspj3OO0s"
+    },
+    {
+      "filename": "Little Wing_Jimi Hendrix Experience The.mp4",
+      "song_title": "Little Wing",
+      "artist": "Jimi Hendrix Experience The",
+      "youtube_id": "oZQd38NyK9c"
     },
     {
       "filename": "Lose Yourself_Eminem .mp4",
@@ -857,6 +935,12 @@
       "youtube_id": "eM213aMKTHg"
     },
     {
+      "filename": "Never Tear Us Apart_INXS .mp4",
+      "song_title": "Never Tear Us Apart",
+      "artist": "INXS",
+      "youtube_id": "AIBv2GEnXlc"
+    },
+    {
       "filename": "New Divide_Linkin Park .mp4",
       "song_title": "New Divide",
       "artist": "Linkin Park",
@@ -935,6 +1019,12 @@
       "youtube_id": "rgc_LRjlbTU"
     },
     {
+      "filename": "Only the Lonely_Roy Orbison.mp4",
+      "song_title": "Only the Lonely",
+      "artist": "Roy Orbison",
+      "youtube_id": "kjq4wYuwgxs"
+    },
+    {
       "filename": "Opalite_Taylor Swift.mp4",
       "song_title": "Opalite",
       "artist": "Taylor Swift",
@@ -963,6 +1053,12 @@
       "song_title": "Penny Lane",
       "artist": "Beatles The",
       "youtube_id": "S-rB0pHI9fU"
+    },
+    {
+      "filename": "People Get Ready_Impressions The.mp4",
+      "song_title": "People Get Ready",
+      "artist": "Impressions The",
+      "youtube_id": "l04yM7-BWbg"
     },
     {
       "filename": "People Get Ready_Rod Stewart.mp4",
@@ -999,6 +1095,12 @@
       "song_title": "Purple Haze",
       "artist": "Jimi Hendrix Experience The",
       "youtube_id": "WGoDaYjdfSg"
+    },
+    {
+      "filename": "Radioactive_Imagine Dragons .mp4",
+      "song_title": "Radioactive",
+      "artist": "Imagine Dragons",
+      "youtube_id": "ktvTqknDobU"
     },
     {
       "filename": "Raindrops Keep Falling On My Head_B. J. Thomas.mp4",
@@ -1241,6 +1343,12 @@
       "youtube_id": "ko70cExuzZM"
     },
     {
+      "filename": "The Load Out Stay_Jackson Browne.mp4",
+      "song_title": "The Load Out Stay",
+      "artist": "Jackson Browne",
+      "youtube_id": "DtO0mJ5uzTI"
+    },
+    {
       "filename": "The Moon Represents My Heart (CN)_Teresa Teng.mp4",
       "song_title": "The Moon Represents My Heart (CN)",
       "artist": "Teresa Teng",
@@ -1293,6 +1401,12 @@
       "song_title": "Thriller",
       "artist": "Michael Jackson",
       "youtube_id": "sOnqjkJTMaA"
+    },
+    {
+      "filename": "Thunder_Imagine Dragons .mp4",
+      "song_title": "Thunder",
+      "artist": "Imagine Dragons",
+      "youtube_id": "fKopy74weus"
     },
     {
       "filename": "Tian Mi Mi (CN)_Teresa Teng.mp4",
@@ -1430,13 +1544,19 @@
       "filename": "White Flag_Dido .mp4",
       "song_title": "White Flag",
       "artist": "Dido",
-      "youtube_id": "j-fWDrZSiZs"
+      "youtube_id": "RnDDQ9CY-1I"
     },
     {
       "filename": "Whiter Shade of Pale_Procol Harum .mp4",
       "song_title": "Whiter Shade of Pale",
       "artist": "Procol Harum",
       "youtube_id": "_BADDeIQWVQ"
+    },
+    {
+      "filename": "Whole Lotta Love_Led Zeppelin .mp4",
+      "song_title": "Whole Lotta Love",
+      "artist": "Led Zeppelin",
+      "youtube_id": "HQmmM_qwG4k"
     },
     {
       "filename": "Who’ll Stop the Rain_Creedence Clearwater Revival .mp4",
@@ -1551,6 +1671,12 @@
       "song_title": "You've got a friend",
       "artist": "Carole King",
       "youtube_id": "Hnu53l7brEE"
+    },
+    {
+      "filename": "Your Cheatin' Heart_Hank Williams.mp4",
+      "song_title": "Your Cheatin' Heart",
+      "artist": "Hank Williams",
+      "youtube_id": "Jg2oR91_r5I"
     },
     {
       "filename": "Your Man_Josh Turner.mp4",

@@ -1,0 +1,12 @@
+Build me a fully playable Missile Command arcade game.
+Mouse cursor controls the targeting reticle, click to
+launch interceptor missiles from three ground bases at
+the bottom of the screen. Enemy missiles rain dowm from
+the top targeting your six cities. Interceptors explode
+in the radius that can chain-destroy nearby enemy missiles
+. Waves get progressively harder with more and faster
+incoming missiles. Track score, show game over when all
+cities are destroyed, and let me restart. Make it feel like
+the original 1980 Atari aesthetic -- black sky, neon missile
+trails, pixel style explosions. Single self-contained file
+I can run in a browser.
