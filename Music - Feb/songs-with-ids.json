@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-03-05T00:06:59.357935",
-  "total_songs": 307,
-  "songs_with_youtube_ids": 307,
+  "generated_at": "2026-03-16T16:47:19.750999",
+  "total_songs": 309,
+  "songs_with_youtube_ids": 309,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -1019,6 +1019,12 @@
       "youtube_id": "rgc_LRjlbTU"
     },
     {
+      "filename": "One_U2 .mp4",
+      "song_title": "One",
+      "artist": "U2",
+      "youtube_id": "ZpDQJnI4OhU"
+    },
+    {
       "filename": "Only the Lonely_Roy Orbison.mp4",
       "song_title": "Only the Lonely",
       "artist": "Roy Orbison",
@@ -1599,6 +1605,12 @@
       "song_title": "With A Little Help From My Friends",
       "artist": "Joe Cocker",
       "youtube_id": "rr0X1wJ7lx8"
+    },
+    {
+      "filename": "With or Without You_U2 .mp4",
+      "song_title": "With or Without You",
+      "artist": "U2",
+      "youtube_id": "ujNeHIo7oTE"
     },
     {
       "filename": "Woman in Love_Dana Winner.mp4",
