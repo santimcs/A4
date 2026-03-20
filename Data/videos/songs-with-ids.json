@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-03-16T16:47:19.750999",
-  "total_songs": 309,
-  "songs_with_youtube_ids": 309,
+  "generated_at": "2026-03-20T14:05:39.285704",
+  "total_songs": 312,
+  "songs_with_youtube_ids": 312,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -15,6 +15,12 @@
       "song_title": "(I Can't Get No) Satisfaction",
       "artist": "Rolling Stones The",
       "youtube_id": "nrIPxlFzDi0"
+    },
+    {
+      "filename": "(I Can't Help) Falling In Love With You_UB40 .mp4",
+      "song_title": "(I Can't Help) Falling In Love With You",
+      "artist": "UB40",
+      "youtube_id": "MM8iE_acHRs"
     },
     {
       "filename": "(Sittin' On) The Dock of the Bay_Otis Redding.mp4",
@@ -183,6 +189,12 @@
       "song_title": "Billie Jean",
       "artist": "Michael Jackson",
       "youtube_id": "Zi_XLOBDo_Y"
+    },
+    {
+      "filename": "Bitter Sweet Symphony_Verve The.mp4",
+      "song_title": "Bitter Sweet Symphony",
+      "artist": "Verve The",
+      "youtube_id": "1lyu1KKwC74"
     },
     {
       "filename": "Blank Space_Taylor Swift.mp4",
@@ -1022,7 +1034,7 @@
       "filename": "One_U2 .mp4",
       "song_title": "One",
       "artist": "U2",
-      "youtube_id": "ZpDQJnI4OhU"
+      "youtube_id": "xh-ACkYmdc4"
     },
     {
       "filename": "Only the Lonely_Roy Orbison.mp4",
@@ -1113,6 +1125,12 @@
       "song_title": "Raindrops Keep Falling On My Head",
       "artist": "B. J. Thomas",
       "youtube_id": "JebowNHkA_M"
+    },
+    {
+      "filename": "Red Red Wine_UB40 .mp4",
+      "song_title": "Red Red Wine",
+      "artist": "UB40",
+      "youtube_id": "zXt56MB-3vc"
     },
     {
       "filename": "Right Here Waiting_Richard Marx.mp4",
@@ -1610,7 +1628,7 @@
       "filename": "With or Without You_U2 .mp4",
       "song_title": "With or Without You",
       "artist": "U2",
-      "youtube_id": "ujNeHIo7oTE"
+      "youtube_id": "oNvWDP_GkiY"
     },
     {
       "filename": "Woman in Love_Dana Winner.mp4",
