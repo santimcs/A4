@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-03-20T14:05:39.285704",
-  "total_songs": 312,
-  "songs_with_youtube_ids": 312,
+  "generated_at": "2026-03-21T15:07:48.590060",
+  "total_songs": 313,
+  "songs_with_youtube_ids": 313,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -825,6 +825,12 @@
       "song_title": "Lose Yourself",
       "artist": "Eminem",
       "youtube_id": "_Yhyp-_hX2s"
+    },
+    {
+      "filename": "Love Is All Around_WET WET WET .mp4",
+      "song_title": "Love Is All Around",
+      "artist": "WET WET WET",
+      "youtube_id": "h3gEkwhdXUE"
     },
     {
       "filename": "Love Story_Taylor Swift.mp4",
