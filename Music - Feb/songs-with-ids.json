@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-03-21T15:07:48.590060",
-  "total_songs": 313,
-  "songs_with_youtube_ids": 313,
+  "generated_at": "2026-03-22T11:18:42.856680",
+  "total_songs": 314,
+  "songs_with_youtube_ids": 314,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -405,6 +405,12 @@
       "song_title": "End Of The Road",
       "artist": "Boyz II Men",
       "youtube_id": "zDKO6XYXioc"
+    },
+    {
+      "filename": "Endless Rain_X Japan .mp4",
+      "song_title": "Endless Rain",
+      "artist": "X Japan",
+      "youtube_id": "QhOFg_3RV5Q"
     },
     {
       "filename": "Eternal Flame_The Bangles.mp4",
