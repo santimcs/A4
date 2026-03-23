@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-03-22T11:18:42.856680",
-  "total_songs": 314,
-  "songs_with_youtube_ids": 314,
+  "generated_at": "2026-03-23T13:58:21.541960",
+  "total_songs": 315,
+  "songs_with_youtube_ids": 315,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -1065,6 +1065,12 @@
       "song_title": "Our House",
       "artist": "Crosby, Stills, Nash and Young",
       "youtube_id": "rrW7Mc3_wSc"
+    },
+    {
+      "filename": "Owner Of A Lonely Heart_Yes .mp4",
+      "song_title": "Owner Of A Lonely Heart",
+      "artist": "Yes",
+      "youtube_id": "SVOuYquXuuc"
     },
     {
       "filename": "Paint it Black_Rolling Stones The.mp4",
