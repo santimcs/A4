@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-03-23T13:58:21.541960",
-  "total_songs": 315,
-  "songs_with_youtube_ids": 315,
+  "generated_at": "2026-03-24T11:20:51.488977",
+  "total_songs": 316,
+  "songs_with_youtube_ids": 316,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -1533,6 +1533,12 @@
       "song_title": "Waiting for a Girl Like You",
       "artist": "Foreigner",
       "youtube_id": "20qVro3bcJI"
+    },
+    {
+      "filename": "Wake Me Up_Avicii .mp4",
+      "song_title": "Wake Me Up",
+      "artist": "Avicii",
+      "youtube_id": "IcrbM1l_BoI"
     },
     {
       "filename": "Welcome to the Jungle_Guns n’ Roses .mp4",
