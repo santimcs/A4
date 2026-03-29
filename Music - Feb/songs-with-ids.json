@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-03-25T11:47:03.120563",
-  "total_songs": 318,
-  "songs_with_youtube_ids": 318,
+  "generated_at": "2026-03-29T11:17:27.118143",
+  "total_songs": 324,
+  "songs_with_youtube_ids": 324,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -129,6 +129,12 @@
       "song_title": "Baby I'm-a Want You",
       "artist": "Bread",
       "youtube_id": "NzBUQ01g4tM"
+    },
+    {
+      "filename": "Bad Day_Daniel Powter.mp4",
+      "song_title": "Bad Day",
+      "artist": "Daniel Powter",
+      "youtube_id": "eN_SVw-yyhA"
     },
     {
       "filename": "Bad Guy_Billie Eilish.mp4",
@@ -695,6 +701,12 @@
       "youtube_id": "NJsa6-y4sDs"
     },
     {
+      "filename": "If You Leave Me Now_Chicago .mp4",
+      "song_title": "If You Leave Me Now",
+      "artist": "Chicago",
+      "youtube_id": "DuBRgCcL8Js"
+    },
+    {
       "filename": "If_Bread .mp4",
       "song_title": "If",
       "artist": "Bread",
@@ -845,6 +857,12 @@
       "youtube_id": "h3gEkwhdXUE"
     },
     {
+      "filename": "Love Me Like You Do_Ellie Goulding.mp4",
+      "song_title": "Love Me Like You Do",
+      "artist": "Ellie Goulding",
+      "youtube_id": "AJtDXIazrMo"
+    },
+    {
       "filename": "Love Story_Taylor Swift.mp4",
       "song_title": "Love Story",
       "artist": "Taylor Swift",
@@ -957,6 +975,12 @@
       "song_title": "My Sweet Lord",
       "artist": "George Harrison",
       "youtube_id": "04v-SdKeEpE"
+    },
+    {
+      "filename": "My Way_Frank Sinatra.mp4",
+      "song_title": "My Way",
+      "artist": "Frank Sinatra",
+      "youtube_id": "w019MzRosmk"
     },
     {
       "filename": "Need You Now_Antebellum Lady.mp4",
@@ -1337,6 +1361,12 @@
       "youtube_id": "1w7OgIMMRc4"
     },
     {
+      "filename": "Sweet Dreams (Are Made of This)_Eurythmics .mp4",
+      "song_title": "Sweet Dreams (Are Made of This)",
+      "artist": "Eurythmics",
+      "youtube_id": "qeMFqkcPYcg"
+    },
+    {
       "filename": "Sympathy for the Devil_Rolling Stones The.mp4",
       "song_title": "Sympathy for the Devil",
       "artist": "Rolling Stones The",
@@ -1551,6 +1581,12 @@
       "song_title": "Wake Me Up",
       "artist": "Avicii",
       "youtube_id": "IcrbM1l_BoI"
+    },
+    {
+      "filename": "We've Only Just Begun_Carpenters .mp4",
+      "song_title": "We've Only Just Begun",
+      "artist": "Carpenters",
+      "youtube_id": "__VQX2Xn7tI"
     },
     {
       "filename": "Welcome to the Jungle_Guns n’ Roses .mp4",
