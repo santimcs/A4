@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-03-29T11:17:27.118143",
-  "total_songs": 324,
-  "songs_with_youtube_ids": 324,
+  "generated_at": "2026-03-31T11:19:18.093371",
+  "total_songs": 325,
+  "songs_with_youtube_ids": 325,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -681,6 +681,12 @@
       "song_title": "I Will Always Love You",
       "artist": "Whitney Houston",
       "youtube_id": "3JWTaaS7LdU"
+    },
+    {
+      "filename": "I Will Survive_Gloria Gaynor.mp4",
+      "song_title": "I Will Survive",
+      "artist": "Gloria Gaynor",
+      "youtube_id": "6dYWe1c3OyU"
     },
     {
       "filename": "I'd Rather Go Blind_Etta James.mp4",
