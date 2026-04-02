@@ -1,0 +1,26 @@
+VIDEO DURATION SUMMARY
+============================================================
+Folder: C:\Users\User\OneDrive\A4\Data\videos\Easy Listening
+Total MP4 files: 15
+Total duration (seconds): 6372.44
+Total duration (HH:MM:SS): 01:46:12
+Total duration (minutes): 106.21
+Total duration (hours): 1.77
+
+INDIVIDUAL FILE DURATIONS
+------------------------------------------------------------
+A Change Is Gonna Come_Sam Cooke.mp4               00:03:14
+BIRDS OF A FEATHER_Billie Eilish.mp4               00:03:31
+Crying_Roy Orbison - Copy.mp4                      00:03:02
+Dreams_Fleetwood Mac .mp4                          00:04:14
+Easy On Me_Adele .mp4                              00:03:47
+Honey_Bobby Goldsboro.mp4                          00:03:53
+I Can’t Make You Love Me_Bonnie Raitt.mp4          00:04:44
+I Walk the Line_Johnny Cash.mp4                    00:02:12
+Imagine_John Lennon.mp4                            00:03:13
+I’m So Lonesome I Could Cry_Hank Williams - Copy.mp4 00:03:00
+Landslide_Fleetwood Mac .mp4                       00:03:17
+lovely_Billie Eilish.mp4                           00:03:20
+Yesterday_Beatles The.mp4                          00:02:07
+ยิ้มกลางสายฝน (TH)_หงา คาราวาน.mp4                 00:03:58
+แสงจันทร์ (TH)_ไข่ มาลีฮวนน่า.mp4                  00:05:27

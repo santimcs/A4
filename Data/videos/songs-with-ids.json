@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-03-31T11:19:18.093371",
-  "total_songs": 325,
-  "songs_with_youtube_ids": 325,
+  "generated_at": "2026-04-01T16:49:22.957520",
+  "total_songs": 328,
+  "songs_with_youtube_ids": 328,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -1115,6 +1115,12 @@
       "youtube_id": "nVrdXUHvsF0"
     },
     {
+      "filename": "Paranoid_Black Sabbath .mp4",
+      "song_title": "Paranoid",
+      "artist": "Black Sabbath",
+      "youtube_id": "PDuH4iAYyNo"
+    },
+    {
       "filename": "Peaceful Easy Feeling_Eagles The.mp4",
       "song_title": "Peaceful Easy Feeling",
       "artist": "Eagles The",
@@ -1185,6 +1191,12 @@
       "song_title": "Red Red Wine",
       "artist": "UB40",
       "youtube_id": "zXt56MB-3vc"
+    },
+    {
+      "filename": "Respect_Aretha  Franklin.mp4",
+      "song_title": "Respect",
+      "artist": "Aretha  Franklin",
+      "youtube_id": "6FOUqQt3Kg0"
     },
     {
       "filename": "Right Here Waiting_Richard Marx.mp4",
@@ -1587,6 +1599,12 @@
       "song_title": "Wake Me Up",
       "artist": "Avicii",
       "youtube_id": "IcrbM1l_BoI"
+    },
+    {
+      "filename": "War Pigs_Black Sabbath .mp4",
+      "song_title": "War Pigs",
+      "artist": "Black Sabbath",
+      "youtube_id": "zpc-xJwXmyw"
     },
     {
       "filename": "We've Only Just Begun_Carpenters .mp4",

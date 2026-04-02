@@ -8,9 +8,9 @@ cd\Users\PC1\OneDrive\A4\data
 
 1. mysql
 
-ruby db_backup.rb portfolio_development Mar-27
-ruby db_backup.rb stock Mar-27
-ruby db_backup.rb music_development Mar-27
+ruby db_backup.rb portfolio_development Mar-31
+ruby db_backup.rb stock Mar-31
+ruby db_backup.rb music_development Mar-31
 
 2. postgres password = admin
 
@@ -23,6 +23,7 @@ pg_dump -U postgres -W -c portpg_development > portpg.sql
 copy c:\ruby\port_lite\db\development.sqlite3 c:\Users\PC1\OneDrive\Backup\port_lite\development.sqlite3
 copy c:\ruby\portlt\db\development.sqlite3 c:\Users\PC1\OneDrive\Backup\portlt\development.sqlite3
 copy c:\ruby\portmy\db\development.sqlite3 c:\Users\PC1\OneDrive\Backup\portmy\development.sqlite3
+copy c:\ruby\expense\db\development.sqlite3 c:\Users\PC1\OneDrive\Backup\expense\development.sqlite3
 
 # Restore process
 
@@ -30,10 +31,10 @@ MySQL
 
 cd\Users\User\OneDrive\Documents\Backup\mysql
 
-mysql -u root -p stock < stock_Mar-27.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p stock < stock_Mar-27.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p portfolio_development < portfolio_development_Mar-27.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Mar-27.sql
+mysql -u root -p stock < stock_Mar-31.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p stock < stock_Mar-31.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p portfolio_development < portfolio_development_Mar-31.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Mar-31.sql
 
 Postgres
 
@@ -51,3 +52,21 @@ copy c:\Users\User\OneDrive\Backup\port_lite\development.sqlite3 c:\ruby\port_li
 copy c:\Users\User\OneDrive\Backup\portlt\development.sqlite3 c:\ruby\portlt\db\development.sqlite3
 copy c:\Users\User\OneDrive\Backup\portmy\development.sqlite3 c:\ruby\portmy\db\development.sqlite3
 copy c:\Users\User\OneDrive\Backup\expense\development.sqlite3 c:\ruby\expense\db\development.sqlite3
+
+# Backup Process for Music
+
+For ruby, should clear unused files before save
+rails tmp:cache:clear
+rails log:clear
+
+cd\Users\User\OneDrive\A4\data
+
+ruby db_backup_old_to_new.rb music_development Mar-31
+
+# Restore process
+
+MySQL
+
+cd\Users\PC1\OneDrive\Documents\Backup\mysql
+
+C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Mar-31.sql

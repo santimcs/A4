@@ -1,0 +1,14 @@
+VIDEO DURATION SUMMARY (DUPLICATES REMOVED)
+============================================================
+Folder: C:\Users\User\OneDrive\A4\Data\videos\Easy Listening
+Total files scanned: 30
+Duplicate files skipped: 15
+Unique videos processed: 0
+
+Total duration (seconds): 0.00
+Total duration (HH:MM:SS): 00:00:00
+Total duration (minutes): 0.00
+Total duration (hours): 0.00
+
+INDIVIDUAL FILE DETAILS
+------------------------------------------------------------
