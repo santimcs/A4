@@ -61,7 +61,7 @@ rails log:clear
 
 cd\Users\User\OneDrive\A4\data
 
-ruby db_backup_old_to_new.rb music_development Mar-31
+ruby db_backup_old_to_new.rb music_development Apr-14
 
 # Restore process
 
@@ -69,4 +69,4 @@ MySQL
 
 cd\Users\PC1\OneDrive\Documents\Backup\mysql
 
-C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Mar-31.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Apr-14.sql
