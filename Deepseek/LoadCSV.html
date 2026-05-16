@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSV Data Analysis Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .upload-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            background: #f7f9fc;
+            border-color: #764ba2;
+        }
+
+        .upload-area.drag-over {
+            background: #e0e7ff;
+            border-color: #764ba2;
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .upload-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: transform 0.2s;
+        }
+
+        .upload-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .file-info {
+            margin-top: 15px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .insights-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .insights-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        .insights-list {
+            list-style: none;
+        }
+
+        .insights-list li {
+            padding: 10px;
+            margin-bottom: 10px;
+            background: #f7f9fc;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .correlation-matrix {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        .correlation-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .correlation-table th,
+        .correlation-table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .correlation-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .chart-controls {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .control-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+
+        .control-item {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .control-item label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .control-item select,
+        .control-item button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .control-item button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .control-item button:hover {
+            transform: translateY(-2px);
+        }
+
+        .charts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .chart-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        canvas {
+            max-height: 400px;
+        }
+
+        .data-preview {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            overflow-x: auto;
+        }
+
+        .data-preview h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        .data-table tr:nth-child(even) {
+            background: #f7f9fc;
+        }
+
+        @media (max-width: 768px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+            }
+            .control-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 CSV Data Analysis Dashboard</h1>
+            <p>Upload your CSV file for automatic insights and visualizations</p>
+        </div>
+
+        <div class="upload-section">
+            <div class="upload-area" id="uploadArea">
+                <div class="upload-icon">📁</div>
+                <p>Drag & drop your CSV file here or click to upload</p>
+                <input type="file" id="fileInput" class="file-input" accept=".csv">
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                    Choose CSV File
+                </button>
+                <div class="file-info" id="fileInfo"></div>
+            </div>
+        </div>
+
+        <div class="dashboard" id="dashboard">
+            <div class="stats-grid" id="statsGrid"></div>
+            
+            <div class="insights-section">
+                <h2>📈 Key Insights & Statistics</h2>
+                <ul class="insights-list" id="insightsList"></ul>
+                <div id="correlationMatrix"></div>
+            </div>
+
+            <div class="chart-controls">
+                <h2>📊 Visualization Controls</h2>
+                <div class="control-group">
+                    <div class="control-item">
+                        <label>Chart Type</label>
+                        <select id="chartType">
+                            <option value="bar">Bar Chart</option>
+                            <option value="line">Line Graph</option>
+                            <option value="pie">Pie Chart</option>
+                        </select>
+                    </div>
+                    <div class="control-item">
+                        <label>X-Axis (Categories)</label>
+                        <select id="xAxis"></select>
+                    </div>
+                    <div class="control-item">
+                        <label>Y-Axis (Values)</label>
+                        <select id="yAxis"></select>
+                    </div>
+                    <div class="control-item">
+                        <button onclick="updateChart()">Generate Chart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3>Main Visualization</h3>
+                    <canvas id="mainChart"></canvas>
+                </div>
+                <div class="chart-card">
+                    <h3>Secondary: Top Categories</h3>
+                    <canvas id="secondaryChart"></canvas>
+                </div>
+            </div>
+
+            <div class="data-preview">
+                <h3>📋 Data Preview (First 10 rows)</h3>
+                <div id="dataPreview"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentData = [];
+        let currentColumns = [];
+        let numericColumns = [];
+        let categoricalColumns = [];
+        let mainChart = null;
+        let secondaryChart = null;
+
+        // Upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const dashboard = document.getElementById('dashboard');
+
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('drag-over');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('drag-over');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file && file.name.endsWith('.csv')) {
+                processFile(file);
+            } else {
+                alert('Please upload a valid CSV file');
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        });
+
+        function processFile(file) {
+            fileInfo.textContent = `Processing: ${file.name}`;
+            
+            Papa.parse(file, {
+                header: true,
+                dynamicTyping: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.data && results.data.length > 0) {
+                        currentData = results.data;
+                        currentColumns = results.meta.fields;
+                        analyzeData();
+                        dashboard.style.display = 'block';
+                        fileInfo.innerHTML = `✅ Successfully loaded: ${file.name} (${currentData.length} rows, ${currentColumns.length} columns)`;
+                    } else {
+                        alert('Error parsing CSV file');
+                    }
+                },
+                error: function(error) {
+                    alert('Error parsing CSV: ' + error.message);
+                }
+            });
+        }
+
+        function analyzeData() {
+            // Identify column types
+            numericColumns = [];
+            categoricalColumns = [];
+            
+            currentColumns.forEach(col => {
+                const sample = currentData.slice(0, 100).filter(row => row[col] !== null && row[col] !== undefined);
+                const numericCount = sample.filter(row => typeof row[col] === 'number').length;
+                if (numericCount > sample.length * 0.8) {
+                    numericColumns.push(col);
+                } else {
+                    categoricalColumns.push(col);
+                }
+            });
+
+            // Update dropdowns
+            const xAxisSelect = document.getElementById('xAxis');
+            const yAxisSelect = document.getElementById('yAxis');
+            
+            xAxisSelect.innerHTML = '<option value="">Select X-Axis</option>';
+            yAxisSelect.innerHTML = '<option value="">Select Y-Axis</option>';
+            
+            [...categoricalColumns, ...numericColumns].forEach(col => {
+                xAxisSelect.innerHTML += `<option value="${col}">${col}</option>`;
+            });
+            
+            numericColumns.forEach(col => {
+                yAxisSelect.innerHTML += `<option value="${col}">${col}</option>`;
+            });
+
+            // Set default selections
+            if (categoricalColumns.length > 0 && numericColumns.length > 0) {
+                xAxisSelect.value = categoricalColumns[0];
+                yAxisSelect.value = numericColumns[0];
+            }
+
+            // Display statistics
+            displayStatistics();
+            
+            // Display insights
+            displayInsights();
+            
+            // Display correlation matrix
+            displayCorrelations();
+            
+            // Display data preview
+            displayDataPreview();
+            
+            // Generate default charts
+            updateChart();
+            generateSecondaryChart();
+        }
+
+        function displayStatistics() {
+            const statsGrid = document.getElementById('statsGrid');
+            statsGrid.innerHTML = '';
+            
+            const stats = [
+                { label: 'Total Rows', value: currentData.length },
+                { label: 'Total Columns', value: currentColumns.length },
+                { label: 'Numeric Columns', value: numericColumns.length },
+                { label: 'Categorical Columns', value: categoricalColumns.length }
+            ];
+            
+            stats.forEach(stat => {
+                const card = document.createElement('div');
+                card.className = 'stat-card';
+                card.innerHTML = `
+                    <h3>${stat.label}</h3>
+                    <div class="stat-value">${stat.value}</div>
+                `;
+                statsGrid.appendChild(card);
+            });
+        }
+
+        function displayInsights() {
+            const insightsList = document.getElementById('insightsList');
+            insightsList.innerHTML = '';
+            
+            const insights = [];
+            
+            // Basic statistics for numeric columns
+            numericColumns.forEach(col => {
+                const values = currentData.map(row => row[col]).filter(v => typeof v === 'number');
+                if (values.length > 0) {
+                    const mean = values.reduce((a, b) => a + b, 0) / values.length;
+                    const max = Math.max(...values);
+                    const min = Math.min(...values);
+                    insights.push(`📊 ${col}: Mean = ${mean.toFixed(2)}, Range = ${min.toFixed(2)} - ${max.toFixed(2)}`);
+                }
+            });
+            
+            // Trends and patterns
+            if (numericColumns.length >= 2) {
+                insights.push(`📈 Found ${numericColumns.length} numeric columns suitable for correlation analysis`);
+            }
+            
+            // Missing values
+            currentColumns.forEach(col => {
+                const missingCount = currentData.filter(row => row[col] === null || row[col] === undefined || row[col] === '').length;
+                if (missingCount > 0) {
+                    insights.push(`⚠️ ${col}: ${missingCount} missing values (${((missingCount/currentData.length)*100).toFixed(1)}%)`);
+                }
+            });
+            
+            // Categorical insights
+            categoricalColumns.forEach(col => {
+                const uniqueValues = new Set(currentData.map(row => row[col]).filter(v => v));
+                if (uniqueValues.size <= 10) {
+                    insights.push(`🏷️ ${col}: ${uniqueValues.size} unique categories`);
+                } else {
+                    insights.push(`🏷️ ${col}: ${uniqueValues.size} unique values (high cardinality)`);
+                }
+            });
+            
+            insights.forEach(insight => {
+                const li = document.createElement('li');
+                li.textContent = insight;
+                insightsList.appendChild(li);
+            });
+        }
+
+        function displayCorrelations() {
+            if (numericColumns.length < 2) {
+                document.getElementById('correlationMatrix').innerHTML = '<p>Need at least 2 numeric columns for correlation analysis</p>';
+                return;
+            }
+            
+            const correlations = [];
+            for (let i = 0; i < numericColumns.length; i++) {
+                for (let j = i + 1; j < numericColumns.length; j++) {
+                    const col1 = numericColumns[i];
+                    const col2 = numericColumns[j];
+                    const values = currentData.filter(row => 
+                        typeof row[col1] === 'number' && typeof row[col2] === 'number'
+                    );
+                    
+                    if (values.length > 0) {
+                        const x = values.map(row => row[col1]);
+                        const y = values.map(row => row[col2]);
+                        const correlation = calculateCorrelation(x, y);
+                        correlations.push({ col1, col2, correlation });
+                    }
+                }
+            }
+            
+            let html = '<h3>📐 Correlation Matrix (Top 5)</h3><div class="correlation-matrix"><table class="correlation-table"><thead><tr><th>Variable 1</th><th>Variable 2</th><th>Correlation</th></tr></thead><tbody>';
+            
+            correlations.sort((a, b) => Math.abs(b.correlation) - Math.abs(a.correlation));
+            correlations.slice(0, 5).forEach(corr => {
+                const strength = Math.abs(corr.correlation) > 0.7 ? 'Strong' : (Math.abs(corr.correlation) > 0.3 ? 'Moderate' : 'Weak');
+                const direction = corr.correlation > 0 ? 'Positive' : 'Negative';
+                html += `<tr>
+                    <td>${corr.col1}</td>
+                    <td>${corr.col2}</td>
+                    <td style="background: ${corr.correlation > 0 ? '#90EE90' : '#FFB6C1'}">
+                        ${corr.correlation.toFixed(3)} (${strength} ${direction})
+                    </td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table></div>';
+            document.getElementById('correlationMatrix').innerHTML = html;
+        }
+        
+        function calculateCorrelation(x, y) {
+            const n = x.length;
+            const sumX = x.reduce((a, b) => a + b, 0);
+            const sumY = y.reduce((a, b) => a + b, 0);
+            const sumXY = x.reduce((sum, xi, i) => sum + xi * y[i], 0);
+            const sumX2 = x.reduce((sum, xi) => sum + xi * xi, 0);
+            const sumY2 = y.reduce((sum, yi) => sum + yi * yi, 0);
+            
+            const numerator = n * sumXY - sumX * sumY;
+            const denominator = Math.sqrt((n * sumX2 - sumX * sumX) * (n * sumY2 - sumY * sumY));
+            
+            return denominator === 0 ? 0 : numerator / denominator;
+        }
+
+        function updateChart() {
+            const chartType = document.getElementById('chartType').value;
+            const xCol = document.getElementById('xAxis').value;
+            const yCol = document.getElementById('yAxis').value;
+            
+            if (!xCol || !yCol) {
+                alert('Please select both X and Y axes');
+                return;
+            }
+            
+            // Aggregate data for categorical x-axis
+            const aggregated = {};
+            currentData.forEach(row => {
+                const xVal = row[xCol];
+                const yVal = row[yCol];
+                if (xVal !== null && xVal !== undefined && typeof yVal === 'number') {
+                    const key = String(xVal);
+                    if (!aggregated[key]) {
+                        aggregated[key] = { sum: 0, count: 0 };
+                    }
+                    aggregated[key].sum += yVal;
+                    aggregated[key].count++;
+                }
+            });
+            
+            const labels = Object.keys(aggregated);
+            const values = labels.map(label => aggregated[label].sum / aggregated[label].count);
+            
+            // Sort by value for pie chart
+            if (chartType === 'pie') {
+                const sorted = labels.map((label, i) => ({ label, value: values[i] }))
+                    .sort((a, b) => b.value - a.value)
+                    .slice(0, 10);
+                
+                const ctx = document.getElementById('mainChart').getContext('2d');
+                if (mainChart) mainChart.destroy();
+                
+                mainChart = new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: sorted.map(item => item.label),
+                        datasets: [{
+                            data: sorted.map(item => item.value),
+                            backgroundColor: generateColors(sorted.length)
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            title: { display: true, text: `${yCol} by ${xCol}` }
+                        }
+                    }
+                });
+            } else {
+                const ctx = document.getElementById('mainChart').getContext('2d');
+                if (mainChart) mainChart.destroy();
+                
+                mainChart = new Chart(ctx, {
+                    type: chartType,
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: yCol,
+                            data: values,
+                            backgroundColor: chartType === 'bar' ? 'rgba(102, 126, 234, 0.6)' : 'rgba(102, 126, 234, 1)',
+                            borderColor: 'rgba(102, 126, 234, 1)',
+                            borderWidth: 2,
+                            fill: chartType === 'line' ? false : true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: { position: 'bottom' },
+                            title: { display: true, text: `${yCol} by ${xCol}` }
+                        },
+                        scales: chartType === 'bar' ? {
+                            y: { beginAtZero: true, title: { display: true, text: yCol } },
+                            x: { title: { display: true, text: xCol } }
+                        } : {
+                            y: { beginAtZero: true, title: { display: true, text: yCol } },
+                            x: { title: { display: true, text: xCol } }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function generateSecondaryChart() {
+            // Create a top categories chart
+            if (categoricalColumns.length > 0 && numericColumns.length > 0) {
+                const catCol = categoricalColumns[0];
+                const numCol = numericColumns[0];
+                
+                const aggregated = {};
+                currentData.forEach(row => {
+                    const catVal = row[catCol];
+                    const numVal = row[numCol];
+                    if (catVal && typeof numVal === 'number') {
+                        if (!aggregated[catVal]) aggregated[catVal] = 0;
+                        aggregated[catVal] += numVal;
+                    }
+                });
+                
+                const sorted = Object.entries(aggregated)
+                    .sort((a, b) => b[1] - a[1])
+                    .slice(0, 8);
+                
+                const ctx = document.getElementById('secondaryChart').getContext('2d');
+                if (secondaryChart) secondaryChart.destroy();
+                
+                secondaryChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: sorted.map(item => item[0]),
+                        datasets: [{
+                            label: `Total ${numCol}`,
+                            data: sorted.map(item => item[1]),
+                            backgroundColor: 'rgba(118, 75, 162, 0.6)',
+                            borderColor: 'rgba(118, 75, 162, 1)',
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            title: { display: true, text: `Top ${catCol} by ${numCol}` }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, title: { display: true, text: numCol } }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function generateColors(count) {
+            const colors = [];
+            for (let i = 0; i < count; i++) {
+                const hue = (i * 360 / count) % 360;
+                colors.push(`hsl(${hue}, 70%, 60%)`);
+            }
+            return colors;
+        }
+        
+        function displayDataPreview() {
+            const previewDiv = document.getElementById('dataPreview');
+            if (currentData.length === 0) return;
+            
+            const previewData = currentData.slice(0, 10);
+            let html = '<table class="data-table"><thead><tr>';
+            
+            currentColumns.forEach(col => {
+                html += `<th>${col}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+            
+            previewData.forEach(row => {
+                html += '<tr>';
+                currentColumns.forEach(col => {
+                    let value = row[col];
+                    if (value === null || value === undefined) value = '';
+                    if (typeof value === 'number') value = value.toFixed(2);
+                    html += `<td>${value}</td>`;
+                });
+                html += '</tr>';
+            });
+            
+            html += '</tbody></table>';
+            if (currentData.length > 10) {
+                html += `<p style="margin-top: 10px; color: #666;">... and ${currentData.length - 10} more rows</p>`;
+            }
+            
+            previewDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>

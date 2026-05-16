@@ -1,0 +1,6 @@
+sk-LtbrVJgbCN5rwRR4N3rlYA6E33EpIHZh2cSbnVJALZ3XH3PLcipqI0teTCwk17TD
+
+Enable billing
+Run opencode auth login and select opencode
+Paste your API key
+Start opencode and run /models to select a model

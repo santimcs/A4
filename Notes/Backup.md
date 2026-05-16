@@ -8,9 +8,8 @@ cd\Users\PC1\OneDrive\A4\data
 
 1. mysql
 
-ruby db_backup.rb portfolio_development Mar-31
-ruby db_backup.rb stock Mar-31
-ruby db_backup.rb music_development Mar-31
+ruby db_backup.rb portfolio_development Apr-30
+ruby db_backup.rb stock Apr-30
 
 2. postgres password = admin
 
@@ -31,10 +30,9 @@ MySQL
 
 cd\Users\User\OneDrive\Documents\Backup\mysql
 
-mysql -u root -p stock < stock_Mar-31.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p stock < stock_Mar-31.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p portfolio_development < portfolio_development_Mar-31.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Mar-31.sql
+mysql -u root -p stock < stock_Apr-30.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p stock < stock_Apr-30.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p portfolio_development < portfolio_development_Apr-30.sql
 
 Postgres
 
@@ -61,7 +59,7 @@ rails log:clear
 
 cd\Users\User\OneDrive\A4\data
 
-ruby db_backup_old_to_new.rb music_development Apr-14
+ruby db_backup_old_to_new.rb music_development May-8
 
 # Restore process
 
@@ -69,4 +67,4 @@ MySQL
 
 cd\Users\PC1\OneDrive\Documents\Backup\mysql
 
-C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Apr-14.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_May-8.sql

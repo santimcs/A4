@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-04-16T17:07:55.574416",
-  "total_songs": 351,
-  "songs_with_youtube_ids": 351,
+  "generated_at": "2026-04-21T00:11:42.201080",
+  "total_songs": 358,
+  "songs_with_youtube_ids": 358,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -101,6 +101,12 @@
       "youtube_id": "VLZ9Ike2Geo"
     },
     {
+      "filename": "Angels_Robbie Williams.mp4",
+      "song_title": "Angels",
+      "artist": "Robbie Williams",
+      "youtube_id": "luwAMFcc2f8"
+    },
+    {
       "filename": "Angie_Rolling Stones The.mp4",
       "song_title": "Angie",
       "artist": "Rolling Stones The",
@@ -135,6 +141,18 @@
       "song_title": "Baby I'm-a Want You",
       "artist": "Bread",
       "youtube_id": "NzBUQ01g4tM"
+    },
+    {
+      "filename": "Baby One More Time_Britney Spears.mp4",
+      "song_title": "Baby One More Time",
+      "artist": "Britney Spears",
+      "youtube_id": "C-u5WLJ9Yk4"
+    },
+    {
+      "filename": "Bad Blood_Taylor Swift.mp4",
+      "song_title": "Bad Blood",
+      "artist": "Taylor Swift",
+      "youtube_id": "QcIy9NiNbmo"
     },
     {
       "filename": "Bad Day_Daniel Powter.mp4",
@@ -327,6 +345,12 @@
       "song_title": "Comfortably Numb",
       "artist": "Roger Waters",
       "youtube_id": "wpFo_E9Fq2k"
+    },
+    {
+      "filename": "Complicated_Avril Lavigne.mp4",
+      "song_title": "Complicated",
+      "artist": "Avril Lavigne",
+      "youtube_id": "5NPBIwQyPWE"
     },
     {
       "filename": "Cotton Fields_Creedence Clearwater Revival .mp4",
@@ -767,6 +791,12 @@
       "youtube_id": "NJsa6-y4sDs"
     },
     {
+      "filename": "I'm Gonna Getcha Good!_Shania Twain.mp4",
+      "song_title": "I'm Gonna Getcha Good!",
+      "artist": "Shania Twain",
+      "youtube_id": "Z3Pb3EJY5Qg"
+    },
+    {
       "filename": "If You Leave Me Now_Chicago .mp4",
       "song_title": "If You Leave Me Now",
       "artist": "Chicago",
@@ -855,6 +885,12 @@
       "song_title": "Kashmir",
       "artist": "Led Zeppelin",
       "youtube_id": "tzVJPgCn-Z8"
+    },
+    {
+      "filename": "Killing Me Softly With His Song_Roberta Flack.mp4",
+      "song_title": "Killing Me Softly With His Song",
+      "artist": "Roberta Flack",
+      "youtube_id": "mrudT410TAI"
     },
     {
       "filename": "Knockin’ on Heaven’s Door_Bob Dylan.mp4",
@@ -1178,7 +1214,7 @@
       "filename": "Only the Lonely_Roy Orbison.mp4",
       "song_title": "Only the Lonely",
       "artist": "Roy Orbison",
-      "youtube_id": "kjq4wYuwgxs"
+      "youtube_id": "D6Aw3ZnqQrY"
     },
     {
       "filename": "Opalite_Taylor Swift.mp4",
@@ -1697,6 +1733,12 @@
       "youtube_id": "EQTLtVjsabM"
     },
     {
+      "filename": "Unfaithful_Rihanna .mp4",
+      "song_title": "Unfaithful",
+      "artist": "Rihanna",
+      "youtube_id": "rp4UwPZfRis"
+    },
+    {
       "filename": "Viva La Vida_Coldplay .mp4",
       "song_title": "Viva La Vida",
       "artist": "Coldplay",
@@ -1850,7 +1892,7 @@
       "filename": "With or Without You_U2 .mp4",
       "song_title": "With or Without You",
       "artist": "U2",
-      "youtube_id": "oNvWDP_GkiY"
+      "youtube_id": "ujNeHIo7oTE"
     },
     {
       "filename": "Woman in Love_Dana Winner.mp4",

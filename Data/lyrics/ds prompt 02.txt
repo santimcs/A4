@@ -1,0 +1,93 @@
+Build a browser-based code playground - a mini in-browser IDE. Single HTML with embedded CSS and JS. Requirements:
+
+Layout: Three resizable editor panels side by side (HTML, CSS, JS) plus a preview pane below. Use a vertical split - editors on top, preview on the half. Panels should be draggable to resize.
+
+Edit:
+- Use CodeMirror from CDN for syntax-highlighted editing in all three panes visible.
+- Dark theme throughout (Monokai or similar). Tab size 2 spaces. Line numbers visible.
+
+Live preview: The preview pane shows a rendered iframe that updates in real-time as you type. Debounce the update by ~400ms so it doesn't flicker on every keystroke. The iframe should render the HTML + CSS + JS combined.
+
+Persistence: Auto-save all three editor contents to localStorage on every change. On page load, restore the last saved state. Include a "Reset" button to clear everything.
+
+Build a browser-based code playground - a mini in-browser IDE. Single HTML with embedded CSS and JS. Requirements:
+
+Layout: Three resizable editor panels side by side (HTML, CSS, JS) plus a preview pane below. Use a vertical split - editors on top, preview on the half. Panels should be draggable to resize.
+
+Editors:
+- Use CodeMirror from CDN for syntax-highlighted editing in all three panes visible.
+- Dark theme throughout (Monokai or similar). Tab size 2 spaces. Line numbers visible.
+
+Live preview: The preview pane shows a rendered iframe that updates in real-time as you type. Debounce the update by ~400ms so it doesn't flicker on every keystroke. The iframe should render the HTML + CSS + JS combined.
+
+Persistence: Auto-save all three editor contents to localStorage on every change. On page load, restore the last saved state. Include a "Reset" button to clear everything.
+
+Sample content: Prefill the editors with a simple working example - a counter app
+or a color picker - so the playground isn't empty on first visit.
+
+Controls toolbar: At the top. include the title "Code Playground", a "Run" button
+(forces immediate preview update), the "Reset" button, and a status
+indicator showing when the last auto-saved happened.
+
+Polish: Smooth transitions on resize, subtle shadows on panel, hover states on
+buttons. Make it look like a real tool, not a demo. Responsive - on narrow screens (<768px), stack editors vertically.
+
+Use these CDN links for CodeMirror 5 (simpler setup):
+
+https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.1/codemirror.min.js
+Build a browser-based code playground - a mini in-browser IDE. Single HTML with embedded CSS and JS. Requirements:
+
+Layout: Three resizable editor panels side by side (HTML, CSS, JS) plus a preview pane below. Use a vertical split - editors on top, preview on the half. Panels should be draggable to resize.
+
+Edit:
+- Use CodeMirror from CDN for syntax-highlighted editing in all three panes visible.
+- Dark theme throughout (Monokai or similar). Tab size 2 spaces. Line numbers visible.
+
+Live preview: The preview pane shows a rendered iframe that updates in real-time as you type. Debounce the update by ~400ms so it doesn't flicker on every keystroke. The iframe should render the HTML + CSS + JS combined.
+
+Persistence: Auto-save all three editor contents to localStorage on every change. On page load, restore the last saved state. Include a "Reset" button to layout editors in live preview and it should be persistent so it should auto save on theseBuild a browser-based code playground - a mini in-browser IDE. Single HTML with embedded CSS and JS. Requirements:
+
+Layout: Three resizable editor panels side by side (HTML, CSS, JS) plus a preview pane below. Use a vertical split - editors on top, preview on the half. Panels should be draggable to resize.
+
+Edit:
+- Use CodeMirror from CDN for syntax-highlighted editing in all three panes visible.
+- Dark theme throughout (Monokai or similar). Tab size 2 spaces. Line numbers visible.
+
+Live preview: The preview pane shows a rendered iframe that updates in real-time as you type. Debounce the update by ~400ms so it doesn't flicker on every keystroke. The iframe should render the HTML + CSS + JS combined.
+
+Persistence: Auto-save all three editor contents to localStorage on every change. On page load, restore the last saved state. Include a "Reset" button to layout editors in live preview and it should be persistent so it should auto save on theseBuild a browser-based code playground - a mini in-browser IDE. Single HTML with embedded CSS and JS. Requirements:
+
+Layout: Three resizable editor panels side by side (HTML, CSS, JS) plus a preview pane below. Use a vertical split - editors on top, preview on the half. Panels should be draggable to resize.
+
+Edit:
+- Use CodeMirror from CDN for syntax-highlighted editing in all three panes visible.
+- Dark theme throughout (Monokai or similar). Tab size 2 spaces. Line numbers visible.
+
+Live preview: The preview pane shows a rendered iframe that updates in real-time as you type. Debounce the update by ~400ms so it doesn't flicker on every keystroke. The iframe should render the HTML + CSS + JS combined.
+
+Persistence: Auto-save all three editor contents to localStorage on every change. On page load, restore the last saved state. Include a "Reset" button to layout editors in live preview and it should be persistent so it should auto save on theseBuild a browser-based code playground - a mini in-browser IDE. Single HTML with embedded CSS and JS. Requirements:
+
+Layout: Three resizable editor panels side by side (HTML, CSS, JS) plus a preview pane below. Use a vertical split - editors on top, preview on the half. Panels should be draggable to resize.
+
+Edit:
+- Use CodeMirror from CDN for syntax-highlighted editing in all three panes visible.
+- Dark theme throughout (Monokai or similar). Tab size 2 spaces. Line numbers visible.
+
+Live preview: The preview pane shows a rendered iframe that updates in real-time as you type. Debounce the update by ~400ms so it doesn't flicker on every keystroke. The iframe should render the HTML + CSS + JS combined.
+
+Persistence: Auto-save all three editor contents to localStorage on every 
+change. On page load, restore the last saved state. Include a "Reset" button to 
+clear everything.
+
+Sample content: Pre-fill the editors with a simple working example – a code snippet or a color picker – so the playground isn't empty on first visit.
+
+Controls toolbar: At the top, include the title "Code Playground", a "Run" button (forces immediate preview update), the "Reset" button, and a status indicator showing when the last auto-save happened.
+
+Polish: Smooth transitions on resize, subtle shadows on panels, hover states, buttons. Make it look like a real tool, not a demo. Responsive – on narrow screens (<768px), stack editors vertically.
+
+Use these CDN links for CodeMirror 5 (simpler setup):
+
+https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/codemirror.min.js
+https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/xml/xml.min.js
+https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.68.18/mode/css/css.min.js
+https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.18/mode/javascript/javascript.min.js

@@ -1,0 +1,1 @@
+Create a browser based os that mimics macos, add a lot of features and make it perfect + add function apps.

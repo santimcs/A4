@@ -1,0 +1,21 @@
+Act as a senior full-stack engineer. Build a complete CRUD REST API for a [User/Task/Product] 
+management system with the following requirements:
+
+1. **Stack**: Use Node.js with Express and SQLite (local file-based DB).
+2. **Architecture**:
+   - Use a clean folder structure: `/src/routes`, `/src/controllers`, and `/src/models`.
+   - Use 'knex' or 'sequelize' for the database ORM to handle migrations.
+3. **Features**:
+   - Implement GET (all), GET (by ID), POST (create), PUT (update), and DELETE
+	endpoints.
+   - Add basic input validation using 'joi' or 'zod'.
+   - Include a 'seed.js' script to populate the local DB with 5 sample items.
+4. **Output**
+   - First, initialize the npm project and install dependencies.
+   - Create the SQLite database file locally in the root.
+   - Write the code for all layers.
+   - Provide a README.md with the 'curl' commands to test each endpoint.
+
+Go ahead and start by creating the directory structure and initializing the
+package.json.
+
