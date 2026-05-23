@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-03T16:55:54.856438",
-  "total_songs": 383,
-  "songs_with_youtube_ids": 383,
+  "generated_at": "2026-05-22T11:13:20.432011",
+  "total_songs": 395,
+  "songs_with_youtube_ids": 395,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -99,6 +99,12 @@
       "song_title": "Always Remember Us This Way",
       "artist": "Lady Gaga",
       "youtube_id": "Xewdrv2ymDo"
+    },
+    {
+      "filename": "Amour Secret_Hélène Rollès.mp4",
+      "song_title": "Amour Secret",
+      "artist": "Hélène Rollès",
+      "youtube_id": "6ToJBzM2pFU"
     },
     {
       "filename": "Angel Of The Morning_Juice Newton.mp4",
@@ -206,7 +212,7 @@
       "filename": "Barracuda_Heart .mp4",
       "song_title": "Barracuda",
       "artist": "Heart",
-      "youtube_id": "PeMvMNpvB5M"
+      "youtube_id": "6P8HD0fbZso"
     },
     {
       "filename": "Beat It_Michael Jackson.mp4",
@@ -267,6 +273,12 @@
       "song_title": "Bitter Sweet Symphony",
       "artist": "Verve The",
       "youtube_id": "1lyu1KKwC74"
+    },
+    {
+      "filename": "Black Widow_Iggy Azalea.mp4",
+      "song_title": "Black Widow",
+      "artist": "Iggy Azalea",
+      "youtube_id": "u3u22OYqFGo"
     },
     {
       "filename": "Blank Space_Taylor Swift.mp4",
@@ -731,6 +743,12 @@
       "youtube_id": "l482T0yNkeo"
     },
     {
+      "filename": "Hips Don't Lie_Shakira .mp4",
+      "song_title": "Hips Don't Lie",
+      "artist": "Shakira",
+      "youtube_id": "DUT5rEU6pqM"
+    },
+    {
       "filename": "Home_Michael Buble.mp4",
       "song_title": "Home",
       "artist": "Michael Buble",
@@ -1013,6 +1031,12 @@
       "youtube_id": "Bwt9GZmAWKo"
     },
     {
+      "filename": "Like A Prayer_Madonna .mp4",
+      "song_title": "Like A Prayer",
+      "artist": "Madonna",
+      "youtube_id": "79fzeNUqQbQ"
+    },
+    {
       "filename": "Like a Rolling Stone_Bob Dylan.mp4",
       "song_title": "Like a Rolling Stone",
       "artist": "Bob Dylan",
@@ -1101,6 +1125,12 @@
       "song_title": "Man In The Mirror",
       "artist": "Michael Jackson",
       "youtube_id": "PivWY9wn5ps"
+    },
+    {
+      "filename": "Maneater_Daryl Hall.mp4",
+      "song_title": "Maneater",
+      "artist": "Daryl Hall",
+      "youtube_id": "yRYFKcMa_Ek"
     },
     {
       "filename": "Manuela_Julio Iglesias.mp4",
@@ -1451,10 +1481,22 @@
       "youtube_id": "rYEDA3JcQqw"
     },
     {
+      "filename": "Roxanne_Police The.mp4",
+      "song_title": "Roxanne",
+      "artist": "Police The",
+      "youtube_id": "3T1c7GkzRQQ"
+    },
+    {
       "filename": "Sacrifice_Elton John.mp4",
       "song_title": "Sacrifice",
       "artist": "Elton John",
       "youtube_id": "NrLkTZrPZA4"
+    },
+    {
+      "filename": "Save The Best For Last_Vanessa Williams.mp4",
+      "song_title": "Save The Best For Last",
+      "artist": "Vanessa Williams",
+      "youtube_id": "5EdmHSTwmWY"
     },
     {
       "filename": "Save Your Tears_Weeknd The.mp4",
@@ -1673,6 +1715,12 @@
       "youtube_id": "PVjiKRfKpPI"
     },
     {
+      "filename": "Take Me To Your Heart_MLTR .mp4",
+      "song_title": "Take Me To Your Heart",
+      "artist": "MLTR",
+      "youtube_id": "TbLT12eg-lw"
+    },
+    {
       "filename": "Tangled Up in Blue_Bob Dylan.mp4",
       "song_title": "Tangled Up in Blue",
       "artist": "Bob Dylan",
@@ -1743,6 +1791,12 @@
       "song_title": "The Power of Love",
       "artist": "Celine Dion",
       "youtube_id": "Y8HOfcYWZoo"
+    },
+    {
+      "filename": "The Sound Of Silence_Disturbed .mp4",
+      "song_title": "The Sound Of Silence",
+      "artist": "Disturbed",
+      "youtube_id": "u9Dg-g7t2l4"
     },
     {
       "filename": "The Sound of Silence_Simon and Garfunkel .mp4",
@@ -1853,6 +1907,12 @@
       "youtube_id": "LPn0KFlbqX8"
     },
     {
+      "filename": "Truly Madly Deeply_Savage Garden .mp4",
+      "song_title": "Truly Madly Deeply",
+      "artist": "Savage Garden",
+      "youtube_id": "WQnAxOQxQIU"
+    },
+    {
       "filename": "Umbrella_Rihanna .mp4",
       "song_title": "Umbrella",
       "artist": "Rihanna",
@@ -1905,6 +1965,12 @@
       "song_title": "War Pigs",
       "artist": "Black Sabbath",
       "youtube_id": "zpc-xJwXmyw"
+    },
+    {
+      "filename": "We Are The Champions_Queen .mp4",
+      "song_title": "We Are The Champions",
+      "artist": "Queen",
+      "youtube_id": "KXw8CRapg7k"
     },
     {
       "filename": "We've Only Just Begun_Carpenters .mp4",
@@ -2157,6 +2223,12 @@
       "song_title": "drivers license",
       "artist": "Olivia Rodrigo",
       "youtube_id": "y7AJnDRuemA"
+    },
+    {
+      "filename": "drop dead_Olivia Rodrigo.mp4",
+      "song_title": "drop dead",
+      "artist": "Olivia Rodrigo",
+      "youtube_id": "78wrful9cVU"
     },
     {
       "filename": "lovely_Billie Eilish.mp4",

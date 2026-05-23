@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-13T17:17:39.522197",
-  "total_songs": 394,
-  "songs_with_youtube_ids": 394,
+  "generated_at": "2026-05-23T00:27:45.041197",
+  "total_songs": 398,
+  "songs_with_youtube_ids": 398,
   "songs_without_youtube_ids": 0,
   "songs": [
     {
@@ -207,6 +207,12 @@
       "song_title": "Bad Romance",
       "artist": "Lady Gaga",
       "youtube_id": "qrO4YZeyl0I"
+    },
+    {
+      "filename": "Bang Bang_Jessie J .mp4",
+      "song_title": "Bang Bang",
+      "artist": "Jessie J",
+      "youtube_id": "0HDdjwpPM3Y"
     },
     {
       "filename": "Barracuda_Heart .mp4",
@@ -891,6 +897,12 @@
       "song_title": "I'm Gonna Getcha Good!",
       "artist": "Shania Twain",
       "youtube_id": "Z3Pb3EJY5Qg"
+    },
+    {
+      "filename": "I'm Not A Girl, Not Yet A Woman_Britney Spears.mp4",
+      "song_title": "I'm Not A Girl, Not Yet A Woman",
+      "artist": "Britney Spears",
+      "youtube_id": "IlV7RhT6zHs"
     },
     {
       "filename": "If You Leave Me Now_Chicago .mp4",
@@ -1793,6 +1805,12 @@
       "youtube_id": "Y8HOfcYWZoo"
     },
     {
+      "filename": "The Sound Of Silence_Disturbed .mp4",
+      "song_title": "The Sound Of Silence",
+      "artist": "Disturbed",
+      "youtube_id": "u9Dg-g7t2l4"
+    },
+    {
       "filename": "The Sound of Silence_Simon and Garfunkel .mp4",
       "song_title": "The Sound of Silence",
       "artist": "Simon and Garfunkel",
@@ -1893,6 +1911,12 @@
       "song_title": "Tragedy",
       "artist": "Bee Gees",
       "youtube_id": "I248-SyRDnU"
+    },
+    {
+      "filename": "Travelin' Man_RICKY NELSON.mp4",
+      "song_title": "Travelin' Man",
+      "artist": "RICKY NELSON",
+      "youtube_id": "qOOjyfiFI0U"
     },
     {
       "filename": "True Colors_Cyndi Lauper.mp4",
