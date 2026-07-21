@@ -1,0 +1,1 @@
+build a small expense tracker as a single page web app use plain HTML, JS, and tailwind, store entries in local storage. let me categorize each expense with a small chart at the bottom

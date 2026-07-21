@@ -1,6 +1,7 @@
+require 'logger'
+require 'action_view'
 require 'csv'
 require 'mysql2'
-require 'action_view'
 
 include ActionView::Helpers::NumberHelper
 

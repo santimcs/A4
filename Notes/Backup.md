@@ -8,8 +8,8 @@ cd\Users\PC1\OneDrive\A4\data
 
 1. mysql
 
-ruby db_backup.rb portfolio_development Apr-30
-ruby db_backup.rb stock Apr-30
+ruby db_backup.rb portfolio_development Jun-02
+ruby db_backup.rb stock Jun-02
 
 2. postgres password = admin
 
@@ -30,9 +30,9 @@ MySQL
 
 cd\Users\User\OneDrive\Documents\Backup\mysql
 
-mysql -u root -p stock < stock_Apr-30.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p stock < stock_Apr-30.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p portfolio_development < portfolio_development_Apr-30.sql
+mysql -u root -p stock < stock_Jun-02.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p stock < stock_Jun-02.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p portfolio_development < portfolio_development_Jun-02.sql
 
 Postgres
 
@@ -46,12 +46,13 @@ psql -U postgres portpg_development < portpg.sql
 
 
 SQLite
+
 copy c:\Users\User\OneDrive\Backup\port_lite\development.sqlite3 c:\ruby\port_lite\db\development.sqlite3
 copy c:\Users\User\OneDrive\Backup\portlt\development.sqlite3 c:\ruby\portlt\db\development.sqlite3
 copy c:\Users\User\OneDrive\Backup\portmy\development.sqlite3 c:\ruby\portmy\db\development.sqlite3
 copy c:\Users\User\OneDrive\Backup\expense\development.sqlite3 c:\ruby\expense\db\development.sqlite3
 
-# Backup Process for Music
+# Backup Process for Music from Old to New
 
 For ruby, should clear unused files before save
 rails tmp:cache:clear
@@ -59,12 +60,26 @@ rails log:clear
 
 cd\Users\User\OneDrive\A4\data
 
-ruby db_backup_old_to_new.rb music_development May-8
+ruby db_backup_old_to_new.rb music_development Jun-06
 
-# Restore process
+# Restore process for Music from Old to New
 
 MySQL
 
 cd\Users\PC1\OneDrive\Documents\Backup\mysql
 
-C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_May-8.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Jun-06.sql
+
+# Backup Process for Music from New to Old
+
+cd\Users\PC1\OneDrive\A4\data
+
+ruby db_backup_new_to_old.rb music_development Jun-06
+
+# Restore process for Music from New to Old
+
+MySQL
+
+cd\Users\User\OneDrive\Documents\Backup\mysql
+
+

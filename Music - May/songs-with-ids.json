@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-05-23T00:27:45.041197",
-  "total_songs": 398,
-  "songs_with_youtube_ids": 398,
-  "songs_without_youtube_ids": 0,
+  "generated_at": "2026-05-28T21:00:58.451912",
+  "total_songs": 419,
+  "songs_with_youtube_ids": 406,
+  "songs_without_youtube_ids": 13,
   "songs": [
     {
       "filename": "(Everything I Do) I Do It For You_Bryan Adams.mp4",
@@ -17,7 +17,7 @@
       "youtube_id": "nrIPxlFzDi0"
     },
     {
-      "filename": "(I Can't Help) Falling In Love With You_UB40 .mp4",
+      "filename": "(I Can't Help) Falling In Love With You_UB40.mp4",
       "song_title": "(I Can't Help) Falling In Love With You",
       "artist": "UB40",
       "youtube_id": "MM8iE_acHRs"
@@ -47,7 +47,7 @@
       "youtube_id": "usNsCeOV4GM"
     },
     {
-      "filename": "A Horse With No Name_America .mp4",
+      "filename": "A Horse With No Name_America.mp4",
       "song_title": "A Horse With No Name",
       "artist": "America",
       "youtube_id": "Xxh9Da_EJB4"
@@ -89,7 +89,7 @@
       "youtube_id": "450p7goxZqg"
     },
     {
-      "filename": "Alone_Heart .mp4",
+      "filename": "Alone_Heart.mp4",
       "song_title": "Alone",
       "artist": "Heart",
       "youtube_id": "1Cw1ng75KP0"
@@ -137,7 +137,7 @@
       "youtube_id": "b1kbLwvqugk"
     },
     {
-      "filename": "Apologize_Timbaland .mp4",
+      "filename": "Apologize_Timbaland.mp4",
       "song_title": "Apologize",
       "artist": "Timbaland",
       "youtube_id": "ZSM3w1v-A_Y"
@@ -149,7 +149,7 @@
       "youtube_id": "3P0COo6jSlY"
     },
     {
-      "filename": "Aubrey_Bread .mp4",
+      "filename": "Aubrey_Bread.mp4",
       "song_title": "Aubrey",
       "artist": "Bread",
       "youtube_id": "9IWxocGm21U"
@@ -161,7 +161,7 @@
       "youtube_id": "ceOjTNrMHj4"
     },
     {
-      "filename": "Baby I'm-a Want You_Bread .mp4",
+      "filename": "Baby I'm-a Want You_Bread.mp4",
       "song_title": "Baby I'm-a Want You",
       "artist": "Bread",
       "youtube_id": "NzBUQ01g4tM"
@@ -467,6 +467,12 @@
       "youtube_id": "tO4dxvguQDk"
     },
     {
+      "filename": "Don't Let Me Be The Last To Know_Britney Spears.mp4",
+      "song_title": "Don't Let Me Be The Last To Know",
+      "artist": "Britney Spears",
+      "youtube_id": ""
+    },
+    {
       "filename": "Don't Let Me Down_Beatles The.mp4",
       "song_title": "Don't Let Me Down",
       "artist": "Beatles The",
@@ -560,7 +566,7 @@
       "filename": "Eternal Flame_The Bangles.mp4",
       "song_title": "Eternal Flame",
       "artist": "The Bangles",
-      "youtube_id": "YpGs0grxfvU"
+      "youtube_id": ""
     },
     {
       "filename": "Evergreen Tree_Cliff Richard.mp4",
@@ -573,6 +579,12 @@
       "song_title": "Every Breath You Take",
       "artist": "Police The",
       "youtube_id": "OMOGaugKpzs"
+    },
+    {
+      "filename": "Everybody Needs A Friend_Wishbone Ash .mp4",
+      "song_title": "Everybody Needs A Friend",
+      "artist": "Wishbone Ash",
+      "youtube_id": "29JsupM8j-4"
     },
     {
       "filename": "Everything I Own_Bread .mp4",
@@ -633,6 +645,12 @@
       "song_title": "Genie In A Bottle",
       "artist": "Christina Aguilera",
       "youtube_id": "kIDWgqDBNXA"
+    },
+    {
+      "filename": "Georgia on My Mind_Ray Charles.mp4",
+      "song_title": "Georgia on My Mind",
+      "artist": "Ray Charles",
+      "youtube_id": "fRgWBN8yt_E"
     },
     {
       "filename": "Gimme Shelter_Rolling Stones The.mp4",
@@ -705,6 +723,12 @@
       "song_title": "Have You Ever Seen the Rain",
       "artist": "Creedence Clearwater Revival",
       "youtube_id": "u1V8YRJnr4Q"
+    },
+    {
+      "filename": "Have You Seen Her_Chi‐Lites The.mp4",
+      "song_title": "Have You Seen Her",
+      "artist": "Chi‐Lites The",
+      "youtube_id": ""
     },
     {
       "filename": "Heart of Glass_Blondie .mp4",
@@ -965,6 +989,18 @@
       "youtube_id": "oALKAh_bL5g"
     },
     {
+      "filename": "Johnny B. Goode_Chuck Berry.mp4",
+      "song_title": "Johnny B. Goode",
+      "artist": "Chuck Berry",
+      "youtube_id": ""
+    },
+    {
+      "filename": "July Morning_Uriah Heep.mp4",
+      "song_title": "July Morning",
+      "artist": "Uriah Heep",
+      "youtube_id": "8rZ_BkbbfRg"
+    },
+    {
       "filename": "Jumpin’ Jack Flash_Rolling Stones The.mp4",
       "song_title": "Jumpin’ Jack Flash",
       "artist": "Rolling Stones The",
@@ -981,6 +1017,12 @@
       "song_title": "Just The Way You Are",
       "artist": "Bruno Mars",
       "youtube_id": "LjhCEhWiKXk"
+    },
+    {
+      "filename": "Just When I Needed You Most_Randy Vanwarmer.mp4",
+      "song_title": "Just When I Needed You Most",
+      "artist": "Randy Vanwarmer",
+      "youtube_id": "GoMn41bFqVA"
     },
     {
       "filename": "Karma Chameleon_Culture Club .mp4",
@@ -1433,6 +1475,18 @@
       "youtube_id": "uDgvZ3d-rE0"
     },
     {
+      "filename": "Poor Little Fool_RICKY NELSON.mp4",
+      "song_title": "Poor Little Fool",
+      "artist": "RICKY NELSON",
+      "youtube_id": ""
+    },
+    {
+      "filename": "Price Tag_Jessie J.mp4",
+      "song_title": "Price Tag",
+      "artist": "Jessie J",
+      "youtube_id": ""
+    },
+    {
       "filename": "Proud Mary_Creedence Clearwater Revival .mp4",
       "song_title": "Proud Mary",
       "artist": "Creedence Clearwater Revival",
@@ -1697,6 +1751,12 @@
       "youtube_id": "MT3P7p-WNSY"
     },
     {
+      "filename": "Sutter's Mill_Dan Fogelberg.mp4",
+      "song_title": "Sutter's Mill",
+      "artist": "Dan Fogelberg",
+      "youtube_id": "a3EdGlG-eGg"
+    },
+    {
       "filename": "Sweet Child O’Mine_Guns n’ Roses .mp4",
       "song_title": "Sweet Child O’Mine",
       "artist": "Guns n’ Roses",
@@ -1751,6 +1811,12 @@
       "youtube_id": "tUU1GLMdnkM"
     },
     {
+      "filename": "Temple of the King_Rainbow.mp4",
+      "song_title": "Temple of the King",
+      "artist": "Rainbow",
+      "youtube_id": "UtRYGnTyMn0"
+    },
+    {
       "filename": "Tequila Sunrise_Eagles The.mp4",
       "song_title": "Tequila Sunrise",
       "artist": "Eagles The",
@@ -1779,6 +1845,12 @@
       "song_title": "The Final Countdown",
       "artist": "Europte",
       "youtube_id": "9jK-NcRmVcw"
+    },
+    {
+      "filename": "The Letter_The Box Tops.mp4",
+      "song_title": "The Letter",
+      "artist": "The Box Tops",
+      "youtube_id": ""
     },
     {
       "filename": "The Load Out Stay_Jackson Browne.mp4",
@@ -2009,6 +2081,12 @@
       "youtube_id": "rBrd_3VMC3c"
     },
     {
+      "filename": "What'd I Say_Ray Charles.mp4",
+      "song_title": "What'd I Say",
+      "artist": "Ray Charles",
+      "youtube_id": "6uTDa3771HM"
+    },
+    {
       "filename": "What's Going On_Marvin Gaye.mp4",
       "song_title": "What's Going On",
       "artist": "Marvin Gaye",
@@ -2019,6 +2097,12 @@
       "song_title": "What's Up",
       "artist": "4 Non Blondes",
       "youtube_id": "6NXnxTNIWkc"
+    },
+    {
+      "filename": "When Doves Cry_Prince.mp4",
+      "song_title": "When Doves Cry",
+      "artist": "Prince",
+      "youtube_id": "oTUSeac7IuQ"
     },
     {
       "filename": "When I Was Your Man_Bruno Mars.mp4",
@@ -2195,6 +2279,12 @@
       "youtube_id": "oofSnsGkops"
     },
     {
+      "filename": "You've Lost That Lovin' Feelin'_The Everly Brothers.mp4",
+      "song_title": "You've Lost That Lovin' Feelin'",
+      "artist": "The Everly Brothers",
+      "youtube_id": ""
+    },
+    {
       "filename": "You've got a friend_Carole King.mp4",
       "song_title": "You've got a friend",
       "artist": "Carole King",
@@ -2273,10 +2363,22 @@
       "youtube_id": "QSY_hjAZsSA"
     },
     {
+      "filename": "ครึ่งหนึ่งของชีวิต (TH)_แอม เสาวลักษณ์.mp4",
+      "song_title": "ครึ่งหนึ่งของชีวิต (TH)",
+      "artist": "แอม เสาวลักษณ์",
+      "youtube_id": ""
+    },
+    {
       "filename": "ความเงียบดังที่สุด (TH)_Getsunova .mp4",
       "song_title": "ความเงียบดังที่สุด (TH)",
       "artist": "Getsunova",
       "youtube_id": "TMr6subvuQI"
+    },
+    {
+      "filename": "ความในใจ (TH)_ต้อม เรนโบว์.mp4",
+      "song_title": "ความในใจ (TH)",
+      "artist": "ต้อม เรนโบว์",
+      "youtube_id": "HTDxZvEsA8Y"
     },
     {
       "filename": "คืนจันทร์ (TH)_เสก โลโซ.mp4",
@@ -2315,6 +2417,12 @@
       "youtube_id": "34AMaQvtAsc"
     },
     {
+      "filename": "ทะเลใจ (TH)_คาราบาว.mp4",
+      "song_title": "ทะเลใจ (TH)",
+      "artist": "คาราบาว",
+      "youtube_id": ""
+    },
+    {
       "filename": "ยิ้มกลางสายฝน (TH)_หงา คาราวาน.mp4",
       "song_title": "ยิ้มกลางสายฝน (TH)",
       "artist": "หงา คาราวาน",
@@ -2351,10 +2459,22 @@
       "youtube_id": "RqiKNIU9pxU"
     },
     {
+      "filename": "หนาวแสงนีออน (TH)_ตั๊กแตน ชลดา.mp4",
+      "song_title": "หนาวแสงนีออน (TH)",
+      "artist": "ตั๊กแตน ชลดา",
+      "youtube_id": ""
+    },
+    {
       "filename": "อยู่ตรงนี้ (TH)_พงษ์สิทธิ์ คำภีร์.mp4",
       "song_title": "อยู่ตรงนี้ (TH)",
       "artist": "พงษ์สิทธิ์ คำภีร์",
       "youtube_id": "w827Ayb9I0w"
+    },
+    {
+      "filename": "เล่าสู่กันฟัง (TH)_ธงไชย แมคอินไตย์.mp4",
+      "song_title": "เล่าสู่กันฟัง (TH)",
+      "artist": "ธงไชย แมคอินไตย์",
+      "youtube_id": ""
     },
     {
       "filename": "เสมอ (TH)_พงษ์สิทธิ์ คำภีร์.mp4",
@@ -2367,6 +2487,12 @@
       "song_title": "แค่นั้น (TH)",
       "artist": "พงษ์สิทธิ์ คำภีร์",
       "youtube_id": "uJsYYsVb9Ys"
+    },
+    {
+      "filename": "แพ้ใจ (TH)_ใหม่ เจริญปุระ.mp4",
+      "song_title": "แพ้ใจ (TH)",
+      "artist": "ใหม่ เจริญปุระ",
+      "youtube_id": ""
     },
     {
       "filename": "แสงจันทร์ (TH)_ไข่ มาลีฮวนน่า.mp4",

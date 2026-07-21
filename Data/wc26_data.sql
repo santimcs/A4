@@ -1,0 +1,1385 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 10.15
+-- Dumped by pg_dump version 10.15
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+ALTER TABLE ONLY public.fixtures DROP CONSTRAINT fk_rails_fce055dec7;
+ALTER TABLE ONLY public.standings DROP CONSTRAINT fk_rails_e9d6ea91b3;
+ALTER TABLE ONLY public.fixtures DROP CONSTRAINT fk_rails_e99c2e4db6;
+ALTER TABLE ONLY public.knockout_teams DROP CONSTRAINT fk_rails_c5142f55e9;
+ALTER TABLE ONLY public.fixtures DROP CONSTRAINT fk_rails_9af4cca3ac;
+ALTER TABLE ONLY public.fixtures DROP CONSTRAINT fk_rails_75266f13a2;
+ALTER TABLE ONLY public.fixtures DROP CONSTRAINT fk_rails_45a97a2b64;
+ALTER TABLE ONLY public.results DROP CONSTRAINT fk_rails_24208fad15;
+ALTER TABLE ONLY public.fixtures DROP CONSTRAINT fk_rails_10fee36e31;
+ALTER TABLE ONLY public.fixtures DROP CONSTRAINT fk_rails_0c45715fb6;
+DROP INDEX public.index_standings_on_team_id;
+DROP INDEX public.index_results_on_fixture_id;
+DROP INDEX public.index_knockout_teams_on_team_id_and_group_letter;
+DROP INDEX public.index_knockout_teams_on_team_id;
+DROP INDEX public.index_knockout_teams_on_bracket_slot;
+DROP INDEX public.index_fixtures_on_session_id;
+DROP INDEX public.index_fixtures_on_round_id;
+DROP INDEX public.index_fixtures_on_next_match_id;
+DROP INDEX public.index_fixtures_on_home_team_id;
+DROP INDEX public.index_fixtures_on_criterium_id;
+DROP INDEX public.index_fixtures_on_channel_id;
+DROP INDEX public.index_fixtures_on_away_team_id;
+ALTER TABLE ONLY public.teams DROP CONSTRAINT teams_pkey;
+ALTER TABLE ONLY public.standings DROP CONSTRAINT standings_pkey;
+ALTER TABLE ONLY public.sessions DROP CONSTRAINT sessions_pkey;
+ALTER TABLE ONLY public.schema_migrations DROP CONSTRAINT schema_migrations_pkey;
+ALTER TABLE ONLY public.rounds DROP CONSTRAINT rounds_pkey;
+ALTER TABLE ONLY public.results DROP CONSTRAINT results_pkey;
+ALTER TABLE ONLY public.knockout_teams DROP CONSTRAINT knockout_teams_pkey;
+ALTER TABLE ONLY public.fixtures DROP CONSTRAINT fixtures_pkey;
+ALTER TABLE ONLY public.criteria DROP CONSTRAINT criteria_pkey;
+ALTER TABLE ONLY public.channels DROP CONSTRAINT channels_pkey;
+ALTER TABLE ONLY public.ar_internal_metadata DROP CONSTRAINT ar_internal_metadata_pkey;
+ALTER TABLE public.teams ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.standings ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.sessions ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.rounds ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.results ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.knockout_teams ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.fixtures ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.criteria ALTER COLUMN id DROP DEFAULT;
+ALTER TABLE public.channels ALTER COLUMN id DROP DEFAULT;
+DROP SEQUENCE public.teams_id_seq;
+DROP TABLE public.teams;
+DROP SEQUENCE public.standings_id_seq;
+DROP TABLE public.standings;
+DROP SEQUENCE public.sessions_id_seq;
+DROP TABLE public.sessions;
+DROP TABLE public.schema_migrations;
+DROP SEQUENCE public.rounds_id_seq;
+DROP TABLE public.rounds;
+DROP SEQUENCE public.results_id_seq;
+DROP TABLE public.results;
+DROP SEQUENCE public.knockout_teams_id_seq;
+DROP TABLE public.knockout_teams;
+DROP SEQUENCE public.fixtures_id_seq;
+DROP TABLE public.fixtures;
+DROP SEQUENCE public.criteria_id_seq;
+DROP TABLE public.criteria;
+DROP SEQUENCE public.channels_id_seq;
+DROP TABLE public.channels;
+DROP TABLE public.ar_internal_metadata;
+DROP EXTENSION plpgsql;
+DROP SCHEMA public;
+--
+-- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA public;
+
+
+ALTER SCHEMA public OWNER TO postgres;
+
+--
+-- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ar_internal_metadata (
+    key character varying NOT NULL,
+    value character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.ar_internal_metadata OWNER TO postgres;
+
+--
+-- Name: channels; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.channels (
+    id bigint NOT NULL,
+    number integer,
+    name character varying,
+    logo character varying,
+    url character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.channels OWNER TO postgres;
+
+--
+-- Name: channels_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.channels_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.channels_id_seq OWNER TO postgres;
+
+--
+-- Name: channels_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.channels_id_seq OWNED BY public.channels.id;
+
+
+--
+-- Name: criteria; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.criteria (
+    id bigint NOT NULL,
+    show_date date,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.criteria OWNER TO postgres;
+
+--
+-- Name: criteria_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.criteria_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.criteria_id_seq OWNER TO postgres;
+
+--
+-- Name: criteria_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.criteria_id_seq OWNED BY public.criteria.id;
+
+
+--
+-- Name: fixtures; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.fixtures (
+    id bigint NOT NULL,
+    round_id bigint,
+    date date,
+    session_id bigint,
+    home_team_id bigint,
+    away_team_id bigint,
+    channel_id bigint,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    criterium_id bigint,
+    next_match_id bigint,
+    winner_slot character varying
+);
+
+
+ALTER TABLE public.fixtures OWNER TO postgres;
+
+--
+-- Name: fixtures_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.fixtures_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.fixtures_id_seq OWNER TO postgres;
+
+--
+-- Name: fixtures_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.fixtures_id_seq OWNED BY public.fixtures.id;
+
+
+--
+-- Name: knockout_teams; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.knockout_teams (
+    id bigint NOT NULL,
+    team_id bigint NOT NULL,
+    group_letter character varying(1) NOT NULL,
+    "position" integer NOT NULL,
+    seed_rank integer,
+    bracket_slot integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.knockout_teams OWNER TO postgres;
+
+--
+-- Name: knockout_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.knockout_teams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.knockout_teams_id_seq OWNER TO postgres;
+
+--
+-- Name: knockout_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.knockout_teams_id_seq OWNED BY public.knockout_teams.id;
+
+
+--
+-- Name: results; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.results (
+    id bigint NOT NULL,
+    fixture_id bigint,
+    home_goals integer,
+    away_goals integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    home_penalties integer,
+    away_penalties integer
+);
+
+
+ALTER TABLE public.results OWNER TO postgres;
+
+--
+-- Name: results_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.results_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.results_id_seq OWNER TO postgres;
+
+--
+-- Name: results_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.results_id_seq OWNED BY public.results.id;
+
+
+--
+-- Name: rounds; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.rounds (
+    id bigint NOT NULL,
+    sequence integer,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.rounds OWNER TO postgres;
+
+--
+-- Name: rounds_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.rounds_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.rounds_id_seq OWNER TO postgres;
+
+--
+-- Name: rounds_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.rounds_id_seq OWNED BY public.rounds.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.schema_migrations (
+    version character varying NOT NULL
+);
+
+
+ALTER TABLE public.schema_migrations OWNER TO postgres;
+
+--
+-- Name: sessions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.sessions (
+    id bigint NOT NULL,
+    sequence integer,
+    "time" time without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.sessions OWNER TO postgres;
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.sessions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.sessions_id_seq OWNER TO postgres;
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.sessions_id_seq OWNED BY public.sessions.id;
+
+
+--
+-- Name: standings; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.standings (
+    id bigint NOT NULL,
+    team_id bigint,
+    played integer DEFAULT 0,
+    wins integer DEFAULT 0,
+    draws integer DEFAULT 0,
+    losses integer DEFAULT 0,
+    goals_for integer DEFAULT 0,
+    goals_against integer DEFAULT 0,
+    points integer DEFAULT 0,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    form character varying
+);
+
+
+ALTER TABLE public.standings OWNER TO postgres;
+
+--
+-- Name: standings_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.standings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.standings_id_seq OWNER TO postgres;
+
+--
+-- Name: standings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.standings_id_seq OWNED BY public.standings.id;
+
+
+--
+-- Name: teams; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.teams (
+    id bigint NOT NULL,
+    name character varying,
+    "group" character varying,
+    ranking integer,
+    flag character varying,
+    confederation character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.teams OWNER TO postgres;
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.teams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.teams_id_seq OWNER TO postgres;
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.teams_id_seq OWNED BY public.teams.id;
+
+
+--
+-- Name: channels id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.channels ALTER COLUMN id SET DEFAULT nextval('public.channels_id_seq'::regclass);
+
+
+--
+-- Name: criteria id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.criteria ALTER COLUMN id SET DEFAULT nextval('public.criteria_id_seq'::regclass);
+
+
+--
+-- Name: fixtures id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fixtures ALTER COLUMN id SET DEFAULT nextval('public.fixtures_id_seq'::regclass);
+
+
+--
+-- Name: knockout_teams id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.knockout_teams ALTER COLUMN id SET DEFAULT nextval('public.knockout_teams_id_seq'::regclass);
+
+
+--
+-- Name: results id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.results ALTER COLUMN id SET DEFAULT nextval('public.results_id_seq'::regclass);
+
+
+--
+-- Name: rounds id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rounds ALTER COLUMN id SET DEFAULT nextval('public.rounds_id_seq'::regclass);
+
+
+--
+-- Name: sessions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sessions ALTER COLUMN id SET DEFAULT nextval('public.sessions_id_seq'::regclass);
+
+
+--
+-- Name: standings id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.standings ALTER COLUMN id SET DEFAULT nextval('public.standings_id_seq'::regclass);
+
+
+--
+-- Name: teams id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.teams ALTER COLUMN id SET DEFAULT nextval('public.teams_id_seq'::regclass);
+
+
+--
+-- Data for Name: ar_internal_metadata; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
+environment	development	2026-06-18 02:40:45.285793	2026-06-18 02:40:45.285793
+\.
+
+
+--
+-- Data for Name: channels; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.channels (id, number, name, logo, url, created_at, updated_at) FROM stdin;
+1	1	Fox Sports	fox_logo.png	foxsports.com	2026-06-18 02:41:01.800942	2026-06-18 02:41:01.800942
+2	2	FOX	fox_logo.png	fox.com	2026-06-18 02:41:01.802426	2026-06-18 02:41:01.802426
+3	3	Telemundo	telemundo_logo.png	telemundo.com	2026-06-18 02:41:01.803566	2026-06-18 02:41:01.803566
+4	4	Universo	universo_logo.png	universo.com	2026-06-18 02:41:01.804688	2026-06-18 02:41:01.804688
+5	5	TSN	tsn_logo.png	tsn.ca	2026-06-18 02:41:01.805854	2026-06-18 02:41:01.805854
+6	6	RDS	rds_logo.png	rds.ca	2026-06-18 02:41:01.806935	2026-06-18 02:41:01.806935
+7	7	BBC One	bbc_logo.png	bbc.co.uk/sport	2026-06-18 02:41:01.807973	2026-06-18 02:41:01.807973
+8	8	ITV	itv_logo.png	itv.com/sport	2026-06-18 02:41:01.809021	2026-06-18 02:41:01.809021
+9	9	Optus Sport	optus_logo.png	sport.optus.com.au	2026-06-18 02:41:01.810061	2026-06-18 02:41:01.810061
+10	10	SBS	sbs_logo.png	sbs.com.au/sport	2026-06-18 02:41:01.811097	2026-06-18 02:41:01.811097
+11	11	beIN Sports	bein_logo.png	bein.net	2026-06-18 02:41:01.812345	2026-06-18 02:41:01.812345
+12	12	Sky Sports	sky_logo.png	skysports.com	2026-06-18 02:41:01.813378	2026-06-18 02:41:01.813378
+13	13	ESPN	espn_logo.png	espn.com	2026-06-18 02:41:01.814431	2026-06-18 02:41:01.814431
+14	14	DAZN	dazn_logo.png	dazn.com	2026-06-18 02:41:01.815467	2026-06-18 02:41:01.815467
+15	15	SuperSport	supersport_logo.png	supersport.com	2026-06-18 02:41:01.816507	2026-06-18 02:41:01.816507
+16	16	Monomax	Monomax.png	monomax.com	2026-06-20 05:17:21.389014	2026-06-20 05:17:21.389014
+\.
+
+
+--
+-- Data for Name: criteria; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.criteria (id, show_date, created_at, updated_at) FROM stdin;
+1	2026-07-05	2026-06-19 02:35:51.306154	2026-07-07 07:27:24.778979
+\.
+
+
+--
+-- Data for Name: fixtures; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.fixtures (id, round_id, date, session_id, home_team_id, away_team_id, channel_id, created_at, updated_at, criterium_id, next_match_id, winner_slot) FROM stdin;
+4	1	2026-06-13	47	13	14	1	2026-06-18 02:41:01.845737	2026-06-19 09:19:52.990587	\N	\N	\N
+6	1	2026-06-14	41	9	10	1	2026-06-18 02:41:01.84975	2026-06-19 09:20:30.378052	\N	\N	\N
+7	1	2026-06-14	47	11	12	4	2026-06-18 02:41:01.852084	2026-06-19 09:20:47.342614	\N	\N	\N
+8	1	2026-06-14	53	15	16	9	2026-06-18 02:41:01.85415	2026-06-19 09:21:03.449299	\N	\N	\N
+10	1	2026-06-15	37	21	22	1	2026-06-18 02:41:01.858107	2026-06-19 09:22:00.628903	\N	\N	\N
+11	1	2026-06-15	43	19	20	11	2026-06-18 02:41:01.860046	2026-06-19 09:22:29.707295	\N	\N	\N
+9	1	2026-06-15	31	17	18	7	2026-06-18 02:41:01.856175	2026-06-19 09:25:01.749875	\N	\N	\N
+16	1	2026-06-16	47	27	28	12	2026-06-18 02:41:01.869994	2026-06-19 10:03:01.951271	\N	\N	\N
+18	1	2026-06-17	41	35	36	11	2026-06-18 02:41:01.878751	2026-06-19 10:03:38.075419	\N	\N	\N
+19	1	2026-06-17	47	37	38	1	2026-06-18 02:41:01.880811	2026-06-19 10:04:14.74773	\N	\N	\N
+20	1	2026-06-17	53	39	40	10	2026-06-18 02:41:01.882678	2026-06-19 10:04:42.472562	\N	\N	\N
+24	1	2026-06-18	49	43	44	11	2026-06-18 02:41:01.890698	2026-06-19 10:05:50.729936	\N	\N	\N
+32	1	2026-06-20	46	9	11	1	2026-06-19 02:35:51.366768	2026-06-19 10:07:51.040611	1	\N	\N
+31	1	2026-06-21	45	20	18	1	2026-06-19 02:35:51.364654	2026-06-19 10:08:55.636232	1	\N	\N
+42	1	2026-06-23	39	33	35	1	2026-06-19 02:35:51.388771	2026-06-19 10:10:29.22708	1	\N	\N
+43	1	2026-06-23	45	36	34	1	2026-06-19 02:35:51.390761	2026-06-19 10:11:01.006921	1	\N	\N
+44	1	2026-06-23	51	40	38	1	2026-06-19 02:35:51.39272	2026-06-19 10:11:47.367661	1	\N	\N
+62	1	2026-06-27	35	34	35	1	2026-06-19 02:35:51.429102	2026-06-19 10:16:28.150262	1	\N	\N
+63	1	2026-06-27	45	30	31	1	2026-06-19 02:35:51.43107	2026-06-19 10:17:24.788784	1	\N	\N
+64	1	2026-06-27	45	32	29	1	2026-06-19 02:35:51.433203	2026-06-19 10:17:58.283769	1	\N	\N
+65	1	2026-06-27	51	26	27	1	2026-06-19 02:35:51.435169	2026-06-19 10:18:47.908112	1	\N	\N
+67	1	2026-06-28	39	48	45	1	2026-06-19 02:35:51.438967	2026-06-19 10:19:50.779257	1	\N	\N
+68	1	2026-06-28	39	46	47	1	2026-06-19 02:35:51.440942	2026-06-19 10:20:20.307798	1	\N	\N
+70	1	2026-06-28	44	42	43	1	2026-06-19 02:35:51.444848	2026-06-19 10:20:50.371557	1	\N	\N
+33	1	2026-06-20	51	16	14	16	2026-06-19 02:35:51.369777	2026-06-19 22:17:40.614188	1	\N	\N
+60	1	2026-06-26	49	14	15	3	2026-06-19 02:35:51.424227	2026-06-23 08:54:49.673155	1	\N	\N
+23	1	2026-06-18	43	47	48	1	2026-06-18 02:41:01.888781	2026-06-23 08:55:35.840831	\N	\N	\N
+15	1	2026-06-16	41	31	32	1	2026-06-18 02:41:01.867849	2026-06-23 08:56:06.189256	\N	\N	\N
+5	1	2026-06-14	35	7	8	1	2026-06-18 02:41:01.847753	2026-06-23 08:56:21.47953	\N	\N	\N
+12	1	2026-06-15	49	23	24	1	2026-06-18 02:41:01.862021	2026-06-23 08:56:55.744448	\N	\N	\N
+66	1	2026-06-27	51	28	25	16	2026-06-19 02:35:51.437062	2026-06-26 03:28:58.139475	1	\N	\N
+71	1	2026-06-28	49	38	39	16	2026-06-19 02:35:51.446869	2026-06-27 06:22:32.413077	1	\N	\N
+1	1	2026-06-12	35	1	2	1	2026-06-18 02:41:01.838018	2026-06-18 02:41:01.838018	\N	\N	\N
+3	1	2026-06-13	35	5	6	5	2026-06-18 02:41:01.843711	2026-06-18 02:41:01.843711	\N	\N	\N
+13	1	2026-06-15	29	29	30	1	2026-06-18 02:41:01.86393	2026-06-18 02:41:01.86393	\N	\N	\N
+14	1	2026-06-16	35	25	26	1	2026-06-18 02:41:01.865825	2026-06-18 02:41:01.865825	\N	\N	\N
+17	1	2026-06-17	35	33	34	1	2026-06-18 02:41:01.871981	2026-06-18 02:41:01.871981	\N	\N	\N
+21	1	2026-06-18	31	41	42	1	2026-06-18 02:41:01.8848	2026-06-18 14:11:32.981489	\N	\N	\N
+22	1	2026-06-18	37	45	46	7	2026-06-18 02:41:01.886874	2026-06-18 14:11:50.402093	\N	\N	\N
+25	1	2026-06-18	29	4	2	1	2026-06-19 02:35:51.347801	2026-06-19 02:35:51.347801	1	\N	\N
+26	1	2026-06-19	35	8	6	1	2026-06-19 02:35:51.352941	2026-06-19 02:35:51.352941	1	\N	\N
+27	1	2026-06-19	41	5	7	1	2026-06-19 02:35:51.355086	2026-06-19 02:35:51.355086	1	\N	\N
+28	1	2026-06-19	47	1	3	1	2026-06-19 02:35:51.357248	2026-06-19 02:35:51.357248	1	\N	\N
+29	1	2026-06-20	35	13	15	1	2026-06-19 02:35:51.359338	2026-06-19 02:35:51.359338	1	\N	\N
+30	1	2026-06-20	41	12	10	1	2026-06-19 02:35:51.361359	2026-06-19 02:35:51.361359	1	\N	\N
+34	1	2026-06-21	31	21	23	1	2026-06-19 02:35:51.371782	2026-06-19 02:35:51.371782	1	\N	\N
+35	1	2026-06-21	37	17	19	1	2026-06-19 02:35:51.373739	2026-06-19 02:35:51.373739	1	\N	\N
+38	1	2026-06-21	29	29	31	1	2026-06-19 02:35:51.37957	2026-06-19 02:35:51.37957	1	\N	\N
+40	1	2026-06-22	35	25	27	1	2026-06-19 02:35:51.383761	2026-06-19 02:35:51.383761	1	\N	\N
+41	1	2026-06-22	41	32	30	1	2026-06-19 02:35:51.385852	2026-06-19 02:35:51.385852	1	\N	\N
+45	1	2026-06-24	31	41	43	1	2026-06-19 02:35:51.394648	2026-06-19 02:35:51.394648	1	\N	\N
+46	1	2026-06-24	37	45	47	1	2026-06-19 02:35:51.396558	2026-06-19 02:35:51.396558	1	\N	\N
+47	1	2026-06-24	43	48	46	1	2026-06-19 02:35:51.398469	2026-06-19 02:35:51.398469	1	\N	\N
+48	1	2026-06-24	49	44	42	1	2026-06-19 02:35:51.400642	2026-06-19 02:35:51.400642	1	\N	\N
+49	1	2026-06-25	35	6	7	1	2026-06-19 02:35:51.402724	2026-06-19 02:35:51.402724	1	\N	\N
+50	1	2026-06-25	35	8	5	1	2026-06-19 02:35:51.404672	2026-06-19 02:35:51.404672	1	\N	\N
+51	1	2026-06-25	41	12	9	1	2026-06-19 02:35:51.40655	2026-06-19 02:35:51.40655	1	\N	\N
+52	1	2026-06-25	41	10	11	1	2026-06-19 02:35:51.408485	2026-06-19 02:35:51.408485	1	\N	\N
+53	1	2026-06-25	47	4	1	1	2026-06-19 02:35:51.410411	2026-06-19 02:35:51.410411	1	\N	\N
+54	1	2026-06-25	47	2	3	1	2026-06-19 02:35:51.412359	2026-06-19 02:35:51.412359	1	\N	\N
+55	1	2026-06-26	37	20	17	1	2026-06-19 02:35:51.414226	2026-06-19 02:35:51.414226	1	\N	\N
+56	1	2026-06-26	37	18	19	1	2026-06-19 02:35:51.416267	2026-06-19 02:35:51.416267	1	\N	\N
+57	1	2026-06-26	43	22	23	1	2026-06-19 02:35:51.418449	2026-06-19 02:35:51.418449	1	\N	\N
+58	1	2026-06-26	43	24	21	1	2026-06-19 02:35:51.420356	2026-06-19 02:35:51.420356	1	\N	\N
+59	1	2026-06-26	49	16	13	1	2026-06-19 02:35:51.422252	2026-06-19 02:35:51.422252	1	\N	\N
+69	1	2026-06-28	43	44	41	1	2026-06-19 02:35:51.442895	2026-06-19 02:35:51.442895	1	\N	\N
+72	1	2026-06-28	49	40	37	1	2026-06-19 02:35:51.448908	2026-06-19 02:35:51.448908	1	\N	\N
+36	1	2026-06-21	53	24	22	1	2026-06-19 02:35:51.375711	2026-06-19 02:52:10.030247	1	\N	\N
+37	1	2026-06-22	47	28	26	1	2026-06-19 02:35:51.377635	2026-06-19 02:53:59.034375	1	\N	\N
+39	1	2026-06-23	31	37	39	1	2026-06-19 02:35:51.381494	2026-06-19 02:55:00.433556	1	\N	\N
+61	1	2026-06-27	35	36	33	1	2026-06-19 02:35:51.4271	2026-06-19 03:03:57.710449	1	\N	\N
+99	4	2026-07-11	35	29	25	1	2026-06-28 10:05:59.155583	2026-07-07 16:40:37.186348	1	102	home
+98	4	2026-07-12	39	36	45	1	2026-06-28 10:05:59.153884	2026-07-07 16:41:20.754473	1	101	away
+2	1	2026-06-12	49	3	4	1	2026-06-18 02:41:01.841628	2026-06-23 08:56:36.616145	\N	\N	\N
+100	4	2026-07-12	47	37	8	1	2026-06-28 10:05:59.157412	2026-07-07 23:42:53.761476	1	102	away
+101	5	2026-07-15	35	33	29	1	2026-06-28 10:05:59.167502	2026-07-12 03:55:05.646518	1	103	home
+102	5	2026-07-16	35	45	37	1	2026-06-28 10:05:59.169728	2026-07-12 03:56:08.280477	1	103	away
+73	2	2026-06-29	35	2	5	1	2026-06-28 08:11:46.547068	2026-06-30 10:29:41.989158	1	90	home
+74	2	2026-06-30	31	9	22	16	2026-06-28 08:11:46.55367	2026-06-30 10:29:41.995645	1	91	home
+75	2	2026-06-30	38	17	14	1	2026-06-28 08:11:46.558025	2026-06-30 10:29:42.001622	1	89	home
+103	6	2026-07-20	35	29	37	1	2026-06-28 10:05:59.172666	2026-07-16 03:11:48.325076	1	\N	\N
+79	2	2026-07-01	47	1	20	16	2026-06-28 08:11:46.570476	2026-06-30 10:29:42.02109	1	92	home
+80	2	2026-07-01	29	45	42	1	2026-06-28 08:11:46.573911	2026-06-30 10:29:42.025721	1	92	away
+81	2	2026-07-02	37	25	34	1	2026-06-28 08:11:46.576803	2026-06-30 10:29:42.030359	1	94	home
+82	2	2026-07-02	45	13	6	1	2026-06-28 08:11:46.579576	2026-06-30 10:29:42.03585	1	94	away
+83	2	2026-07-03	35	29	39	1	2026-06-28 08:11:46.582341	2026-06-30 10:29:42.040762	1	93	home
+84	2	2026-07-03	43	41	46	1	2026-06-28 08:11:46.585091	2026-06-30 10:29:42.045362	1	93	away
+85	2	2026-07-03	51	8	38	1	2026-06-28 08:11:46.58861	2026-06-30 10:29:42.050438	1	96	home
+86	2	2026-07-04	33	15	26	1	2026-06-28 08:11:46.591569	2026-06-30 10:29:42.055542	1	95	home
+87	2	2026-07-04	41	37	30	1	2026-06-28 08:11:46.594131	2026-06-30 10:29:42.060046	1	96	away
+88	2	2026-07-04	48	44	47	1	2026-06-28 08:11:46.596686	2026-06-30 10:29:42.064777	1	95	away
+94	3	2026-07-07	45	13	25	1	2026-06-28 10:05:59.145734	2026-07-02 02:30:39.173093	1	99	away
+93	3	2026-07-07	35	41	29	1	2026-06-28 10:05:59.143547	2026-07-03 02:40:14.375194	1	99	home
+97	4	2026-07-10	37	33	10	1	2026-06-28 10:05:59.152089	2026-07-07 16:39:08.133237	1	101	home
+76	2	2026-06-30	47	21	10	1	2026-06-28 08:11:46.561321	2026-06-28 10:14:26.780011	1	90	away
+77	2	2026-07-01	31	19	36	1	2026-06-28 08:11:46.564268	2026-07-01 07:49:05.836093	1	91	away
+78	2	2026-07-01	39	33	23	1	2026-06-28 08:11:46.567242	2026-07-01 07:49:05.937563	1	89	away
+90	3	2026-07-05	31	5	10	1	2026-06-28 10:05:59.136424	2026-07-01 07:51:50.399765	1	97	away
+89	3	2026-07-05	39	14	33	1	2026-06-28 10:05:59.132915	2026-07-01 07:52:37.015187	1	97	home
+91	3	2026-07-06	37	9	36	1	2026-06-28 10:05:59.13882	2026-07-01 07:53:47.471614	1	98	home
+96	3	2026-07-08	37	8	44	1	2026-06-28 10:05:59.149359	2026-07-04 03:48:08.726114	1	100	away
+95	3	2026-07-07	29	37	26	1	2026-06-28 10:05:59.147599	2026-07-04 03:49:30.54112	1	100	home
+92	3	2026-07-06	45	1	45	1	2026-06-28 10:05:59.141154	2026-07-05 02:46:04.756641	1	98	away
+\.
+
+
+--
+-- Data for Name: knockout_teams; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.knockout_teams (id, team_id, group_letter, "position", seed_rank, bracket_slot, created_at, updated_at) FROM stdin;
+2	2	A	1	\N	1	2026-06-28 09:40:41.914952	2026-06-28 09:46:42.271955
+4	5	B	1	\N	2	2026-06-28 09:40:41.920343	2026-06-28 09:46:42.274862
+5	9	C	0	\N	3	2026-06-28 09:40:41.92344	2026-06-28 09:46:42.279144
+12	22	F	1	\N	4	2026-06-28 09:40:41.940449	2026-06-28 09:46:42.281187
+9	17	E	0	\N	5	2026-06-28 09:40:41.93347	2026-06-28 09:46:42.285368
+31	14	D	2	7	6	2026-06-28 09:40:41.98884	2026-06-28 09:46:42.287284
+11	21	F	0	\N	7	2026-06-28 09:40:41.938463	2026-06-28 09:46:42.290886
+6	10	C	1	\N	8	2026-06-28 09:40:41.925411	2026-06-28 09:46:42.292835
+23	45	L	0	\N	9	2026-06-28 09:40:41.975618	2026-06-28 09:46:42.296439
+28	42	K	2	4	10	2026-06-28 09:40:41.984308	2026-06-28 09:46:42.298498
+10	19	E	1	\N	11	2026-06-28 09:40:41.935428	2026-06-28 09:46:42.30924
+18	36	I	1	\N	12	2026-06-28 09:40:41.962824	2026-06-28 09:46:42.311565
+17	33	I	0	\N	13	2026-06-28 09:40:41.960757	2026-06-28 09:46:42.316864
+25	23	F	2	1	14	2026-06-28 09:40:41.979664	2026-06-28 09:46:42.318793
+1	1	A	0	\N	15	2026-06-28 09:40:41.91131	2026-06-28 09:46:42.322471
+29	20	E	2	5	16	2026-06-28 09:40:41.985828	2026-06-28 09:46:42.324374
+13	25	G	0	\N	17	2026-06-28 09:40:41.943494	2026-06-28 09:46:42.327936
+32	34	I	2	8	18	2026-06-28 09:40:41.9906	2026-06-28 09:46:42.329831
+7	13	D	0	\N	19	2026-06-28 09:40:41.928529	2026-06-28 09:46:42.333712
+26	6	B	2	2	20	2026-06-28 09:40:41.981198	2026-06-28 09:46:42.335597
+15	29	H	0	\N	21	2026-06-28 09:40:41.955299	2026-06-28 09:46:42.339185
+20	39	J	1	\N	22	2026-06-28 09:40:41.967752	2026-06-28 09:46:42.341085
+22	41	K	1	\N	23	2026-06-28 09:40:41.972611	2026-06-28 09:46:42.344914
+24	46	L	1	\N	24	2026-06-28 09:40:41.977619	2026-06-28 09:46:42.347043
+3	8	B	0	\N	25	2026-06-28 09:40:41.918322	2026-06-28 09:46:42.350776
+27	38	J	2	3	26	2026-06-28 09:40:41.982749	2026-06-28 09:46:42.352622
+8	15	D	1	\N	27	2026-06-28 09:40:41.93048	2026-06-28 09:46:42.356338
+14	26	G	1	\N	28	2026-06-28 09:40:41.945504	2026-06-28 09:46:42.358178
+19	37	J	0	\N	29	2026-06-28 09:40:41.965793	2026-06-28 09:46:42.36171
+16	30	H	1	\N	30	2026-06-28 09:40:41.957461	2026-06-28 09:46:42.364205
+21	44	K	0	\N	31	2026-06-28 09:40:41.970642	2026-06-28 09:46:42.367845
+30	47	L	2	6	32	2026-06-28 09:40:41.98737	2026-06-28 09:46:42.369686
+\.
+
+
+--
+-- Data for Name: results; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.results (id, fixture_id, home_goals, away_goals, created_at, updated_at, home_penalties, away_penalties) FROM stdin;
+1	2	2	1	2026-06-18 03:05:28.913832	2026-06-18 03:05:28.913832	\N	\N
+2	1	2	0	2026-06-18 03:05:28.931639	2026-06-18 03:05:28.931639	\N	\N
+3	3	1	1	2026-06-18 03:05:28.937496	2026-06-18 03:05:28.937496	\N	\N
+4	4	4	1	2026-06-18 03:05:28.942831	2026-06-18 03:05:28.942831	\N	\N
+5	5	1	1	2026-06-18 03:05:28.954516	2026-06-18 03:05:28.954516	\N	\N
+6	6	1	1	2026-06-18 03:05:28.959822	2026-06-18 03:05:28.959822	\N	\N
+7	7	0	1	2026-06-18 03:05:28.965355	2026-06-18 03:05:28.965355	\N	\N
+8	8	2	0	2026-06-18 03:05:28.970672	2026-06-18 03:05:28.970672	\N	\N
+9	9	7	1	2026-06-18 03:05:28.975764	2026-06-18 03:05:28.975764	\N	\N
+10	10	2	2	2026-06-18 03:05:28.981098	2026-06-18 03:05:28.981098	\N	\N
+11	11	1	0	2026-06-18 03:05:28.986231	2026-06-18 03:05:28.986231	\N	\N
+12	12	5	1	2026-06-18 03:05:28.991245	2026-06-18 03:05:28.991245	\N	\N
+13	13	0	0	2026-06-18 03:05:28.996604	2026-06-18 03:05:28.996604	\N	\N
+14	14	1	1	2026-06-18 03:05:29.001968	2026-06-18 03:05:29.001968	\N	\N
+15	15	1	1	2026-06-18 03:05:29.007018	2026-06-18 03:05:29.007018	\N	\N
+16	16	2	2	2026-06-18 03:05:29.012376	2026-06-18 03:05:29.012376	\N	\N
+17	17	3	1	2026-06-18 03:05:29.017765	2026-06-18 03:05:29.017765	\N	\N
+18	19	3	0	2026-06-18 03:05:29.022699	2026-06-18 03:05:29.022699	\N	\N
+19	18	1	4	2026-06-18 03:05:29.027837	2026-06-18 03:05:29.027837	\N	\N
+20	20	3	1	2026-06-18 03:05:29.033068	2026-06-18 03:05:29.033068	\N	\N
+21	21	1	1	2026-06-18 03:07:21.963107	2026-06-18 03:07:21.963107	\N	\N
+22	22	4	2	2026-06-18 03:07:37.818083	2026-06-18 03:07:37.818083	\N	\N
+23	23	1	0	2026-06-18 03:07:48.669982	2026-06-18 03:07:48.669982	\N	\N
+24	24	1	3	2026-06-19 02:37:27.163761	2026-06-19 02:37:27.163761	\N	\N
+25	25	1	1	2026-06-19 02:38:10.34543	2026-06-19 02:38:10.34543	\N	\N
+26	26	4	1	2026-06-19 02:38:28.228878	2026-06-19 02:38:28.228878	\N	\N
+27	27	6	0	2026-06-19 02:38:54.144712	2026-06-19 02:38:54.144712	\N	\N
+28	28	1	0	2026-06-19 03:10:38.670766	2026-06-19 03:10:38.670766	\N	\N
+29	29	2	0	2026-06-20 01:45:35.424998	2026-06-20 01:45:35.424998	\N	\N
+30	30	0	1	2026-06-20 01:46:00.674637	2026-06-20 01:46:00.674637	\N	\N
+31	32	3	0	2026-06-20 02:31:58.010683	2026-06-20 02:31:58.010683	\N	\N
+32	33	0	1	2026-06-20 07:52:15.767969	2026-06-20 07:52:15.767969	\N	\N
+33	34	5	1	2026-06-20 23:26:24.390099	2026-06-20 23:26:24.390099	\N	\N
+34	35	2	1	2026-06-20 23:27:03.247141	2026-06-20 23:27:03.247141	\N	\N
+35	31	0	0	2026-06-21 06:44:45.689433	2026-06-21 06:44:45.689433	\N	\N
+36	36	0	4	2026-06-21 06:45:04.469146	2026-06-21 06:45:04.469146	\N	\N
+37	38	4	0	2026-06-22 08:04:58.513143	2026-06-22 08:04:58.513143	\N	\N
+38	41	2	2	2026-06-22 08:05:20.64656	2026-06-22 08:05:20.64656	\N	\N
+39	37	1	3	2026-06-22 08:05:50.853554	2026-06-22 08:05:50.853554	\N	\N
+40	40	0	0	2026-06-22 08:09:08.372942	2026-06-22 08:09:08.372942	\N	\N
+41	39	2	0	2026-06-23 02:22:44.88086	2026-06-23 02:22:44.88086	\N	\N
+42	42	3	0	2026-06-23 02:23:07.684185	2026-06-23 02:23:07.684185	\N	\N
+43	43	3	2	2026-06-23 02:23:28.674098	2026-06-23 02:23:28.674098	\N	\N
+44	44	1	2	2026-06-23 08:45:07.56297	2026-06-23 08:45:07.56297	\N	\N
+45	45	5	0	2026-06-24 02:31:41.303444	2026-06-24 02:31:41.303444	\N	\N
+46	46	0	0	2026-06-24 02:32:03.467998	2026-06-24 02:32:03.467998	\N	\N
+47	47	0	1	2026-06-24 02:32:39.803248	2026-06-24 02:32:39.803248	\N	\N
+48	48	1	0	2026-06-24 03:59:04.178063	2026-06-24 03:59:04.178063	\N	\N
+49	49	3	1	2026-06-24 23:21:15.971127	2026-06-24 23:21:15.971127	\N	\N
+50	50	2	1	2026-06-24 23:21:33.528056	2026-06-24 23:21:33.528056	\N	\N
+51	52	4	2	2026-06-25 00:07:56.197014	2026-06-25 00:07:56.197014	\N	\N
+52	51	0	3	2026-06-25 00:08:14.370807	2026-06-25 00:08:14.370807	\N	\N
+53	54	1	0	2026-06-25 07:19:19.145944	2026-06-25 07:19:19.145944	\N	\N
+54	53	0	3	2026-06-25 07:19:49.176843	2026-06-25 07:19:49.176843	\N	\N
+55	56	0	2	2026-06-25 23:27:39.811803	2026-06-25 23:27:39.811803	\N	\N
+56	55	2	1	2026-06-25 23:28:01.22519	2026-06-25 23:28:01.22519	\N	\N
+57	57	1	1	2026-06-26 03:26:03.718354	2026-06-26 03:26:03.718354	\N	\N
+58	58	1	3	2026-06-26 03:26:23.847447	2026-06-26 03:26:23.847447	\N	\N
+59	60	0	0	2026-06-26 07:41:58.089508	2026-06-26 07:41:58.089508	\N	\N
+60	59	3	2	2026-06-26 07:42:19.831766	2026-06-26 07:42:19.831766	\N	\N
+61	61	1	4	2026-06-26 23:10:52.207074	2026-06-26 23:10:52.207074	\N	\N
+62	62	5	0	2026-06-26 23:11:20.837952	2026-06-26 23:11:20.837952	\N	\N
+63	63	0	0	2026-06-27 06:07:34.077832	2026-06-27 06:07:34.077832	\N	\N
+64	64	0	1	2026-06-27 06:07:56.67993	2026-06-27 06:07:56.67993	\N	\N
+65	65	1	1	2026-06-27 06:08:20.336223	2026-06-27 06:08:20.336223	\N	\N
+66	66	1	5	2026-06-27 06:08:43.278747	2026-06-27 06:08:43.278747	\N	\N
+67	68	2	1	2026-06-28 04:13:21.724842	2026-06-28 04:13:21.724842	\N	\N
+68	67	0	2	2026-06-28 04:13:43.551422	2026-06-28 04:13:43.551422	\N	\N
+69	69	0	0	2026-06-28 04:13:58.862501	2026-06-28 04:13:58.862501	\N	\N
+70	70	3	1	2026-06-28 04:14:17.217156	2026-06-28 04:14:17.217156	\N	\N
+71	72	1	3	2026-06-28 04:14:50.827875	2026-06-28 04:14:50.827875	\N	\N
+72	71	3	3	2026-06-28 04:15:07.582202	2026-06-28 04:15:07.582202	\N	\N
+73	73	0	1	2026-06-29 08:56:01.524622	2026-06-29 08:56:01.524622	\N	\N
+74	74	2	1	2026-06-29 19:40:53.323821	2026-06-29 19:40:53.323821	\N	\N
+78	75	1	1	2026-06-30 09:43:45.308108	2026-06-30 09:43:45.308108	3	4
+79	76	1	1	2026-06-30 09:48:27.011471	2026-06-30 09:48:27.011471	2	3
+88	77	1	2	2026-06-30 23:39:35.586865	2026-06-30 23:39:35.586865	0	0
+89	78	3	0	2026-06-30 23:40:17.793693	2026-06-30 23:40:17.793693	\N	\N
+90	79	2	0	2026-07-01 07:22:34.45313	2026-07-01 07:22:34.45313	\N	\N
+91	80	2	1	2026-07-01 18:05:10.439055	2026-07-01 18:05:10.439055	\N	\N
+92	81	3	2	2026-07-01 23:48:16.699408	2026-07-01 23:48:16.699408	\N	\N
+93	82	2	0	2026-07-02 02:27:13.802571	2026-07-02 02:27:13.802571	\N	\N
+94	83	3	0	2026-07-02 23:00:42.379007	2026-07-02 23:00:42.379007	\N	\N
+95	84	2	1	2026-07-03 02:38:56.952962	2026-07-03 02:38:56.952962	\N	\N
+96	85	2	0	2026-07-03 07:47:20.518052	2026-07-03 07:47:20.518052	\N	\N
+97	86	1	1	2026-07-03 21:28:58.819436	2026-07-03 21:28:58.819436	2	4
+98	87	3	2	2026-07-04 03:45:28.522478	2026-07-04 03:45:28.522478	\N	\N
+99	88	1	0	2026-07-04 03:46:57.098393	2026-07-04 03:46:57.098393	\N	\N
+100	90	0	3	2026-07-05 02:43:48.191852	2026-07-05 02:43:48.191852	\N	\N
+101	89	0	1	2026-07-05 02:44:18.407389	2026-07-05 02:44:18.407389	\N	\N
+102	91	1	2	2026-07-05 23:17:10.603647	2026-07-05 23:17:10.603647	\N	\N
+103	92	2	3	2026-07-06 03:07:47.10426	2026-07-06 03:07:47.10426	\N	\N
+104	93	0	1	2026-07-07 02:37:21.340854	2026-07-07 02:37:21.340854	\N	\N
+105	94	1	4	2026-07-07 02:38:10.133519	2026-07-07 02:38:10.133519	\N	\N
+106	95	3	2	2026-07-07 18:15:14.57819	2026-07-07 18:15:14.57819	\N	\N
+107	96	0	0	2026-07-07 23:40:51.124391	2026-07-07 23:40:51.124391	4	3
+108	97	2	0	2026-07-10 02:34:32.463177	2026-07-10 02:34:32.463177	\N	\N
+109	100	3	1	2026-07-12 03:51:16.955912	2026-07-12 03:51:16.955912	\N	\N
+110	98	1	2	2026-07-12 03:51:52.597947	2026-07-12 03:51:52.597947	\N	\N
+111	99	2	1	2026-07-12 03:53:11.630284	2026-07-12 03:53:11.630284	\N	\N
+112	101	0	2	2026-07-14 21:05:34.357297	2026-07-14 21:05:34.357297	\N	\N
+113	102	1	2	2026-07-16 03:11:48.296493	2026-07-16 03:11:48.296493	\N	\N
+\.
+
+
+--
+-- Data for Name: rounds; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.rounds (id, sequence, name, created_at, updated_at) FROM stdin;
+1	1	Group	2026-06-18 02:41:01.764337	2026-06-18 02:41:01.764337
+2	2	Round of 32	2026-06-18 02:41:01.765923	2026-06-18 02:41:01.765923
+3	3	Round of 16	2026-06-18 02:41:01.767066	2026-06-18 02:41:01.767066
+4	4	Quarter-finals	2026-06-18 02:41:01.768433	2026-06-18 02:41:01.768433
+5	5	Semi-finals	2026-06-18 02:41:01.775374	2026-06-18 02:41:01.775374
+6	6	Final	2026-06-18 02:41:01.776602	2026-07-07 16:35:34.028322
+\.
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.schema_migrations (version) FROM stdin;
+20260614100406
+20260614102826
+20260614103632
+20260614104224
+20260614105126
+20260614110838
+20260614110943
+20260615102446
+20260616093104
+20260616150223
+20260628091423
+20260628095945
+20260630092440
+20260708094120
+\.
+
+
+--
+-- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.sessions (id, sequence, "time", created_at, updated_at) FROM stdin;
+31	1	00:00:00	2026-06-19 08:46:26.772329	2026-06-19 08:46:26.772329
+32	2	00:30:00	2026-06-19 08:46:26.773309	2026-06-19 08:46:26.773309
+33	3	01:00:00	2026-06-19 08:46:26.774298	2026-06-19 08:46:26.774298
+34	4	01:30:00	2026-06-19 08:46:26.775277	2026-06-19 08:46:26.775277
+35	5	02:00:00	2026-06-19 08:46:26.776257	2026-06-19 08:46:26.776257
+36	6	02:30:00	2026-06-19 08:46:26.777242	2026-06-19 08:46:26.777242
+37	7	03:00:00	2026-06-19 08:46:26.778222	2026-06-19 08:46:26.778222
+38	8	03:30:00	2026-06-19 08:46:26.779211	2026-06-19 08:46:26.779211
+39	9	04:00:00	2026-06-19 08:46:26.780194	2026-06-19 08:46:26.780194
+40	10	04:30:00	2026-06-19 08:46:26.781174	2026-06-19 08:46:26.781174
+41	11	05:00:00	2026-06-19 08:46:26.782209	2026-06-19 08:46:26.782209
+42	12	05:30:00	2026-06-19 08:46:26.783202	2026-06-19 08:46:26.783202
+43	13	06:00:00	2026-06-19 08:46:26.784287	2026-06-19 08:46:26.784287
+44	14	06:30:00	2026-06-19 08:46:26.785269	2026-06-19 08:46:26.785269
+45	15	07:00:00	2026-06-19 08:46:26.786251	2026-06-19 08:46:26.786251
+46	16	07:30:00	2026-06-19 08:46:26.787334	2026-06-19 08:46:26.787334
+47	17	08:00:00	2026-06-19 08:46:26.788322	2026-06-19 08:46:26.788322
+48	18	08:30:00	2026-06-19 08:46:26.789312	2026-06-19 08:46:26.789312
+49	19	09:00:00	2026-06-19 08:46:26.790294	2026-06-19 08:46:26.790294
+50	20	09:30:00	2026-06-19 08:46:26.791283	2026-06-19 08:46:26.791283
+51	21	10:00:00	2026-06-19 08:46:26.792265	2026-06-19 08:46:26.792265
+52	22	10:30:00	2026-06-19 08:46:26.793246	2026-06-19 08:46:26.793246
+53	23	11:00:00	2026-06-19 08:46:26.794226	2026-06-19 08:46:26.794226
+54	24	11:30:00	2026-06-19 08:46:26.795246	2026-06-19 08:46:26.795246
+55	25	12:00:00	2026-06-19 08:46:26.796241	2026-06-19 08:46:26.796241
+56	26	12:30:00	2026-06-19 08:46:26.797223	2026-06-19 08:46:26.797223
+57	27	13:00:00	2026-06-19 08:46:26.798205	2026-06-19 08:46:26.798205
+58	28	13:30:00	2026-06-19 08:46:26.79924	2026-06-19 08:46:26.79924
+59	29	14:00:00	2026-06-19 08:46:26.800225	2026-06-19 08:46:26.800225
+60	30	14:30:00	2026-06-19 08:46:26.801217	2026-06-19 08:46:26.801217
+61	31	15:00:00	2026-06-19 08:46:26.802293	2026-06-19 08:46:26.802293
+62	32	15:30:00	2026-06-19 08:46:26.803341	2026-06-19 08:46:26.803341
+63	33	16:00:00	2026-06-19 08:46:26.804331	2026-06-19 08:46:26.804331
+64	34	16:30:00	2026-06-19 08:46:26.805318	2026-06-19 08:46:26.805318
+17	35	17:00:00	2026-06-19 08:46:26.736288	2026-06-19 08:46:26.736288
+18	36	17:30:00	2026-06-19 08:46:26.757429	2026-06-19 08:46:26.757429
+19	37	18:00:00	2026-06-19 08:46:26.759001	2026-06-19 08:46:26.759001
+20	38	18:30:00	2026-06-19 08:46:26.760399	2026-06-19 08:46:26.760399
+21	39	19:00:00	2026-06-19 08:46:26.76174	2026-06-19 08:46:26.76174
+22	40	19:30:00	2026-06-19 08:46:26.762859	2026-06-19 08:46:26.762859
+23	41	20:00:00	2026-06-19 08:46:26.763954	2026-06-19 08:46:26.763954
+24	42	20:30:00	2026-06-19 08:46:26.76516	2026-06-19 08:46:26.76516
+25	43	21:00:00	2026-06-19 08:46:26.766258	2026-06-19 08:46:26.766258
+26	44	21:30:00	2026-06-19 08:46:26.767315	2026-06-19 08:46:26.767315
+27	45	22:00:00	2026-06-19 08:46:26.768303	2026-06-19 08:46:26.768303
+28	46	22:30:00	2026-06-19 08:46:26.769294	2026-06-19 08:46:26.769294
+29	47	23:00:00	2026-06-19 08:46:26.770273	2026-06-19 08:46:26.770273
+30	48	23:30:00	2026-06-19 08:46:26.771338	2026-06-19 08:46:26.771338
+\.
+
+
+--
+-- Data for Name: standings; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.standings (id, team_id, played, wins, draws, losses, goals_for, goals_against, points, created_at, updated_at, form) FROM stdin;
+277	37	3	3	0	0	8	1	9	2026-07-08 10:03:32.945858	2026-07-08 10:03:33.406162	WWW
+278	38	3	1	1	1	5	7	4	2026-07-08 10:03:32.947386	2026-07-08 10:03:33.409022	DWL
+279	39	3	1	1	1	6	6	4	2026-07-08 10:03:32.948886	2026-07-08 10:03:33.411089	DLW
+280	40	3	0	0	3	3	8	0	2026-07-08 10:03:32.950414	2026-07-08 10:03:33.404297	LLL
+281	41	3	1	2	0	6	1	5	2026-07-08 10:03:32.958743	2026-07-08 10:03:33.39637	DWD
+257	17	3	2	0	1	10	4	6	2026-07-08 10:03:32.915074	2026-07-08 10:03:33.328266	LWW
+282	42	3	1	1	1	4	3	4	2026-07-08 10:03:32.960844	2026-07-08 10:03:33.399223	WLD
+283	43	3	0	0	3	2	11	0	2026-07-08 10:03:32.96284	2026-07-08 10:03:33.401391	LLL
+258	18	3	0	1	2	1	9	1	2026-07-08 10:03:32.916473	2026-07-08 10:03:33.321214	LDL
+284	44	3	2	1	0	4	1	7	2026-07-08 10:03:32.964385	2026-07-08 10:03:33.394498	DWW
+285	45	3	2	1	0	6	2	7	2026-07-08 10:03:32.965899	2026-07-08 10:03:33.391474	WDW
+286	46	3	2	0	1	5	5	6	2026-07-08 10:03:32.967414	2026-07-08 10:03:33.384852	WWL
+241	1	3	3	0	0	6	0	9	2026-07-08 10:03:32.886686	2026-07-08 10:03:33.318361	WWW
+242	2	3	1	1	1	2	3	4	2026-07-08 10:03:32.889155	2026-07-08 10:03:33.311783	WDL
+259	19	3	2	0	1	4	2	6	2026-07-08 10:03:32.917879	2026-07-08 10:03:33.323137	WLW
+260	20	3	1	1	1	2	2	4	2026-07-08 10:03:32.919286	2026-07-08 10:03:33.326003	WDL
+243	3	3	1	0	2	2	3	3	2026-07-08 10:03:32.891147	2026-07-08 10:03:33.313649	LLW
+244	4	3	0	1	2	2	6	1	2026-07-08 10:03:32.893087	2026-07-08 10:03:33.316506	LDL
+245	5	3	1	1	1	8	3	4	2026-07-08 10:03:32.894924	2026-07-08 10:03:33.299157	LWD
+246	6	3	1	1	1	5	6	4	2026-07-08 10:03:32.896651	2026-07-08 10:03:33.292243	WLD
+247	7	3	0	1	2	2	10	1	2026-07-08 10:03:32.898429	2026-07-08 10:03:33.294409	LLD
+248	8	3	2	1	0	7	3	7	2026-07-08 10:03:32.900048	2026-07-08 10:03:33.297288	WWD
+249	9	3	2	1	0	7	1	7	2026-07-08 10:03:32.90167	2026-07-08 10:03:33.308732	WWD
+250	10	3	2	1	0	6	3	7	2026-07-08 10:03:32.903196	2026-07-08 10:03:33.30201	WWD
+261	21	3	2	1	0	10	4	7	2026-07-08 10:03:32.920798	2026-07-08 10:03:33.341879	WWD
+262	22	3	1	2	0	7	3	5	2026-07-08 10:03:32.922297	2026-07-08 10:03:33.334769	DWD
+263	23	3	1	1	1	7	7	4	2026-07-08 10:03:32.923792	2026-07-08 10:03:33.336711	DLW
+264	24	3	0	0	3	2	12	0	2026-07-08 10:03:32.92529	2026-07-08 10:03:33.339999	LLL
+265	25	3	1	2	0	6	2	5	2026-07-08 10:03:32.926927	2026-07-08 10:03:33.381756	WDD
+266	26	3	1	2	0	5	3	5	2026-07-08 10:03:32.92848	2026-07-08 10:03:33.375024	DWD
+267	27	3	0	3	0	3	3	3	2026-07-08 10:03:32.930171	2026-07-08 10:03:33.376993	DDD
+268	28	3	0	1	2	4	10	1	2026-07-08 10:03:32.931659	2026-07-08 10:03:33.379883	LLD
+269	29	3	2	1	0	5	0	7	2026-07-08 10:03:32.933154	2026-07-08 10:03:33.37215	WWD
+270	30	3	0	3	0	2	2	3	2026-07-08 10:03:32.934769	2026-07-08 10:03:33.365188	DDD
+271	31	3	0	2	1	1	5	2	2026-07-08 10:03:32.936328	2026-07-08 10:03:33.367051	DLD
+272	32	3	0	2	1	3	4	2	2026-07-08 10:03:32.937837	2026-07-08 10:03:33.37028	LDD
+287	47	3	1	1	1	2	2	4	2026-07-08 10:03:32.968912	2026-07-08 10:03:33.386736	LDW
+288	48	3	0	0	3	0	4	0	2026-07-08 10:03:32.970414	2026-07-08 10:03:33.389613	LLL
+273	33	3	3	0	0	10	2	9	2026-07-08 10:03:32.939371	2026-07-08 10:03:33.357389	WWW
+274	34	3	1	0	2	8	6	3	2026-07-08 10:03:32.940875	2026-07-08 10:03:33.360398	WLL
+275	35	3	0	0	3	1	12	0	2026-07-08 10:03:32.942441	2026-07-08 10:03:33.362317	LLL
+276	36	3	2	0	1	8	7	6	2026-07-08 10:03:32.944111	2026-07-08 10:03:33.355505	LWW
+251	11	3	0	0	3	2	8	0	2026-07-08 10:03:32.904767	2026-07-08 10:03:33.303877	LLL
+252	12	3	1	0	2	1	4	3	2026-07-08 10:03:32.906236	2026-07-08 10:03:33.306878	LLW
+253	13	3	2	0	1	8	4	6	2026-07-08 10:03:32.907649	2026-07-08 10:03:33.351785	LWW
+254	14	3	1	1	1	2	4	4	2026-07-08 10:03:32.909066	2026-07-08 10:03:33.34508	DWL
+255	15	3	1	1	1	2	2	4	2026-07-08 10:03:32.911772	2026-07-08 10:03:33.346995	DLW
+256	16	3	1	0	2	3	5	3	2026-07-08 10:03:32.913626	2026-07-08 10:03:33.349893	WLL
+\.
+
+
+--
+-- Data for Name: teams; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.teams (id, name, "group", ranking, flag, confederation, created_at, updated_at) FROM stdin;
+1	Mexico	A	14	mexico_flag.png	CONCACAF	2026-06-18 02:41:01.705882	2026-06-18 02:41:01.705882
+2	South Africa	A	65	south_africa_flag.png	CAF	2026-06-18 02:41:01.707839	2026-06-18 02:41:01.707839
+3	South Korea	A	25	south_korea_flag.png	AFC	2026-06-18 02:41:01.708971	2026-06-18 02:41:01.708971
+4	Czech Republic	A	40	czech_republic_flag.png	UEFA	2026-06-18 02:41:01.710091	2026-06-18 02:41:01.710091
+5	Canada	B	45	canada_flag.png	CONCACAF	2026-06-18 02:41:01.711189	2026-06-18 02:41:01.711189
+6	Bosnia and Herzegovina	B	58	bosnia_flag.png	UEFA	2026-06-18 02:41:01.712305	2026-06-18 02:41:01.712305
+7	Qatar	B	53	qatar_flag.png	AFC	2026-06-18 02:41:01.71342	2026-06-18 02:41:01.71342
+8	Switzerland	B	19	switzerland_flag.png	UEFA	2026-06-18 02:41:01.714484	2026-06-18 02:41:01.714484
+9	Brazil	C	6	brazil_flag.png	CONMEBOL	2026-06-18 02:41:01.715565	2026-06-18 02:41:01.715565
+10	Morocco	C	7	morocco_flag.png	CAF	2026-06-18 02:41:01.71666	2026-06-18 02:41:01.71666
+11	Haiti	C	85	haiti_flag.png	CONCACAF	2026-06-18 02:41:01.717723	2026-06-18 02:41:01.717723
+12	Scotland	C	32	scotland_flag.png	UEFA	2026-06-18 02:41:01.71879	2026-06-18 02:41:01.71879
+13	United States	D	17	usa_flag.png	CONCACAF	2026-06-18 02:41:01.719921	2026-06-18 02:41:01.719921
+14	Paraguay	D	50	paraguay_flag.png	CONMEBOL	2026-06-18 02:41:01.720998	2026-06-18 02:41:01.720998
+15	Australia	D	25	australia_flag.png	AFC	2026-06-18 02:41:01.722059	2026-06-18 02:41:01.722059
+16	Turkey	D	22	turkey_flag.png	UEFA	2026-06-18 02:41:01.723125	2026-06-18 02:41:01.723125
+17	Germany	E	10	germany_flag.png	UEFA	2026-06-18 02:41:01.72419	2026-06-18 02:41:01.72419
+18	Curacao	E	90	curacao_flag.png	CONCACAF	2026-06-18 02:41:01.725238	2026-06-18 02:41:01.725238
+19	Ivory Coast	E	52	ivory_coast_flag.png	CAF	2026-06-18 02:41:01.726435	2026-06-18 02:41:01.726435
+20	Ecuador	E	23	ecuador_flag.png	CONMEBOL	2026-06-18 02:41:01.727578	2026-06-18 02:41:01.727578
+21	Netherlands	F	8	netherlands_flag.png	UEFA	2026-06-18 02:41:01.728621	2026-06-18 02:41:01.728621
+22	Japan	F	18	japan_flag.png	AFC	2026-06-18 02:41:01.729682	2026-06-18 02:41:01.729682
+23	Sweden	F	21	sweden_flag.png	UEFA	2026-06-18 02:41:01.730794	2026-06-18 02:41:01.730794
+24	Tunisia	F	31	tunisia_flag.png	CAF	2026-06-18 02:41:01.731914	2026-06-18 02:41:01.731914
+25	Belgium	G	9	belgium_flag.png	UEFA	2026-06-18 02:41:01.732998	2026-06-18 02:41:01.732998
+26	Egypt	G	34	egypt_flag.png	CAF	2026-06-18 02:41:01.734173	2026-06-18 02:41:01.734173
+27	Iran	G	20	iran_flag.png	AFC	2026-06-18 02:41:01.735318	2026-06-18 02:41:01.735318
+28	New Zealand	G	100	new_zealand_flag.png	OFC	2026-06-18 02:41:01.73642	2026-06-18 02:41:01.73642
+29	Spain	H	2	spain_flag.png	UEFA	2026-06-18 02:41:01.737469	2026-06-18 02:41:01.737469
+30	Cape Verde	H	70	cape_verde_flag.png	CAF	2026-06-18 02:41:01.738522	2026-06-18 02:41:01.738522
+31	Saudi Arabia	H	56	saudi_arabia_flag.png	AFC	2026-06-18 02:41:01.739571	2026-06-18 02:41:01.739571
+32	Uruguay	H	16	uruguay_flag.png	CONMEBOL	2026-06-18 02:41:01.74062	2026-06-18 02:41:01.74062
+33	France	I	3	france_flag.png	UEFA	2026-06-18 02:41:01.741929	2026-06-18 02:41:01.741929
+34	Senegal	I	15	senegal_flag.png	CAF	2026-06-18 02:41:01.743233	2026-06-18 02:41:01.743233
+35	Iraq	I	63	iraq_flag.png	AFC	2026-06-18 02:41:01.744426	2026-06-18 02:41:01.744426
+36	Norway	I	41	norway_flag.png	UEFA	2026-06-18 02:41:01.745538	2026-06-18 02:41:01.745538
+37	Argentina	J	1	argentina_flag.png	CONMEBOL	2026-06-18 02:41:01.7466	2026-06-18 02:41:01.7466
+38	Algeria	J	33	algeria_flag.png	CAF	2026-06-18 02:41:01.74767	2026-06-18 02:41:01.74767
+39	Austria	J	24	austria_flag.png	UEFA	2026-06-18 02:41:01.748759	2026-06-18 02:41:01.748759
+40	Jordan	J	67	jordan_flag.png	AFC	2026-06-18 02:41:01.749817	2026-06-18 02:41:01.749817
+41	Portugal	K	5	portugal_flag.png	UEFA	2026-06-18 02:41:01.751035	2026-06-18 02:41:01.751035
+42	DR Congo	K	64	dr_congo_flag.png	CAF	2026-06-18 02:41:01.75212	2026-06-18 02:41:01.75212
+43	Uzbekistan	K	60	uzbekistan_flag.png	AFC	2026-06-18 02:41:01.753188	2026-06-18 02:41:01.753188
+44	Colombia	K	13	colombia_flag.png	CONMEBOL	2026-06-18 02:41:01.754253	2026-06-18 02:41:01.754253
+45	England	L	4	england_flag.png	UEFA	2026-06-18 02:41:01.755315	2026-06-18 02:41:01.755315
+46	Croatia	L	11	croatia_flag.png	UEFA	2026-06-18 02:41:01.756359	2026-06-18 02:41:01.756359
+47	Ghana	L	46	ghana_flag.png	CAF	2026-06-18 02:41:01.75757	2026-06-18 02:41:01.75757
+48	Panama	L	52	panama_flag.png	CONCACAF	2026-06-18 02:41:01.758688	2026-06-18 02:41:01.758688
+\.
+
+
+--
+-- Name: channels_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.channels_id_seq', 17, true);
+
+
+--
+-- Name: criteria_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.criteria_id_seq', 1, false);
+
+
+--
+-- Name: fixtures_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.fixtures_id_seq', 103, true);
+
+
+--
+-- Name: knockout_teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.knockout_teams_id_seq', 32, true);
+
+
+--
+-- Name: results_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.results_id_seq', 113, true);
+
+
+--
+-- Name: rounds_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.rounds_id_seq', 6, true);
+
+
+--
+-- Name: sessions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.sessions_id_seq', 64, true);
+
+
+--
+-- Name: standings_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.standings_id_seq', 288, true);
+
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.teams_id_seq', 48, true);
+
+
+--
+-- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.ar_internal_metadata
+    ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: channels channels_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.channels
+    ADD CONSTRAINT channels_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: criteria criteria_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.criteria
+    ADD CONSTRAINT criteria_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: fixtures fixtures_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fixtures
+    ADD CONSTRAINT fixtures_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: knockout_teams knockout_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.knockout_teams
+    ADD CONSTRAINT knockout_teams_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: results results_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.results
+    ADD CONSTRAINT results_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rounds rounds_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.rounds
+    ADD CONSTRAINT rounds_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: standings standings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.standings
+    ADD CONSTRAINT standings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.teams
+    ADD CONSTRAINT teams_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_fixtures_on_away_team_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_fixtures_on_away_team_id ON public.fixtures USING btree (away_team_id);
+
+
+--
+-- Name: index_fixtures_on_channel_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_fixtures_on_channel_id ON public.fixtures USING btree (channel_id);
+
+
+--
+-- Name: index_fixtures_on_criterium_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_fixtures_on_criterium_id ON public.fixtures USING btree (criterium_id);
+
+
+--
+-- Name: index_fixtures_on_home_team_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_fixtures_on_home_team_id ON public.fixtures USING btree (home_team_id);
+
+
+--
+-- Name: index_fixtures_on_next_match_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_fixtures_on_next_match_id ON public.fixtures USING btree (next_match_id);
+
+
+--
+-- Name: index_fixtures_on_round_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_fixtures_on_round_id ON public.fixtures USING btree (round_id);
+
+
+--
+-- Name: index_fixtures_on_session_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_fixtures_on_session_id ON public.fixtures USING btree (session_id);
+
+
+--
+-- Name: index_knockout_teams_on_bracket_slot; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX index_knockout_teams_on_bracket_slot ON public.knockout_teams USING btree (bracket_slot);
+
+
+--
+-- Name: index_knockout_teams_on_team_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_knockout_teams_on_team_id ON public.knockout_teams USING btree (team_id);
+
+
+--
+-- Name: index_knockout_teams_on_team_id_and_group_letter; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE UNIQUE INDEX index_knockout_teams_on_team_id_and_group_letter ON public.knockout_teams USING btree (team_id, group_letter);
+
+
+--
+-- Name: index_results_on_fixture_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_results_on_fixture_id ON public.results USING btree (fixture_id);
+
+
+--
+-- Name: index_standings_on_team_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_standings_on_team_id ON public.standings USING btree (team_id);
+
+
+--
+-- Name: fixtures fk_rails_0c45715fb6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fixtures
+    ADD CONSTRAINT fk_rails_0c45715fb6 FOREIGN KEY (criterium_id) REFERENCES public.criteria(id);
+
+
+--
+-- Name: fixtures fk_rails_10fee36e31; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fixtures
+    ADD CONSTRAINT fk_rails_10fee36e31 FOREIGN KEY (next_match_id) REFERENCES public.fixtures(id);
+
+
+--
+-- Name: results fk_rails_24208fad15; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.results
+    ADD CONSTRAINT fk_rails_24208fad15 FOREIGN KEY (fixture_id) REFERENCES public.fixtures(id);
+
+
+--
+-- Name: fixtures fk_rails_45a97a2b64; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fixtures
+    ADD CONSTRAINT fk_rails_45a97a2b64 FOREIGN KEY (session_id) REFERENCES public.sessions(id);
+
+
+--
+-- Name: fixtures fk_rails_75266f13a2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fixtures
+    ADD CONSTRAINT fk_rails_75266f13a2 FOREIGN KEY (home_team_id) REFERENCES public.teams(id);
+
+
+--
+-- Name: fixtures fk_rails_9af4cca3ac; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fixtures
+    ADD CONSTRAINT fk_rails_9af4cca3ac FOREIGN KEY (round_id) REFERENCES public.rounds(id);
+
+
+--
+-- Name: knockout_teams fk_rails_c5142f55e9; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.knockout_teams
+    ADD CONSTRAINT fk_rails_c5142f55e9 FOREIGN KEY (team_id) REFERENCES public.teams(id);
+
+
+--
+-- Name: fixtures fk_rails_e99c2e4db6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fixtures
+    ADD CONSTRAINT fk_rails_e99c2e4db6 FOREIGN KEY (channel_id) REFERENCES public.channels(id);
+
+
+--
+-- Name: standings fk_rails_e9d6ea91b3; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.standings
+    ADD CONSTRAINT fk_rails_e9d6ea91b3 FOREIGN KEY (team_id) REFERENCES public.teams(id);
+
+
+--
+-- Name: fixtures fk_rails_fce055dec7; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.fixtures
+    ADD CONSTRAINT fk_rails_fce055dec7 FOREIGN KEY (away_team_id) REFERENCES public.teams(id);
+
+
+--
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
+--
+
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

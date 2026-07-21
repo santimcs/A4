@@ -1,32 +1,38 @@
 artist,title,date,type,filename,duration_seconds,duration_minutes
 Bryan Adams,(Everything I Do) I Do It For You,2026-11-01,L,(Everything I Do) I Do It For You_Bryan Adams.mp4,454.25,7.570833333333334
 Rolling Stones The,(I Can't Get No) Satisfaction,2026-11-01,L,(I Can't Get No) Satisfaction_Rolling Stones The.mp4,237.88,3.9646666666666666
-UB40,(I Can't Help) Falling In Love With You,2026-11-01,L,(I Can't Help) Falling In Love With You_UB40 .mp4,215.82999999999998,3.5971666666666664
+UB40,(I Can't Help) Falling In Love With You,2026-11-01,L,(I Can't Help) Falling In Love With You_UB40.mp4,215.82999999999998,3.5971666666666664
 Otis Redding,(Sittin' On) The Dock of the Bay,2026-11-01,L,(Sittin' On) The Dock of the Bay_Otis Redding.mp4,164.29,2.7381666666666664
+Lukas Graham,7 Years,2026-11-01,L,7 Years_Lukas Graham.mp4,239.32999999999998,3.988833333333333
 Sam Cooke,A Change Is Gonna Come,2026-11-01,L,A Change Is Gonna Come_Sam Cooke.mp4,194.42,3.240333333333333
 Beatles The,A Day in the Life,2026-11-01,L,A Day in the Life_Beatles The.mp4,300.13,5.002166666666667
-America,A Horse With No Name,2026-11-01,L,A Horse With No Name_America .mp4,251.54,4.192333333333333
+America,A Horse With No Name,2026-11-01,L,A Horse With No Name_America.mp4,251.54,4.192333333333333
 Bob Seger,Against the Wind,2026-11-01,L,Against the Wind_Bob Seger.mp4,333.96,5.566
 Jimi Hendrix Experience The,All Along the Watchtower,2026-11-01,L,All Along the Watchtower_Jimi Hendrix Experience The.mp4,241.29,4.0215
 Celine Dion,All By Myself,2026-11-01,L,All By Myself_Celine Dion.mp4,237.96,3.966
 Everly Brothers The,All I Have to Do Is Dream,2026-11-01,L,All I Have to Do Is Dream_Everly Brothers The.mp4,138.17000000000002,2.3028333333333335
 John Legend,All of Me,2026-11-01,L,All of Me_John Legend.mp4,307.29,5.1215
 Taylor Swift,All Too Well,2026-11-01,L,All Too Well_Taylor Swift.mp4,600.88,10.014666666666667
-Heart,Alone,2026-11-01,L,Alone_Heart .mp4,217.71,3.6285000000000003
+Heart,Alone,2026-11-01,L,Alone_Heart.mp4,217.71,3.6285000000000003
 Lady Gaga,Always Remember Us This Way,2026-11-01,L,Always Remember Us This Way_Lady Gaga.mp4,213.13,3.5521666666666665
+Hélène Rollès,Amour Secret (FR),2026-11-01,L,Amour Secret (FR)_Hélène Rollès.mp4,210.38,3.506333333333333
+Juice Newton,Angel Of The Morning,2026-11-01,L,Angel Of The Morning_Juice Newton.mp4,233.38,3.8896666666666664
 Robbie Williams,Angels,2026-11-01,L,Angels_Robbie Williams.mp4,235.82999999999998,3.9305
 Sarah McLachlan,Angel,2026-11-01,L,Angel_Sarah McLachlan.mp4,270.46,4.507666666666666
 Rolling Stones The,Angie,2026-11-01,L,Angie_Rolling Stones The.mp4,279.46,4.657666666666667
 Taylor Swift,Anti-Hero,2026-11-01,L,Anti-Hero_Taylor Swift.mp4,309.5,5.158333333333333
+Timbaland,Apologize,2026-11-01,L,Apologize_Timbaland.mp4,188.83,3.1471666666666667
 Rolling Stones The,As Tears Go By,2026-11-01,L,As Tears Go By_Rolling Stones The.mp4,166.32999999999998,2.7721666666666662
-Bread,Aubrey,2026-11-01,L,Aubrey_Bread .mp4,216.71,3.6118333333333337
-Bread,Baby I'm-a Want You,2026-11-01,L,Baby I'm-a Want You_Bread .mp4,151.0,2.5166666666666666
+Bread,Aubrey,2026-11-01,L,Aubrey_Bread.mp4,216.71,3.6118333333333337
+Bread,Baby I'm-a Want You,2026-11-01,L,Baby I'm-a Want You_Bread.mp4,151.0,2.5166666666666666
 Britney Spears,Baby One More Time,2026-11-01,L,Baby One More Time_Britney Spears.mp4,237.21,3.9535
 Taylor Swift,Bad Blood,2026-11-01,L,Bad Blood_Taylor Swift.mp4,245.0,4.083333333333333
 Daniel Powter,Bad Day,2026-11-01,L,Bad Day_Daniel Powter.mp4,236.04,3.9339999999999997
 Billie Eilish,Bad Guy,2026-11-01,L,Bad Guy_Billie Eilish.mp4,206.04,3.4339999999999997
 Creedence Clearwater Revival,Bad Moon Rising,2026-11-01,L,Bad Moon Rising_Creedence Clearwater Revival .mp4,135.17,2.2528333333333332
 Joan Jett and the Blackhearts,Bad Reputation,2026-11-01,L,Bad Reputation_Joan Jett and the Blackhearts .mp4,167.46,2.791
+Lady Gaga,Bad Romance,2026-11-01,L,Bad Romance_Lady Gaga.mp4,308.5,5.141666666666667
+Jessie J,Bang Bang,2026-11-01,L,Bang Bang_Jessie J .mp4,262.25,4.370833333333334
 Heart,Barracuda,2026-11-01,L,Barracuda_Heart .mp4,335.75,5.595833333333333
 Michael Jackson,Beat It,2026-11-01,L,Beat It_Michael Jackson.mp4,298.71,4.9784999999999995
 Kelly Clarkson,Because Of You,2026-11-01,L,Because Of You_Kelly Clarkson.mp4,223.46,3.7243333333333335
@@ -35,9 +41,11 @@ Celine Dion,Because You Loved Me,2026-11-01,L,Because You Loved Me_Celine Dion.m
 Lewis Capaldi,Before You Go,2026-11-01,L,Before You Go_Lewis Capaldi.mp4,246.38,4.106333333333334
 Imagine Dragons,Believer,2026-11-01,L,Believer_Imagine Dragons .mp4,216.57999999999998,3.6096666666666666
 Elton John,Bennie and the Jets,2026-11-01,L,Bennie and the Jets_Elton John.mp4,348.75,5.8125
+Fergie,Big Girls Don't Cry,2026-11-01,L,Big Girls Don't Cry_Fergie .mp4,307.13,5.118833333333333
 Michael Jackson,Billie Jean,2026-11-01,L,Billie Jean_Michael Jackson.mp4,295.92,4.932
 Billie Eilish,BIRDS OF A FEATHER,2026-11-01,L,BIRDS OF A FEATHER_Billie Eilish.mp4,211.13,3.5188333333333333
 Verve The,Bitter Sweet Symphony,2026-11-01,L,Bitter Sweet Symphony_Verve The.mp4,275.58,4.593
+Iggy Azalea,Black Widow,2026-11-01,L,Black Widow_Iggy Azalea.mp4,330.17,5.502833333333333
 Taylor Swift,Blank Space,2026-11-01,L,Blank Space_Taylor Swift.mp4,272.54,4.542333333333334
 Leona Lewis,Bleeding Love,2026-11-01,L,Bleeding Love_Leona Lewis.mp4,279.04,4.650666666666667
 Bob Dylan,Blowin' in the Wind,2026-11-01,L,Blowin' in the Wind_Bob Dylan.mp4,169.13,2.818833333333333
@@ -54,19 +62,24 @@ Ma Jiantao,Chan Fu (CN),2026-11-01,L,Chan Fu (CN)_Ma Jiantao.mp4,331.5,5.525
 Freddie Aguilar,Child (PH),2026-11-01,L,Child (PH)_Freddie Aguilar.mp4,234.17000000000002,3.9028333333333336
 Deep Purple,Child in Time,2026-11-01,L,Child in Time_Deep Purple .mp4,615.54,10.258999999999999
 Coldplay,Clocks,2026-11-01,L,Clocks_Coldplay .mp4,255.96,4.266
+The Chainsmokers,Closer,2026-11-01,L,Closer_The Chainsmokers.mp4,246.98,4.116333333333333
 Elton John,Cold Heart,2026-11-01,L,Cold Heart_Elton John.mp4,254.25,4.2375
 Beatles The,Come Together,2026-11-01,L,Come Together_Beatles The.mp4,258.21,4.3035
 Roger Waters,Comfortably Numb,2026-11-01,L,Comfortably Numb_Roger Waters.mp4,492.46,8.207666666666666
 Avril Lavigne,Complicated,2026-11-01,L,Complicated_Avril Lavigne.mp4,253.46,4.224333333333333
 Creedence Clearwater Revival,Cotton Fields,2026-11-01,L,Cotton Fields_Creedence Clearwater Revival .mp4,178.38,2.973
+OneRepublic,Counting Stars,2026-11-01,L,Counting Stars_OneRepublic .mp4,283.21,4.720166666666667
 Patsy Cline,Crazy,2026-11-01,L,Crazy_Patsy Cline.mp4,167.32999999999998,2.7888333333333333
 Roy Orbison,Crying,2026-11-01,L,Crying_Roy Orbison.mp4,182.46,3.041
 Abba,Dancing Queen,2026-11-01,L,Dancing Queen_Abba .mp4,232.96,3.8826666666666667
 Elton John,Daniel,2026-11-01,L,Daniel_Elton John.mp4,214.54,3.5756666666666663
 Eagles The,Desperado,2026-11-01,L,Desperado_Eagles The.mp4,211.32999999999998,3.5221666666666662
+Rihanna,Diamonds,2026-11-01,L,Diamonds_Rihanna .mp4,283.0,4.716666666666667
 Bread,Diary,2026-11-01,L,Diary_Bread .mp4,188.42,3.140333333333333
+Steely Dan,Do It Again,2026-11-01,L,Do It Again_Steely Dan.mp4,355.57,5.926166666666666
 Culture Club,Do You Really Want To Hurt Me,2026-11-01,L,Do You Really Want To Hurt Me_Culture Club .mp4,269.54,4.492333333333334
 Norah Jones,Don't Know Why,2026-11-01,L,Don't Know Why_Norah Jones.mp4,183.0,3.05
+Britney Spears,Don't Let Me Be The Last To Know,2026-11-01,L,Don't Let Me Be The Last To Know_Britney Spears.mp4,230.87,3.8478333333333334
 Beatles The,Don't Let Me Down,2026-11-01,L,Don't Let Me Down_Beatles The.mp4,211.32999999999998,3.5221666666666662
 Dua Lipa,Don't Start Now,2026-11-01,L,Don't Start Now_Dua Lipa.mp4,181.25,3.0208333333333335
 Journey,Don't Stop Believin',2026-11-01,L,Don't Stop Believin'_Journey .mp4,251.67,4.1945
@@ -76,24 +89,34 @@ Aerosmith,Dream On,2026-11-01,L,Dream On_Aerosmith .mp4,283.13,4.718833333333333
 Cranberries The,Dreams,2026-11-01,L,Dreams_Cranberries The.mp4,253.33,4.222166666666667
 Fleetwood Mac,Dreams,2026-11-01,L,Dreams_Fleetwood Mac .mp4,254.83,4.247166666666667
 Olivia Rodrigo,drivers license,2026-11-01,L,drivers license_Olivia Rodrigo.mp4,247.17,4.1194999999999995
-Kansas,Dust in the Wind,2026-11-01,L,Dust in the Wind_Kansas .mp4,199.79,3.329833333333333
+Cars The,Drive,2026-11-01,L,Drive_Cars The.mp4,234.3,3.9050000000000002
+Olivia Rodrigo,drop dead,2026-11-01,L,drop dead_Olivia Rodrigo.mp4,250.33,4.172166666666667
+Kansas,Dust in the Wind,2026-11-01,L,Dust in the Wind_Kansas.mp4,199.7,3.328333333333333
 Adele,Easy On Me,2026-11-01,L,Easy On Me_Adele .mp4,227.71,3.795166666666667
+JAY-Z,Empire State Of Mind,2026-11-01,L,Empire State Of Mind_JAY-Z.mp4,281.88,4.6979999999999995
 Boyz II Men,End Of The Road,2026-11-01,L,End Of The Road_Boyz II Men .mp4,254.71,4.245166666666667
 X Japan,Endless Rain,2026-11-01,L,Endless Rain_X Japan .mp4,421.54,7.025666666666667
 Metallica,Enter Sandman,2026-11-01,L,Enter Sandman_Metallica .mp4,332.33,5.538833333333333
 The Bangles,Eternal Flame,2026-11-01,L,Eternal Flame_The Bangles.mp4,246.71,4.111833333333333
 Cliff Richard,Evergreen Tree,2026-11-01,L,Evergreen Tree_Cliff Richard.mp4,161.13,2.6854999999999998
 Police The,Every Breath You Take,2026-11-01,L,Every Breath You Take_Police The.mp4,229.0,3.816666666666667
+Wishbone Ash,Everybody Needs A Friend,2026-11-01,L,Everybody Needs A Friend_Wishbone Ash .mp4,502.5,8.375
 Bread,Everything I Own,2026-11-01,L,Everything I Own_Bread .mp4,188.08,3.134666666666667
 Alan Walker,Faded,2026-11-01,L,Faded_Alan Walker.mp4,212.88,3.548
 Mary J.Blige,Family Affair,2026-11-01,L,Family Affair_Mary J.Blige.mp4,224.57999999999998,3.743
 Tracy Chapman,Fast Car,2026-11-01,L,Fast Car_Tracy Chapman.mp4,296.67,4.944500000000001
 James Taylor,Fire and Rain,2026-11-01,L,Fire and Rain_James Taylor.mp4,204.63,3.4105
+Katy Perry,Firework,2026-11-01,L,Firework_Katy Perry.mp4,233.42000000000002,3.8903333333333334
 Miley Cyrus,Flowers,2026-11-01,L,Flowers_Miley Cyrus.mp4,193.71,3.2285
 UNDRESSD,Forever Young,2026-11-01,L,Forever Young_UNDRESSD .mp4,202.0,3.3666666666666667
 Creedence Clearwater Revival,Fortunate Son,2026-11-01,L,Fortunate Son_Creedence Clearwater Revival .mp4,137.13,2.2855
+Neil Young,Four Strong Winds,2026-11-01,L,Four Strong Winds_Neil Young.mp4,245.9,4.098333333333334
 Christina Aguilera,Genie In A Bottle,2026-11-01,L,Genie In A Bottle_Christina Aguilera.mp4,216.29,3.604833333333333
+Ray Charles,Georgia on My Mind,2026-11-01,L,Georgia on My Mind_Ray Charles.mp4,232.39,3.8731666666666666
+ABBA,Gimme Gimme Gimme,2026-11-01,L,Gimme Gimme Gimme_ABBA.mp4,196.46,3.2743333333333333
+Britney Spears,Gimme More,2026-11-01,L,Gimme More_Britney Spears.mp4,241.0,4.016666666666667
 Rolling Stones The,Gimme Shelter,2026-11-01,L,Gimme Shelter_Rolling Stones The.mp4,272.71,4.545166666666666
+Abba,Gimme! Gimme! Gimme!,2026-11-01,L,Gimme! Gimme! Gimme!_Abba .mp4,196.54,3.2756666666666665
 Alicia Keys,Girl on Fire,2026-11-01,L,Girl on Fire_Alicia Keys.mp4,232.96,3.8826666666666667
 Cyndi Lauper,Girls Just Want To Have Fun,2026-11-01,L,Girls Just Want To Have Fun_Cyndi Lauper.mp4,266.83,4.447166666666666
 Fleetwood Mac,Go Your Own Way,2026-11-01,L,Go Your Own Way_Fleetwood Mac .mp4,223.88,3.731333333333333
@@ -104,12 +127,16 @@ Fleetwood Mac,Gypsy,2026-11-01,L,Gypsy_Fleetwood Mac .mp4,264.96,4.4159999999999
 Jeff Buckley,Hallelujah,2026-11-01,L,Hallelujah_Jeff Buckley.mp4,393.79,6.563166666666667
 James Taylor,Handy Man,2026-11-01,L,Handy Man_James Taylor.mp4,196.25,3.2708333333333335
 Creedence Clearwater Revival,Have You Ever Seen the Rain,2026-11-01,L,Have You Ever Seen the Rain_Creedence Clearwater Revival .mp4,160.25,2.6708333333333334
+Chi‐Lites The,Have You Seen Her,2026-11-01,L,Have You Seen Her_Chi‐Lites The.mp4,305.81,5.0968333333333335
+The Hollies,"He Aint Heavy, Hes My Brother",2026-11-01,L,"He Aint Heavy, Hes My Brother_The Hollies.mp4",256.75,4.279166666666667
+Blondie,Heart of Glass,2026-11-01,L,Heart of Glass_Blondie .mp4,222.63,3.7105
 Neil Young,Heart of Gold,2026-11-01,L,Heart of Gold_Neil Young.mp4,187.25,3.120833333333333
 Lionel Richie,Hello,2026-11-01,L,Hello_Lionel Richie.mp4,247.04,4.117333333333333
 Beatles The,Here Comes The Sun,2026-11-01,L,Here Comes The Sun_Beatles The.mp4,191.88,3.198
 Beatles The,Hey Jude,2026-11-01,L,Hey Jude_Beatles The.mp4,431.42,7.190333333333333
 Deep Purple,Highway Star,2026-11-01,L,Highway Star_Deep Purple .mp4,367.42,6.123666666666667
 ACDC,Highway to Hell,2026-11-01,L,Highway to Hell_ACDC .mp4,207.13,3.4521666666666664
+Shakira,Hips Don't Lie,2026-11-01,L,Hips Don't Lie_Shakira .mp4,218.38,3.6396666666666664
 Michael Buble,Home,2026-11-01,L,Home_Michael Buble.mp4,230.5,3.841666666666667
 Bobby Goldsboro,Honey,2026-11-01,L,Honey_Bobby Goldsboro.mp4,233.38,3.8896666666666664
 Rolling Stones The,Honky Tonk Women,2026-11-01,L,Honky Tonk Women_Rolling Stones The.mp4,182.67,3.0444999999999998
@@ -126,13 +153,15 @@ Joan Jett and the Blackhearts,I Love Rock ‘N Roll,2026-11-01,L,I Love Rock ‘
 Vanny Vabiola,I Love You,2026-11-01,L,I Love You_Vanny Vabiola.mp4,314.83,5.247166666666667
 Bee Gees,I Started A Joke,2026-11-01,L,I Started A Joke_Bee Gees .mp4,189.79,3.1631666666666667
 Johnny Cash,I Walk the Line,2026-11-01,L,I Walk the Line_Johnny Cash.mp4,132.33,2.2055000000000002
+Backstreet Boys,I Want It That Way,2026-11-01,L,I Want It That Way_Backstreet Boys .mp4,219.38,3.6563333333333334
 Foreigner,I Want to Know What Love Is,2026-11-01,L,I Want to Know What Love Is_Foreigner .mp4,290.17,4.836166666666667
 Whitney Houston,I Will Always Love You,2026-11-01,L,I Will Always Love You_Whitney Houston.mp4,274.08,4.568
-Gloria Gaynor,I Will Survive,2026-11-01,L,I Will Survive_Gloria Gaynor.mp4,261.33,4.3555
+Gloria Gaynor,I Will Survive,2026-11-01,L,I Will Survive_Gloria Gaynor.mp4,194.42,3.240333333333333
 Etta James,I'd Rather Go Blind,2026-11-01,L,I'd Rather Go Blind_Etta James.mp4,490.29,8.1715
 Puff Daddy & Faith Evans,I'll Be Missing You,2026-11-01,L,I'll Be Missing You_Puff Daddy & Faith Evans .mp4,306.67,5.111166666666667
 Celine Dion,I'm Alive,2026-11-01,L,I'm Alive_Celine Dion.mp4,209.88,3.4979999999999998
 Shania Twain,I'm Gonna Getcha Good!,2026-11-01,L,I'm Gonna Getcha Good!_Shania Twain.mp4,257.67,4.2945
+Britney Spears,"I'm Not A Girl, Not Yet A Woman",2026-11-01,L,"I'm Not A Girl, Not Yet A Woman_Britney Spears.mp4",228.88,3.8146666666666667
 Chicago,If You Leave Me Now,2026-11-01,L,If You Leave Me Now_Chicago .mp4,236.29,3.9381666666666666
 Bread,If,2026-11-01,L,If_Bread .mp4,153.38,2.5563333333333333
 John Lennon,Imagine,2026-11-01,L,Imagine_John Lennon.mp4,193.58,3.2263333333333337
@@ -143,23 +172,32 @@ Carole King,It's Too Late,2026-11-01,L,It's Too Late_Carole King.mp4,234.0799999
 Hank Williams,I’m So Lonesome I Could Cry,2026-11-01,L,I’m So Lonesome I Could Cry_Hank Williams.mp4,180.67,3.0111666666666665
 Elvis Presley,Jailhouse Rock,2026-11-01,L,Jailhouse Rock_Elvis Presley.mp4,152.29,2.5381666666666667
 Bee Gees,Jive Talkin',2026-11-01,L,Jive Talkin'_Bee Gees .mp4,170.79,2.8465
+Chuck Berry,Johnny B. Goode,2026-11-01,L,Johnny B. Goode_Chuck Berry.mp4,162.59,2.7098333333333335
+Uriah Heep,July Morning,2026-11-01,L,July Morning_Uriah Heep.mp4,634.97,10.582833333333333
 Rolling Stones The,Jumpin’ Jack Flash,2026-11-01,L,Jumpin’ Jack Flash_Rolling Stones The.mp4,225.54,3.759
-P!nk,Just Give Me A Reason,2026-11-01,L,Just Give Me A Reason_P!nk .mp4,242.63,4.043833333333334
+Lady Gaga,Just Dance,2026-11-01,L,Just Dance_Lady Gaga.mp4,252.66,4.211
+P!nk,Just Give Me A Reason,2026-11-01,L,Just Give Me A Reason_P!nk .mp4,242.67,4.0445
 Bruno Mars,Just The Way You Are,2026-11-01,L,Just The Way You Are_Bruno Mars.mp4,236.82999999999998,3.9471666666666665
+Randy Vanwarmer,Just When I Needed You Most,2026-11-01,L,Just When I Needed You Most_Randy Vanwarmer.mp4,241.75,4.029166666666667
 Culture Club,Karma Chameleon,2026-11-01,L,Karma Chameleon_Culture Club .mp4,238.5,3.975
 Led Zeppelin,Kashmir,2026-11-01,L,Kashmir_Led Zeppelin .mp4,514.79,8.579833333333333
 Roberta Flack,Killing Me Softly With His Song,2026-11-01,L,Killing Me Softly With His Song_Roberta Flack.mp4,277.67,4.627833333333333
 Bob Dylan,Knockin’ on Heaven’s Door,2026-11-01,L,Knockin’ on Heaven’s Door_Bob Dylan.mp4,151.54,2.5256666666666665
 Fleetwood Mac,Landslide,2026-11-01,L,Landslide_Fleetwood Mac .mp4,197.46,3.291
 Wham,Last Christmas,2026-11-01,L,Last Christmas_Wham .mp4,278.5,4.641666666666667
+Major Lazer,Lean On,2026-11-01,L,Lean On_Major Lazer.mp4,178.94,2.9823333333333335
 Passenger,Let Her Go,2026-11-01,L,Let Her Go_Passenger .mp4,254.29,4.238166666666666
 Beatles The,Let It Be,2026-11-01,L,Let It Be_Beatles The.mp4,243.08,4.051333333333334
+DJ Snake,Let Me Love You,2026-11-01,L,Let Me Love You_DJ Snake .mp4,205.5,3.425
+Dua Lipa,Levitating,2026-11-01,L,Levitating_Dua Lipa.mp4,202.07999999999998,3.368
 Dido,Life for Rent,2026-11-01,L,Life for Rent_Dido .mp4,221.21,3.6868333333333334
+Madonna,Like A Prayer,2026-11-01,L,Like A Prayer_Madonna .mp4,337.58,5.626333333333333
 Bob Dylan,Like a Rolling Stone,2026-11-01,L,Like a Rolling Stone_Bob Dylan.mp4,369.83,6.163833333333333
 Cranberries The,Linger,2026-11-01,L,Linger_Cranberries The.mp4,277.46,4.624333333333333
 Jimi Hendrix Experience The,Little Wing,2026-11-01,L,Little Wing_Jimi Hendrix Experience The.mp4,146.54,2.442333333333333
 Bon Jovi,Livin' On A Prayer,2026-11-01,L,Livin' On A Prayer_Bon Jovi .mp4,248.88,4.148
-Eminem,Lose Yourself,2026-11-01,L,Lose Yourself_Eminem .mp4,328.33,5.472166666666666
+Dan Fogelberg,Longer,2026-11-01,L,Longer_Dan Fogelberg.mp4,193.72,3.228666666666667
+Eminem,Lose Yourself,2026-11-01,L,Lose Yourself_Eminem.mp4,328.33,5.472166666666666
 Michael Kiwanuka,Love and Hate,2026-11-01,L,Love and Hate_Michael Kiwanuka.mp4,427.17,7.1195
 WET WET WET,Love Is All Around,2026-11-01,L,Love Is All Around_WET WET WET .mp4,254.75,4.245833333333334
 Ellie Goulding,Love Me Like You Do,2026-11-01,L,Love Me Like You Do_Ellie Goulding.mp4,249.33,4.1555
@@ -167,30 +205,35 @@ Taylor Swift,Love Story,2026-11-01,L,Love Story_Taylor Swift.mp4,240.54,4.008999
 Avril Lavigne,Love Will Find You,2026-11-01,L,Love Will Find You_Avril Lavigne.mp4,314.46,5.241
 Billie Eilish,lovely,2026-11-01,L,lovely_Billie Eilish.mp4,200.54,3.3423333333333334
 Taylor Swift,Lover,2026-11-01,L,Lover_Taylor Swift.mp4,238.29,3.9715
+Flo Rida,Low,2026-11-01,L,Low_Flo Rida.mp4,229.97,3.8328333333333333
 Eagles The,Lyin' Eyes,2026-11-01,L,Lyin' Eyes_Eagles The.mp4,377.88,6.298
 Rod Stewart,Maggie May,2026-11-01,L,Maggie May_Rod Stewart.mp4,345.75,5.7625
 Bread,Make It With You,2026-11-01,L,Make It With You_Bread .mp4,198.5,3.308333333333333
 Michael Jackson,Man In The Mirror,2026-11-01,L,Man In The Mirror_Michael Jackson.mp4,303.71,5.061833333333333
+Shania Twain,Man! I Feel Like A Woman!,2026-11-01,L,Man! I Feel Like A Woman!_Shania Twain.mp4,235.01,3.9168333333333334
+Daryl Hall,Maneater,2026-11-01,L,Maneater_Daryl Hall.mp4,264.75,4.4125
 Julio Iglesias,Manuela,2026-11-01,L,Manuela_Julio Iglesias.mp4,217.38,3.6229999999999998
 Bee Gees,Massachusetts,2026-11-01,L,Massachusetts_Bee Gees .mp4,174.13,2.9021666666666666
 Janis Joplin,Me and Bobby McGee,2026-11-01,L,Me and Bobby McGee_Janis Joplin.mp4,270.63,4.5104999999999995
 Wang Luo Ge Shou,Mei Chu Xi (CN),2026-11-01,L,Mei Chu Xi (CN)_Wang Luo Ge Shou.mp4,166.32999999999998,2.7721666666666662
-Wang Luo Ge Shou,Mei Chu Xi,2026-11-01,L,Mei Chu Xi_Wang Luo Ge Shou.mp4,166.32999999999998,2.7721666666666662
 Maroon 5,Memories,2026-11-01,L,Memories_Maroon 5 .mp4,195.25,3.254166666666667
 Lady Gaga,Million Reasons,2026-11-01,L,Million Reasons_Lady Gaga.mp4,252.25,4.204166666666667
-Eminem,Mockingbird,2026-11-01,L,Mockingbird_Eminem .mp4,257.96,4.299333333333333
+Eminem,Mockingbird,2026-11-01,L,Mockingbird_Eminem.mp4,257.96,4.299333333333333
 Dana Winner,Moonlight Shadow,2026-11-01,L,Moonlight Shadow_Dana Winner.mp4,266.0,4.433333333333334
 Extreme,More Than Words,2026-11-01,L,More Than Words_Extreme .mp4,255.63,4.2604999999999995
 Bob Dylan,Mr. Tambourine Man,2026-11-01,L,Mr. Tambourine Man_Bob Dylan.mp4,332.13,5.5355
 Celine Dion,My Heart Will Go On,2026-11-01,L,My Heart Will Go On_Celine Dion.mp4,280.54,4.675666666666667
+Billy Preston,My Sweet Lord,2026-11-01,L,My Sweet Lord_Billy Preston.mp4,304.04,5.067333333333334
 George Harrison,My Sweet Lord,2026-11-01,L,My Sweet Lord_George Harrison.mp4,432.08,7.201333333333333
 Frank Sinatra,My Way,2026-11-01,L,My Way_Frank Sinatra.mp4,256.08,4.268
 Antebellum Lady,Need You Now,2026-11-01,L,Need You Now_Antebellum Lady.mp4,271.21,4.520166666666666
 INXS,Never Tear Us Apart,2026-11-01,L,Never Tear Us Apart_INXS .mp4,231.07999999999998,3.8513333333333333
-Linkin Park,New Divide,2026-11-01,L,New Divide_Linkin Park .mp4,269.0,4.483333333333333
+Linkin Park,New Divide,2026-11-01,L,New Divide_Linkin Park .mp4,268.04,4.467333333333333
+Dua Lipa,New Rules,2026-11-01,L,New Rules_Dua Lipa.mp4,224.38,3.7396666666666665
 Bee Gees,Night Fever,2026-11-01,L,Night Fever_Bee Gees .mp4,208.82999999999998,3.4804999999999997
 Elton John,Nikita,2026-11-01,L,Nikita_Elton John.mp4,292.58,4.876333333333333
 Bob Marley and the Wailers,"No Woman, No Cry",2026-11-01,L,"No Woman, No Cry_Bob Marley and the Wailers .mp4",413.38,6.889666666666667
+Sinead O’Connor,Nothing Compares 2 U,2026-11-01,L,Nothing Compares 2 U_Sinead O’Connor.mp4,308.21,5.136833333333333
 Starship,Nothing's Gonna Stop Us Now,2026-11-01,L,Nothing's Gonna Stop Us Now_Starship .mp4,267.75,4.4625
 Guns n’ Roses,November Rain,2026-11-01,L,November Rain_Guns n’ Roses .mp4,556.92,9.282
 Linkin Park,Numb,2026-11-01,L,Numb_Linkin Park .mp4,187.25,3.120833333333333
@@ -204,6 +247,7 @@ Murray Head,One Night In Bangkok,2026-11-01,L,One Night In Bangkok_Murray Head.m
 U2,One,2026-11-01,L,One_U2 .mp4,280.08,4.668
 Roy Orbison,Only the Lonely,2026-11-01,L,Only the Lonely_Roy Orbison.mp4,154.42000000000002,2.573666666666667
 Enya,Only Time,2026-11-01,L,Only Time_Enya .mp4,216.71,3.6118333333333337
+Britney Spears,Oops!... I Did It Again,2026-11-01,L,Oops!... I Did It Again_Britney Spears.mp4,210.54,3.509
 Taylor Swift,Opalite,2026-11-01,L,Opalite_Taylor Swift.mp4,236.17000000000002,3.936166666666667
 "Crosby, Stills, Nash and Young",Our House,2026-11-01,L,"Our House_Crosby, Stills, Nash and Young .mp4",185.88,3.098
 Yes,Owner Of A Lonely Heart,2026-11-01,L,Owner Of A Lonely Heart_Yes .mp4,279.0,4.65
@@ -213,22 +257,34 @@ Eagles The,Peaceful Easy Feeling,2026-11-01,L,Peaceful Easy Feeling_Eagles The.m
 Beatles The,Penny Lane,2026-11-01,L,Penny Lane_Beatles The.mp4,186.88,3.1146666666666665
 Impressions The,People Get Ready,2026-11-01,L,People Get Ready_Impressions The.mp4,158.63,2.6438333333333333
 Rod Stewart,People Get Ready,2026-11-01,L,People Get Ready_Rod Stewart.mp4,280.5,4.675
-Ed Sheeran,Perfect,2026-11-01,L,Perfect_Ed Sheeran.mp4,260.5,4.341666666666667
+Ed Sheeran,Perfect,2026-11-01,L,Perfect_Ed Sheeran.mp4,281.96,4.699333333333333
 Bryan Adams,Please Forgive Me,2026-11-01,L,Please Forgive Me_Bryan Adams.mp4,330.5,5.508333333333334
+Lady Gaga,Poker Face,2026-11-01,L,Poker Face_Lady Gaga.mp4,213.7,3.5616666666666665
 Cliff Richard,Poor Boy,2026-11-01,L,Poor Boy_Cliff Richard.mp4,176.96,2.9493333333333336
+RICKY NELSON,Poor Little Fool,2026-11-01,L,Poor Little Fool_RICKY NELSON.mp4,150.13,2.5021666666666667
+Jessie J,Price Tag,2026-11-01,L,Price Tag_Jessie J.mp4,221.1,3.685
 Creedence Clearwater Revival,Proud Mary,2026-11-01,L,Proud Mary_Creedence Clearwater Revival .mp4,184.46,3.0743333333333336
 Jimi Hendrix Experience The,Purple Haze,2026-11-01,L,Purple Haze_Jimi Hendrix Experience The.mp4,172.46,2.8743333333333334
 Imagine Dragons,Radioactive,2026-11-01,L,Radioactive_Imagine Dragons .mp4,185.63,3.0938333333333334
 B. J. Thomas,Raindrops Keep Falling On My Head,2026-11-01,L,Raindrops Keep Falling On My Head_B. J. Thomas.mp4,180.13,3.0021666666666667
 UB40,Red Red Wine,2026-11-01,L,Red Red Wine_UB40 .mp4,203.57999999999998,3.393
 Marmalade The,Reflections of My Life,2026-11-01,L,Reflections of My Life_Marmalade The.mp4,242.79,4.0465
+Il Divo,Regresa A Mi (IT),2026-11-01,L,Regresa A Mi (IT)_Il Divo.mp4,280.87,4.681166666666667
 Aretha  Franklin,Respect,2026-11-01,L,Respect_Aretha  Franklin.mp4,150.21,2.5035000000000003
+Fleetwood Mac,Rhiannon,2026-11-01,L,Rhiannon_Fleetwood Mac.mp4,252.77,4.212833333333333
+Dan Fogelberg,Rhythm Of The Rain,2026-11-01,L,Rhythm Of The Rain_Dan Fogelberg.mp4,267.0,4.45
 Richard Marx,Right Here Waiting,2026-11-01,L,Right Here Waiting_Richard Marx.mp4,262.79,4.379833333333334
 Elton John,Rocket Man,2026-11-01,L,Rocket Man_Elton John.mp4,282.21,4.7035
 Post Malone,rockstar,2026-11-01,L,rockstar_Post Malone.mp4,242.04,4.034
 Adele,Rolling in the Deep,2026-11-01,L,Rolling in the Deep_Adele .mp4,234.0,3.9
+Police The,Roxanne,2026-11-01,L,Roxanne_Police The.mp4,189.79,3.1631666666666667
 Elton John,Sacrifice,2026-11-01,L,Sacrifice_Elton John.mp4,281.88,4.6979999999999995
+Vanessa Williams,Save The Best For Last,2026-11-01,L,Save The Best For Last_Vanessa Williams.mp4,219.46,3.6576666666666666
+Weeknd The,Save Your Tears,2026-11-01,L,Save Your Tears_Weeknd The.mp4,249.0,4.15
+Nelly  Furtado,Say It Right,2026-11-01,L,Say It Right_Nelly  Furtado.mp4,234.92000000000002,3.9153333333333338
+Westlife,Seasons In The Sun,2026-11-01,L,Seasons In The Sun_Westlife .mp4,241.54,4.025666666666667
 Wiz Khalifa,See You Again,2026-11-01,L,See You Again_Wiz Khalifa.mp4,237.46,3.957666666666667
+Shawn Mendes,Senorita,2026-11-01,L,Senorita_Shawn Mendes.mp4,205.54,3.4256666666666664
 Taylor Swift,Shake It Off,2026-11-01,L,Shake It Off_Taylor Swift.mp4,258.13,4.3021666666666665
 Lady Gaga,Shallow,2026-11-01,L,Shallow_Lady Gaga.mp4,216.25,3.6041666666666665
 Ed Sheeran,Shape of You,2026-11-01,L,Shape of You_Ed Sheeran.mp4,263.33,4.388833333333333
@@ -243,8 +299,9 @@ Adele,Someone Like You,2026-11-01,L,Someone Like You_Adele .mp4,285.04,4.7506666
 Lewis Capaldi,Someone You Loved,2026-11-01,L,Someone You Loved_Lewis Capaldi.mp4,182.33,3.0388333333333337
 Elton John,Something About the Way You Look Tonight,2026-11-01,L,Something About the Way You Look Tonight_Elton John.mp4,246.63,4.1105
 Beatles The,Something,2026-11-01,L,Something_Beatles The.mp4,188.0,3.1333333333333333
+Andy Williams,Speak Softly Love,2026-11-01,L,Speak Softly Love_Andy Williams.mp4,181.19,3.019833333333333
 Led Zeppelin,Stairway to Heaven,2026-11-01,L,Stairway to Heaven_Led Zeppelin .mp4,485.29,8.088166666666668
-Eminem feat. Dido,Stan,2026-11-01,L,Stan_Eminem feat. Dido .mp4,488.75,8.145833333333334
+Eminem,Stan,2026-11-01,L,Stan_Eminem.mp4,488.75,8.145833333333334
 Bee Gees,Stayin’ Alive,2026-11-01,L,Stayin’ Alive_Bee Gees .mp4,287.75,4.795833333333333
 Gary Moore,Still Got The Blues,2026-11-01,L,Still Got The Blues_Gary Moore.mp4,249.17,4.152833333333333
 Bryan Adams,Straight From The Heart,2026-11-01,L,Straight From The Heart_Bryan Adams.mp4,208.88,3.481333333333333
@@ -253,25 +310,35 @@ Ralph McTell,Streets of London,2026-11-01,L,Streets of London_Ralph McTell.mp4,2
 Taylor Swift,Style,2026-11-01,L,Style_Taylor Swift.mp4,243.08,4.051333333333334
 Shinji Tanimura,Subaru (JP),2026-11-01,L,Subaru (JP)_Shinji Tanimura.mp4,277.38,4.623
 Kyu Sakamoto,Sukiyaki (JP),2026-11-01,L,Sukiyaki (JP)_Kyu Sakamoto.mp4,188.58,3.1430000000000002
+Gordon Lightfoot,Sundown,2026-11-01,L,Sundown_Gordon Lightfoot.mp4,213.91,3.565166666666667
 Post Malone,Sunflower,2026-11-01,L,Sunflower_Post Malone.mp4,161.79,2.6965
 Elvis Presley,Suspicious Minds,2026-11-01,L,Suspicious Minds_Elvis Presley.mp4,273.21,4.5535
+Dan Fogelberg,Sutter's Mill,2026-11-01,L,Sutter's Mill_Dan Fogelberg.mp4,391.38,6.523
 Guns n’ Roses,Sweet Child O’Mine,2026-11-01,L,Sweet Child O’Mine_Guns n’ Roses .mp4,356.46,5.941
 Eurythmics,Sweet Dreams (Are Made of This),2026-11-01,L,Sweet Dreams (Are Made of This)_Eurythmics .mp4,214.13,3.568833333333333
 Rolling Stones The,Sympathy for the Devil,2026-11-01,L,Sympathy for the Devil_Rolling Stones The.mp4,528.88,8.814666666666666
 Eagles The,Take It Easy,2026-11-01,L,Take It Easy_Eagles The.mp4,267.42,4.457
 Hozier,Take Me To Church,2026-11-01,L,Take Me To Church_Hozier .mp4,256.5,4.275
+MLTR,Take Me To Your Heart,2026-11-01,L,Take Me To Your Heart_MLTR .mp4,242.58,4.043
 Bob Dylan,Tangled Up in Blue,2026-11-01,L,Tangled Up in Blue_Bob Dylan.mp4,267.92,4.465333333333334
 "Crosby, Stills, Nash and Young",Teach Your Children,2026-11-01,L,"Teach Your Children_Crosby, Stills, Nash and Young .mp4",174.17000000000002,2.9028333333333336
 Eric Clapton,Tears in Heaven,2026-11-01,L,Tears in Heaven_Eric Clapton.mp4,271.83,4.5305
+Rainbow,Temple of the King,2026-11-01,L,Temple of the King_Rainbow.mp4,279.06,4.651
 Eagles The,Tequila Sunrise,2026-11-01,L,Tequila Sunrise_Eagles The.mp4,173.17000000000002,2.886166666666667
 Dido,Thank You,2026-11-01,L,Thank You_Dido .mp4,193.71,3.2285
 Simon and Garfunkel,The Boxer,2026-11-01,L,The Boxer_Simon and Garfunkel .mp4,312.38,5.206333333333333
+Fleetwood Mac,The Chain,2026-11-01,L,The Chain_Fleetwood Mac.mp4,271.0,4.516666666666667
+M2M,The Day You Went Away,2026-11-01,L,The Day You Went Away_M2M.mp4,222.1,3.7016666666666667
 Taylor Swift,The Fate of Ophelia,2026-11-01,L,The Fate of Ophelia_Taylor Swift.mp4,226.13,3.7688333333333333
+Europte,The Final Countdown,2026-11-01,L,The Final Countdown_Europte .mp4,296.29,4.938166666666667
+The Box Tops,The Letter,2026-11-01,L,The Letter_The Box Tops.mp4,114.1,1.9016666666666666
 Jackson Browne,The Load Out Stay,2026-11-01,L,The Load Out Stay_Jackson Browne.mp4,561.25,9.354166666666666
-Teresa Teng,The Moon Represents My Heart (CN),2026-11-01,L,The Moon Represents My Heart (CN)_Teresa Teng.mp4,203.13,3.3855
+Teresa Teng,The Moon Represents My Heart (CN),2026-11-01,L,The Moon Represents My Heart (CN)_Teresa Teng.mp4,203.04,3.384
 Alan Jackson,The Older I Get,2026-11-01,L,The Older I Get_Alan Jackson.mp4,236.71,3.9451666666666667
 Celine Dion,The Power of Love,2026-11-01,L,The Power of Love_Celine Dion.mp4,287.67,4.7945
+Disturbed,The Sound Of Silence,2026-11-01,L,The Sound Of Silence_Disturbed .mp4,262.46,4.374333333333333
 Simon and Garfunkel,The Sound of Silence,2026-11-01,L,The Sound of Silence_Simon and Garfunkel .mp4,239.0,3.9833333333333334
+Blondie,The Tide Is High,2026-11-01,L,The Tide Is High_Blondie .mp4,226.25,3.7708333333333335
 Bob Dylan,The Times They Are A-Changing,2026-11-01,L,The Times They Are A-Changing_Bob Dylan.mp4,196.63,3.2771666666666666
 Cliff Richard,The Young Ones,2026-11-01,L,The Young Ones_Cliff Richard.mp4,193.75,3.2291666666666665
 Ed Sheeran,Thinking Out Loud,2026-11-01,L,Thinking Out Loud_Ed Sheeran.mp4,277.75,4.629166666666666
@@ -279,15 +346,21 @@ Maroon 5,This Love,2026-11-01,L,This Love_Maroon 5 .mp4,205.38,3.423
 Michael Jackson,Thriller,2026-11-01,L,Thriller_Michael Jackson.mp4,201.07999999999998,3.3513333333333333
 Imagine Dragons,Thunder,2026-11-01,L,Thunder_Imagine Dragons .mp4,204.07999999999998,3.401333333333333
 Teresa Teng,Tian Mi Mi (CN),2026-11-01,L,Tian Mi Mi (CN)_Teresa Teng.mp4,205.0,3.4166666666666665
+Ke$ha,TiK ToK,2026-11-01,L,TiK ToK_Ke$ha.mp4,215.9,3.5983333333333336
+Pitbull,Timber,2026-11-01,L,Timber_Pitbull.mp4,202.8,3.3800000000000003
 Cyndi Lauper,Time After Time,2026-11-01,L,Time After Time_Cyndi Lauper.mp4,297.08,4.951333333333333
 Zhao Lei,Time of Our LIves (CN),2026-11-01,L,Time of Our LIves (CN)_Zhao Lei.mp4,270.96,4.516
 Culture Club,Time,2026-11-01,L,Time_Culture Club .mp4,219.25,3.654166666666667
 Elton John,Tiny Dancer,2026-11-01,L,Tiny Dancer_Elton John.mp4,406.63,6.777166666666667
 Bee Gees,To Love Somebody,2026-11-01,L,To Love Somebody_Bee Gees .mp4,182.21,3.0368333333333335
 Bee Gees,Too Much Heaven,2026-11-01,L,Too Much Heaven_Bee Gees .mp4,299.25,4.9875
+Mary Macgregor,Torn Between Two Lovers,2026-11-01,L,Torn Between Two Lovers_Mary Macgregor.mp4,222.61,3.710166666666667
 Bonnie Tyler,Total Eclipse of the Heart (Turn Around),2026-11-01,L,Total Eclipse of the Heart (Turn Around)_Bonnie Tyler.mp4,333.96,5.566
+Britney Spears,Toxic,2026-11-01,L,Toxic_Britney Spears.mp4,198.9,3.315
 Bee Gees,Tragedy,2026-11-01,L,Tragedy_Bee Gees .mp4,303.5,5.058333333333334
+RICKY NELSON,Travelin' Man,2026-11-01,L,Travelin' Man_RICKY NELSON.mp4,140.21,2.3368333333333333
 Cyndi Lauper,True Colors,2026-11-01,L,True Colors_Cyndi Lauper.mp4,246.5,4.108333333333333
+Savage Garden,Truly Madly Deeply,2026-11-01,L,Truly Madly Deeply_Savage Garden .mp4,261.67,4.361166666666667
 Rihanna,Umbrella,2026-11-01,L,Umbrella_Rihanna .mp4,254.25,4.2375
 Toni Braxton,Un-Break My Heart,2026-11-01,L,Un-Break My Heart_Toni Braxton.mp4,273.17,4.552833333333334
 Righteous Brothers The,Unchained Melody,2026-11-01,L,Unchained Melody_Righteous Brothers The.mp4,214.21,3.5701666666666667
@@ -297,13 +370,19 @@ Foreigner,Waiting for a Girl Like You,2026-11-01,L,Waiting for a Girl Like You_F
 Avicii,Waiting For Love,2026-11-01,L,Waiting For Love_Avicii .mp4,230.25,3.8375
 Avicii,Wake Me Up,2026-11-01,L,Wake Me Up_Avicii .mp4,272.42,4.540333333333334
 Black Sabbath,War Pigs,2026-11-01,L,War Pigs_Black Sabbath .mp4,472.92,7.882000000000001
+Queen,We Are The Champions,2026-11-01,L,We Are The Champions_Queen .mp4,209.82999999999998,3.4971666666666663
+Queen,We Will Rock You,2026-11-01,L,We Will Rock You_Queen.mp4,124.78,2.0796666666666668
 Carpenters,We've Only Just Begun,2026-11-01,L,We've Only Just Begun_Carpenters .mp4,186.46,3.107666666666667
 Guns n’ Roses,Welcome to the Jungle,2026-11-01,L,Welcome to the Jungle_Guns n’ Roses .mp4,279.17,4.652833333333334
 Louis Armstrong,What A Wonderful World,2026-11-01,L,What A Wonderful World_Louis Armstrong.mp4,138.79,2.3131666666666666
+One Direction,What Makes You Beautiful,2026-11-01,L,What Makes You Beautiful_One Direction.mp4,206.47,3.4411666666666667
+Ray Charles,What'd I Say,2026-11-01,L,What'd I Say_Ray Charles.mp4,388.47,6.474500000000001
 Marvin Gaye,What's Going On,2026-11-01,L,What's Going On_Marvin Gaye.mp4,231.71,3.8618333333333337
 4 Non Blondes,What's Up,2026-11-01,L,What's Up_4 Non Blondes .mp4,292.63,4.877166666666667
 Percy Sledge,When a Man Loves a Woman,2026-11-01,L,When a Man Loves a Woman_Percy Sledge.mp4,173.5,2.8916666666666666
+Prince,When Doves Cry,2026-11-01,L,When Doves Cry_Prince.mp4,352.88,5.881333333333333
 Bruno Mars,When I Was Your Man,2026-11-01,L,When I Was Your Man_Bruno Mars.mp4,214.21,3.5701666666666667
+Ronan Keating,When You Say Nothing At All,2026-11-01,L,When You Say Nothing At All_Ronan Keating.mp4,263.13,4.3854999999999995
 Celine Dion,Where Does My Heart Beat Now,2026-11-01,L,Where Does My Heart Beat Now_Celine Dion.mp4,274.71,4.5785
 Beatles The,While My Guitar Gently Weeps,2026-11-01,L,While My Guitar Gently Weeps_Beatles The.mp4,285.04,4.750666666666667
 Dido,White Flag,2026-11-01,L,White Flag_Dido .mp4,221.25,3.6875
@@ -315,45 +394,64 @@ Rolling Stones The,Wild Horses,2026-11-01,L,Wild Horses_Rolling Stones The.mp4,3
 Taylor Swift,Wildest Dreams,2026-11-01,L,Wildest Dreams_Taylor Swift.mp4,234.75,3.9125
 Scorpions,Wind Of Change,2026-11-01,L,Wind Of Change_Scorpions .mp4,282.83,4.713833333333333
 Incubus,Wish You Were Here,2026-11-01,L,Wish You Were Here_Incubus .mp4,212.96,3.5493333333333337
-Pink Floyd,Wish You Were Here,2026-11-01,L,Wish You Were Here_Pink Floyd .mp4,275.5,4.591666666666667
+Pink Floyd,Wish You Were Here,2026-11-01,L,Wish You Were Here_Pink Floyd .mp4,368.67,6.1445
 Joe Cocker,With A Little Help From My Friends,2026-11-01,L,With A Little Help From My Friends_Joe Cocker.mp4,541.5,9.025
 U2,With or Without You,2026-11-01,L,With or Without You_U2 .mp4,292.29,4.8715
 Dana Winner,Woman in Love,2026-11-01,L,Woman in Love_Dana Winner.mp4,251.04,4.184
 Eric Clapton,Wonderful Tonight,2026-11-01,L,Wonderful Tonight_Eric Clapton.mp4,371.04,6.184
 "Crosby, Stills, Nash and Young",Woodstock,2026-11-01,L,"Woodstock_Crosby, Stills, Nash and Young .mp4",232.5,3.875
 Bee Gees,Words,2026-11-01,L,Words_Bee Gees .mp4,205.07999999999998,3.4179999999999997
+Fifth Harmony,Worth It,2026-11-01,L,Worth It_Fifth Harmony.mp4,224.7,3.7449999999999997
 Coldplay,Yellow,2026-11-01,L,Yellow_Coldplay .mp4,272.33,4.538833333333333
 Beatles The,Yesterday,2026-11-01,L,Yesterday_Beatles The.mp4,127.5,2.125
 Michael Jackson,You Are Not Alone,2026-11-01,L,You Are Not Alone_Michael Jackson.mp4,335.92,5.598666666666667
+Calum Scott,You Are The Reason,2026-11-01,L,You Are The Reason_Calum Scott.mp4,204.92000000000002,3.4153333333333338
 Taylor Swift,You Belong With Me,2026-11-01,L,You Belong With Me_Taylor Swift.mp4,228.57999999999998,3.8096666666666663
 Rolling Stones The,You Can’t Always Get What You Want,2026-11-01,L,You Can’t Always Get What You Want_Rolling Stones The.mp4,268.54,4.475666666666667
+Anne Murray,You Needed Me,2026-11-01,L,You Needed Me_Anne Murray.mp4,220.29,3.6715
 Bee Gees,You Should Be Dancing,2026-11-01,L,You Should Be Dancing_Bee Gees .mp4,262.33,4.372166666666667
 James Blunt,You're Beautiful,2026-11-01,L,You're Beautiful_James Blunt.mp4,202.25,3.370833333333333
 Carole King,You've got a friend,2026-11-01,L,You've got a friend_Carole King.mp4,296.13,4.9355
+The Everly Brothers,You've Lost That Lovin' Feelin',2026-11-01,L,You've Lost That Lovin' Feelin'_The Everly Brothers.mp4,225.38,3.756333333333333
 Hank Williams,Your Cheatin' Heart,2026-11-01,L,Your Cheatin' Heart_Hank Williams.mp4,162.82999999999998,2.713833333333333
 Josh Turner,Your Man,2026-11-01,L,Your Man_Josh Turner.mp4,210.0,3.5
 Elton John,Your Song,2026-11-01,L,Your Song_Elton John.mp4,228.42000000000002,3.8070000000000004
 Shania Twain,You’re Still The One,2026-11-01,L,You’re Still The One_Shania Twain.mp4,200.29,3.3381666666666665
 Cranberries The,Zombie,2026-11-01,L,Zombie_Cranberries The.mp4,307.25,5.120833333333334
+โฮป,กำลังใจ (TH),2026-11-01,L,กำลังใจ (TH)_โฮป.mp4,186.25,3.1041666666666665
 หญิงลี ศรีจุมพล,ขอใจเธอแลกเบอร์โทร (TH),2026-11-01,L,ขอใจเธอแลกเบอร์โทร (TH)_หญิงลี ศรีจุมพล.mp4,276.0,4.6
 สุเทพ วงศ์กำแหง,คนจะรักกัน (TH),2026-11-01,L,คนจะรักกัน (TH)_สุเทพ วงศ์กำแหง.mp4,226.0,3.7666666666666666
+ไผ่ พงศธร,คนบ้านเดียวกัน (TH),2026-11-01,L,คนบ้านเดียวกัน (TH)_ไผ่ พงศธร.mp4,262.06,4.367666666666667
+แอม เสาวลักษณ์,ครึ่งหนึ่งของชีวิต (TH),2026-11-01,L,ครึ่งหนึ่งของชีวิต (TH)_แอม เสาวลักษณ์.mp4,210.02,3.5003333333333333
 Getsunova,ความเงียบดังที่สุด (TH),2026-11-01,L,ความเงียบดังที่สุด (TH)_Getsunova .mp4,350.33,5.838833333333333
-เสก โลโซ,คืนจันทร์ (TH),2026-11-01,L,คืนจันทร์ (TH)_เสก โลโซ.mp4,285.92,4.765333333333333
-หงา คาราวาน,คืนรัง (TH),2026-11-01,L,คืนรัง (TH)_หงา คาราวาน.mp4,244.0,4.066666666666666
+ต้อม เรนโบว์,ความในใจ (TH),2026-11-01,L,ความในใจ (TH)_ต้อม เรนโบว์.mp4,238.07,3.967833333333333
+หรั่ง ร็อกเคสตร้า,คิดถึง (TH),2026-11-01,L,คิดถึง (TH)_หรั่ง ร็อกเคสตร้า.mp4,276.37,4.606166666666667
+หงา คาราวาน,คืนรัง (TH),2026-11-01,L,คืนรัง (TH)_หงา คาราวาน.mp4,243.88,4.064666666666667
 เสก โลโซ,ซมซาน (TH),2026-11-01,L,ซมซาน (TH)_เสก โลโซ.mp4,314.33,5.238833333333333
 หงา คาราวาน,ดอกไม้ให้คุณ (TH),2026-11-01,L,ดอกไม้ให้คุณ (TH)_หงา คาราวาน.mp4,194.13,3.2355
 ปู่จ๋านลองไมค์,ตราบธุลีดิน (TH),2026-11-01,L,ตราบธุลีดิน (TH)_ปู่จ๋านลองไมค์ .mp4,240.5,4.008333333333334
 ไข่มุก เพ็ญสินี,ถ้าหัวใจมีปีก (TH),2026-11-01,L,ถ้าหัวใจมีปีก (TH)_ไข่มุก เพ็ญสินี.mp4,223.25,3.720833333333333
+คาราบาว,ทะเลใจ (TH),2026-11-01,L,ทะเลใจ (TH)_คาราบาว.mp4,262.06,4.367666666666667
+ดนุพล แก้วกาญจน์,ที่สุดของหัวใจ (TH),2026-11-01,L,ที่สุดของหัวใจ (TH)_ดนุพล แก้วกาญจน์.mp4,229.88,3.8313333333333333
+วารุณี สุนทรีสวัสดิ์,น้ำผึ้งหรือยาพิษ (TH),2026-11-01,L,น้ำผึ้งหรือยาพิษ (TH)_วารุณี สุนทรีสวัสดิ์.mp4,188.5,3.1416666666666666
 หงา คาราวาน,ยิ้มกลางสายฝน (TH),2026-11-01,L,ยิ้มกลางสายฝน (TH)_หงา คาราวาน.mp4,238.17000000000002,3.9695000000000005
 ใหม่  เจริญปุระ,รวมเพลง ใหม่ เจริญปุระ (TH),2026-11-01,L,รวมเพลง ใหม่ เจริญปุระ (TH)_ใหม่  เจริญปุระ.mp4,18.42,0.30700000000000005
 ธนพล อินทฤทธิ์,รักคงยังไม่พอ (TH),2026-11-01,L,รักคงยังไม่พอ (TH)_ธนพล อินทฤทธิ์.mp4,281.75,4.695833333333334
 ธงไชย แมคอินไตย์,รักเอ๋ย (TH),2026-11-01,L,รักเอ๋ย (TH)_ธงไชย แมคอินไตย์.mp4,301.46,5.024333333333333
 คาราบาว,ลุงขี้เมา (TH),2026-11-01,L,ลุงขี้เมา (TH)_คาราบาว .mp4,371.25,6.1875
-สุรพล สมบัติเจริญ,สวยจริงๆ (TH),2026-11-01,L,สวยจริงๆ (TH)_สุรพล สมบัติเจริญ.mp4,279.79,4.663166666666667
+อนันต์ บุนนาค,ล้างใจ (TH),2026-11-01,L,ล้างใจ (TH)_อนันต์ บุนนาค.mp4,237.44,3.957333333333333
+หิน เหล็ก ไฟ,ศรัทธา (TH),2026-11-01,L,ศรัทธา (TH)_หิน เหล็ก ไฟ.mp4,270.67,4.511166666666667
+สุนทรี เวชานนท์,สาวเชียงใหม (TH),2026-11-01,L,สาวเชียงใหม (TH)_สุนทรี เวชานนท์.mp4,188.67,3.1445
+ตั๊กแตน ชลดา,หนาวแสงนีออน (TH),2026-11-01,L,หนาวแสงนีออน (TH)_ตั๊กแตน ชลดา.mp4,292.39,4.873166666666666
 พงษ์สิทธิ์ คำภีร์,อยู่ตรงนี้ (TH),2026-11-01,L,อยู่ตรงนี้ (TH)_พงษ์สิทธิ์ คำภีร์.mp4,354.83,5.913833333333333
-พงษ์สิทธิ์ คำภีร์,เสมอ (TH),2026-11-01,L,เสมอ (TH)_พงษ์สิทธิ์ คำภีร์.mp4,371.21,6.186833333333333
+แหวน ฐิติมา,เรามีเรา (TH),2026-11-01,L,เรามีเรา (TH)_แหวน ฐิติมา.mp4,207.25,3.4541666666666666
+ธงไชย แมคอินไตย์,เล่าสู่กันฟัง (TH),2026-11-01,L,เล่าสู่กันฟัง (TH)_ธงไชย แมคอินไตย์.mp4,262.0,4.366666666666666
+น้ดดา วิยกาญจน์,เสน่หา (TH),2026-11-01,L,เสน่หา (TH)_น้ดดา วิยกาญจน์.mp4,217.18,3.619666666666667
+พงษ์สิทธิ์ คำภีร์,เสมอ (TH),2026-11-01,L,เสมอ (TH)_พงษ์สิทธิ์ คำภีร์.mp4,371.07,6.1845
 พงษ์สิทธิ์ คำภีร์,แค่นั้น (TH),2026-11-01,L,แค่นั้น (TH)_พงษ์สิทธิ์ คำภีร์.mp4,317.0,5.283333333333333
+ใหม่ เจริญปุระ,แพ้ใจ (TH),2026-11-01,L,แพ้ใจ (TH)_ใหม่ เจริญปุระ.mp4,221.38,3.6896666666666667
 ไข่ มาลีฮวนน่า,แสงจันทร์ (TH),2026-11-01,L,แสงจันทร์ (TH)_ไข่ มาลีฮวนน่า.mp4,327.08,5.451333333333333
 เพ็ญศรี พุ่มชูศรี,แสงดาวแห่งศรัทธา (TH),2026-11-01,L,แสงดาวแห่งศรัทธา (TH)_เพ็ญศรี พุ่มชูศรี.mp4,242.58,4.043
 bodyslam,แสงสุดท้าย (TH),2026-11-01,L,แสงสุดท้าย (TH)_bodyslam .mp4,283.79,4.729833333333334
 เสก โลโซ,ใจสั่งมา (TH),2026-11-01,L,ใจสั่งมา (TH)_เสก โลโซ.mp4,259.96,4.332666666666666
+ลานนา คัมมินส์,ไว้ใจได้กา (TH),2026-11-01,L,ไว้ใจได้กา (TH)_ลานนา คัมมินส์.mp4,210.17000000000002,3.5028333333333337

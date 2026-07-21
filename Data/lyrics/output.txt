@@ -1,0 +1,9 @@
+58| Rain please tell me now does that seem fair
+62| For her to steal my heart away when she don't care
+66| I can't love another when my heart's somewhere far away
+
+[00:58.00] Rain please tell me now does that seem fair
+[01:02.00] For her to steal my heart away when she don't care
+[01:06.00] I can't love another when my heart's somewhere far away
+
+When a file name contains Thai (or any non‑Latin) characters, a valid URL must encode them as %E0%B8%97... etc.
