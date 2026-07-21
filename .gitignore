@@ -2,7 +2,7 @@
 node_modules/
 
 # Ignore YouTube folder as it contains API key
-YouTube/
+#YouTube/
 
 # Ignore log files
 *.log
