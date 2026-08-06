@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-21T11:38:03.196041",
-  "total_songs": 467,
-  "songs_with_youtube_ids": 452,
-  "songs_without_youtube_ids": 15,
+  "generated_at": "2026-07-30T15:19:39.493265",
+  "total_songs": 484,
+  "songs_with_youtube_ids": 465,
+  "songs_without_youtube_ids": 19,
   "songs": [
     {
       "filename": "(Everything I Do) I Do It For You_Bryan Adams.mp4",
@@ -105,6 +105,12 @@
       "song_title": "Alone",
       "artist": "Heart",
       "youtube_id": "1Cw1ng75KP0"
+    },
+    {
+      "filename": "Always On My Mind_Willie Nelson.mp4",
+      "song_title": "Always On My Mind",
+      "artist": "Willie Nelson",
+      "youtube_id": "R7f189Z0v0Y"
     },
     {
       "filename": "Always Remember Us This Way_Lady Gaga.mp4",
@@ -321,6 +327,12 @@
       "song_title": "Blowin' in the Wind",
       "artist": "Bob Dylan",
       "youtube_id": "l9frfd97bMM"
+    },
+    {
+      "filename": "Blue Bayou_Linda Ronstadt.mp4",
+      "song_title": "Blue Bayou",
+      "artist": "Linda Ronstadt",
+      "youtube_id": "Kp9G0zkorio"
     },
     {
       "filename": "Bohemian Rhapsody_Queen .mp4",
@@ -617,12 +629,6 @@
       "youtube_id": "R5y1uy3abDM"
     },
     {
-      "filename": "Every Breath You Take_Police The.mp4",
-      "song_title": "Every Breath You Take",
-      "artist": "Police The",
-      "youtube_id": "OMOGaugKpzs"
-    },
-    {
       "filename": "Every Breath You Take_Police.mp4",
       "song_title": "Every Breath You Take",
       "artist": "Police",
@@ -707,6 +713,12 @@
       "youtube_id": "fRgWBN8yt_E"
     },
     {
+      "filename": "Get Together_Youngbloods The.mp4",
+      "song_title": "Get Together",
+      "artist": "Youngbloods The",
+      "youtube_id": "7xGxQXmu7Os"
+    },
+    {
       "filename": "Gimme Gimme Gimme_ABBA.mp4",
       "song_title": "Gimme Gimme Gimme",
       "artist": "ABBA",
@@ -759,6 +771,12 @@
       "song_title": "Grace",
       "artist": "Jeff Buckley",
       "youtube_id": "A3adFWKE9JE"
+    },
+    {
+      "filename": "Green Fields_Brothers Four.mp4",
+      "song_title": "Green Fields",
+      "artist": "Brothers Four",
+      "youtube_id": "46o1joHp7t0"
     },
     {
       "filename": "Grenade_Bruno Mars.mp4",
@@ -879,6 +897,12 @@
       "song_title": "Honky Tonk Women",
       "artist": "Rolling Stones The",
       "youtube_id": "dj7yd19aAW0"
+    },
+    {
+      "filename": "Hot N Cold_Katy Perry.mp4",
+      "song_title": "Hot N Cold",
+      "artist": "Katy Perry",
+      "youtube_id": "kTHNpusq654"
     },
     {
       "filename": "Hotel California_Eagles The.mp4",
@@ -1109,10 +1133,10 @@
       "youtube_id": "LjhCEhWiKXk"
     },
     {
-      "filename": "Just When I Needed You Most_Randy Vanwarmer.mp4",
+      "filename": "Just When I Needed You Most_Randy VanWarmer.mp4",
       "song_title": "Just When I Needed You Most",
-      "artist": "Randy Vanwarmer",
-      "youtube_id": "GoMn41bFqVA"
+      "artist": "Randy VanWarmer",
+      "youtube_id": "vpwUVqTVZXQ"
     },
     {
       "filename": "Karma Chameleon_Culture Club .mp4",
@@ -1763,6 +1787,12 @@
       "youtube_id": "R7UrFYvl5TE"
     },
     {
+      "filename": "Slow Hand_Pointer Sisters The.mp4",
+      "song_title": "Slow Hand",
+      "artist": "Pointer Sisters The",
+      "youtube_id": "dbk29JZdl5A"
+    },
+    {
       "filename": "Smells Like Teen Spirit_Nirvana .mp4",
       "song_title": "Smells Like Teen Spirit",
       "artist": "Nirvana",
@@ -1953,6 +1983,12 @@
       "song_title": "Take Me To Your Heart",
       "artist": "MLTR",
       "youtube_id": "TbLT12eg-lw"
+    },
+    {
+      "filename": "Take My Breath Away_Berlin .mp4",
+      "song_title": "Take My Breath Away",
+      "artist": "Berlin",
+      "youtube_id": "Bx51eegLTY8"
     },
     {
       "filename": "Tangled Up in Blue_Bob Dylan.mp4",
@@ -2585,6 +2621,12 @@
       "youtube_id": "UceaB4D0jpo"
     },
     {
+      "filename": "กดดัน (TH)_แอม เสาวลักษณ์.mp4",
+      "song_title": "กดดัน (TH)",
+      "artist": "แอม เสาวลักษณ์",
+      "youtube_id": "qGNvWnqtGqE"
+    },
+    {
       "filename": "กำลังใจ (TH)_โฮป.mp4",
       "song_title": "กำลังใจ (TH)",
       "artist": "โฮป",
@@ -2613,6 +2655,12 @@
       "song_title": "ครึ่งหนึ่งของชีวิต (TH)",
       "artist": "แอม เสาวลักษณ์",
       "youtube_id": "sHO__lS8CeI"
+    },
+    {
+      "filename": "ความทรงจำ (TH)_แอม เสาวลักษณ์.mp4",
+      "song_title": "ความทรงจำ (TH)",
+      "artist": "แอม เสาวลักษณ์",
+      "youtube_id": "8HozvtmAzOc"
     },
     {
       "filename": "ความเงียบดังที่สุด (TH)_Getsunova .mp4",
@@ -2645,10 +2693,22 @@
       "youtube_id": "2dSGCzeuPlA"
     },
     {
+      "filename": "ดอกไม้กับแจกัน (TH)_ใหม่ เจริญปุระ.mp4",
+      "song_title": "ดอกไม้กับแจกัน (TH)",
+      "artist": "ใหม่ เจริญปุระ",
+      "youtube_id": ""
+    },
+    {
       "filename": "ดอกไม้ให้คุณ (TH)_หงา คาราวาน.mp4",
       "song_title": "ดอกไม้ให้คุณ (TH)",
       "artist": "หงา คาราวาน",
       "youtube_id": "tpyIqj06Acs"
+    },
+    {
+      "filename": "ด้วยรักและผูกพัน (TH)_ธงไชย แมคอินไตย์.mp4",
+      "song_title": "ด้วยรักและผูกพัน (TH)",
+      "artist": "ธงไชย แมคอินไตย์",
+      "youtube_id": "9o6UTS0ecwE"
     },
     {
       "filename": "ตราบธุลีดิน (TH)_ปู่จ๋านลองไมค์ .mp4",
@@ -2675,6 +2735,12 @@
       "youtube_id": "IMHBNhtHbt4"
     },
     {
+      "filename": "น้ำตามดแดง (TH)_ จ่าหลอย เฮนรี่.mp4",
+      "song_title": "น้ำตามดแดง (TH)",
+      "artist": "จ่าหลอย เฮนรี่",
+      "youtube_id": "7WwNBrzokAE"
+    },
+    {
       "filename": "น้ำผึ้งหรือยาพิษ (TH)_วารุณี สุนทรีสวัสดิ์.mp4",
       "song_title": "น้ำผึ้งหรือยาพิษ (TH)",
       "artist": "วารุณี สุนทรีสวัสดิ์",
@@ -2687,22 +2753,16 @@
       "youtube_id": "3ImUY-AQSrw"
     },
     {
-      "filename": "รวมเพลง ใหม่ เจริญปุระ (TH)_ใหม่  เจริญปุระ.mp4",
-      "song_title": "รวมเพลง ใหม่ เจริญปุระ (TH)",
-      "artist": "ใหม่  เจริญปุระ",
-      "youtube_id": "Tr30lqzUOKY"
-    },
-    {
       "filename": "รักคงยังไม่พอ (TH)_ธนพล อินทฤทธิ์.mp4",
       "song_title": "รักคงยังไม่พอ (TH)",
       "artist": "ธนพล อินทฤทธิ์",
       "youtube_id": "JXI21WGBItA"
     },
     {
-      "filename": "รักเอ๋ย (TH)_ธงไชย แมคอินไตย์.mp4",
-      "song_title": "รักเอ๋ย (TH)",
-      "artist": "ธงไชย แมคอินไตย์",
-      "youtube_id": "Qbr7CH40OS4"
+      "filename": "ลึกสุดใจ (TH)_ก้อง สหรัถ.mp4",
+      "song_title": "ลึกสุดใจ (TH)",
+      "artist": "ก้อง สหรัถ",
+      "youtube_id": "n-CCf5pymII"
     },
     {
       "filename": "ลุงขี้เมา (TH)_คาราบาว .mp4",
@@ -2723,9 +2783,33 @@
       "youtube_id": "tCXu3M2rNyE"
     },
     {
+      "filename": "สหายสุรา (TH)_ไข่ มาลีฮวนนา.mp4",
+      "song_title": "สหายสุรา (TH)",
+      "artist": "ไข่ มาลีฮวนนา",
+      "youtube_id": ""
+    },
+    {
+      "filename": "สัญญาหน้าฝน (TH)_คาราบาว.mp4",
+      "song_title": "สัญญาหน้าฝน (TH)",
+      "artist": "คาราบาว",
+      "youtube_id": "94uXIY-hpu0"
+    },
+    {
       "filename": "สาวเชียงใหม (TH)_สุนทรี เวชานนท์.mp4",
       "song_title": "สาวเชียงใหม (TH)",
       "artist": "สุนทรี เวชานนท์",
+      "youtube_id": ""
+    },
+    {
+      "filename": "สาวเทคนิค (TH)_ฌามา.mp4",
+      "song_title": "สาวเทคนิค (TH)",
+      "artist": "ฌามา",
+      "youtube_id": "43FgQUqW3aE"
+    },
+    {
+      "filename": "สุดฤทธิ์สุดเดช (TH)_ใหม่ เจริญปุระ.mp4",
+      "song_title": "สุดฤทธิ์สุดเดช (TH)",
+      "artist": "ใหม่ เจริญปุระ",
       "youtube_id": ""
     },
     {
@@ -2735,16 +2819,34 @@
       "youtube_id": "GPIsUL8h_oQ"
     },
     {
+      "filename": "หมั่นคอยดูแลและรักษาดวงใจ (TH)_ธงไชย แมคอืนไตย์.mp4",
+      "song_title": "หมั่นคอยดูแลและรักษาดวงใจ (TH)",
+      "artist": "ธงไชย แมคอืนไตย์",
+      "youtube_id": ""
+    },
+    {
       "filename": "อยู่ตรงนี้ (TH)_พงษ์สิทธิ์ คำภีร์.mp4",
       "song_title": "อยู่ตรงนี้ (TH)",
       "artist": "พงษ์สิทธิ์ คำภีร์",
       "youtube_id": "w827Ayb9I0w"
     },
     {
+      "filename": "เก็บตะวัน (TH)_อิทธิ พลางกูร.mp4",
+      "song_title": "เก็บตะวัน (TH)",
+      "artist": "อิทธิ พลางกูร",
+      "youtube_id": "6rPHOagyq2s"
+    },
+    {
       "filename": "เรามีเรา (TH)_แหวน ฐิติมา.mp4",
       "song_title": "เรามีเรา (TH)",
       "artist": "แหวน ฐิติมา",
       "youtube_id": "lwuJy7ftajM"
+    },
+    {
+      "filename": "เราและนาย (TH)_เสก โลโซ.mp4",
+      "song_title": "เราและนาย (TH)",
+      "artist": "เสก โลโซ",
+      "youtube_id": "UUf1IV6DTMA"
     },
     {
       "filename": "เล่าสู่กันฟัง (TH)_ธงไชย แมคอินไตย์.mp4",

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Stock Vision AI | 'TVO' Analysis</title>
+    <!-- Plotly + Tailwind CSS -->
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js" charset="utf-8"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card-hover:hover { transform: translateY(-2px); transition: all 0.2s ease; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); }
+        .chart-container { transition: all 0.2s; background: #ffffff; border-radius: 20px; padding: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
+        .filter-btn.active { background: #1e40af; color: white; border-color: #1e40af; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-gray-100 font-sans antialiased">
+
+    <div class="max-w-7xl mx-auto px-4 py-6 md:py-8">
+        <div class="flex flex-wrap justify-between items-center mb-6 gap-3">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">📈 Stock <span class="bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent">Graphic</span> Analyst</h1>
+                <p class="text-gray-500 mt-1 text-sm">Stock: <span class="font-bold text-gray-700">'TVO'</span> | Data: last 5 years | Filters: 1Y · 6M · 3M · 1M · custom days</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- LEFT COLUMN -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-5 border border-gray-100 card-hover">
+                    <h2 class="text-lg font-bold flex items-center gap-2 text-gray-800 border-b pb-2 mb-3"><span class="text-2xl">📊</span> Key Metrics</h2>
+                    <div class="stats-grid" id="keyMetricsGrid">
+                        <div class="bg-slate-50 p-3 rounded-xl text-center"><p class="text-xs text-gray-500">Latest Price</p><p class="text-2xl font-bold text-blue-700" id="latestPrice">—</p></div>
+                        <div class="bg-slate-50 p-3 rounded-xl text-center"><p class="text-xs text-gray-500">Highest (all-time)</p><p class="text-2xl font-bold text-emerald-700" id="highPrice">—</p></div>
+                        <div class="bg-slate-50 p-3 rounded-xl text-center"><p class="text-xs text-gray-500">Lowest Price</p><p class="text-2xl font-bold text-rose-700" id="lowPrice">—</p></div>
+                        <div class="bg-slate-50 p-3 rounded-xl text-center"><p class="text-xs text-gray-500">Avg Close</p><p class="text-xl font-semibold" id="avgPrice">—</p></div>
+                        <div class="bg-slate-50 p-3 rounded-xl text-center"><p class="text-xs text-gray-500">Total Return (%)</p><p class="text-xl font-semibold" id="totalReturn">—</p></div>
+                        <div class="bg-slate-50 p-3 rounded-xl text-center"><p class="text-xs text-gray-500">Volatility (annual)</p><p class="text-xl font-semibold" id="volatility">—</p></div>
+                        <div class="bg-slate-50 p-3 rounded-xl text-center"><p class="text-xs text-gray-500">Avg Volume (qty)</p><p class="text-xl font-semibold" id="avgVolume">—</p></div>
+                        <div class="bg-slate-50 p-3 rounded-xl text-center"><p class="text-xs text-gray-500">Total Volume</p><p class="text-xl font-semibold" id="totalVolume">—</p></div>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-5 border border-gray-100">
+                    <h2 class="text-lg font-bold flex gap-2 items-center"><span>🧠</span> AI Market Pulse</h2>
+                    <div id="insightText" class="text-sm text-gray-700 mt-3 space-y-2"></div>
+                    <div class="mt-3 pt-2 border-t border-dashed">
+                        <p class="text-xs font-semibold text-gray-500">🔥 Top 3 volume days (filtered period)</p>
+                        <ul id="topVolumeDays" class="text-xs text-gray-600 list-disc pl-4 mt-1"></ul>
+                    </div>
+                </div>
+
+                <div class="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-4 border border-gray-100">
+                    <h2 class="text-md font-bold flex gap-2 items-center"><span>🔥</span> Correlation Matrix (filtered data)</h2>
+                    <div id="correlationHeatmap" class="h-72 w-full mt-2"></div>
+                    <p class="text-[11px] text-gray-400 mt-2 text-center">Pearson correlation among numeric fields</p>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="lg:col-span-2 space-y-5">
+                <div class="bg-white/80 backdrop-blur-sm rounded-xl shadow-md p-4 flex flex-wrap gap-3 items-center justify-between">
+                    <div class="flex flex-wrap gap-2 items-center">
+                        <span class="text-sm font-semibold text-gray-700">⏱️ Date filter:</span>
+                        <button data-days="365" class="filter-preset px-3 py-1.5 text-sm rounded-full border border-gray-300 bg-white hover:bg-blue-50 transition">1 Year</button>
+                        <button data-days="180" class="filter-preset px-3 py-1.5 text-sm rounded-full border border-gray-300 bg-white hover:bg-blue-50 transition">6 Months</button>
+                        <button data-days="90" class="filter-preset px-3 py-1.5 text-sm rounded-full border border-gray-300 bg-white hover:bg-blue-50 transition active default-active">3 Months</button>
+                        <button data-days="30" class="filter-preset px-3 py-1.5 text-sm rounded-full border border-gray-300 bg-white hover:bg-blue-50 transition">1 Month</button>
+                        <div class="flex gap-1 items-center">
+                            <input type="number" id="customDaysInput" placeholder="Days" value="30" class="w-20 px-2 py-1.5 text-sm border rounded-lg" min="1" step="1">
+                            <button id="applyCustomDays" class="px-3 py-1.5 text-sm bg-gray-800 text-white rounded-lg hover:bg-gray-900">Apply</button>
+                        </div>
+                        <button id="resetFilter" class="px-3 py-1.5 text-sm bg-gray-200 rounded-full hover:bg-gray-300">Reset (Full)</button>
+                    </div>
+                    <div class="text-xs bg-gray-100 px-3 py-1 rounded-full" id="filterRangeLabel">📅 Last 90 days</div>
+                </div>
+
+                <div class="flex flex-wrap justify-between items-center gap-3 bg-white/70 p-3 rounded-xl shadow-md">
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold text-gray-700">🎨 Chart style:</span>
+                        <select id="chartTypeSelect" class="bg-white border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-blue-400">
+                            <option value="line">📈 Price Line (Close)</option>
+                            <option value="volume">📊 Volume (Bar)</option>
+                            <option value="candlestick">🕯️ Candlestick (OHLC)</option>
+                            <option value="ma20">📉 Price + MA(20) Trend</option>
+                            <option value="scatter">💎 Price vs Volume Scatter</option>
+                        </select>
+                    </div>
+                    <div class="text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full">Interactive | Auto-update on filter</div>
+                </div>
+
+                <div class="chart-container bg-white shadow-xl border border-gray-100">
+                    <div id="mainChart" style="height: 480px; width: 100%;"></div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-white/80 rounded-xl p-3 shadow">
+                        <p class="text-xs font-bold uppercase text-gray-500">📅 Best & worst days (filtered)</p>
+                        <div class="flex justify-between text-sm mt-1"><span class="font-medium">🔥 Best gain:</span> <span id="bestGainDay" class="text-emerald-600">—</span></div>
+                        <div class="flex justify-between text-sm"><span class="font-medium">📉 Worst loss:</span> <span id="worstLossDay" class="text-rose-600">—</span></div>
+                        <div class="flex justify-between text-sm"><span class="font-medium">⚡ Trend slope (%/day):</span> <span id="trendSlope" class="font-mono">—</span></div>
+                    </div>
+                    <div class="bg-white/80 rounded-xl p-3 shadow">
+                        <p class="text-xs font-bold uppercase text-gray-500">📐 Data coverage</p>
+                        <div class="flex justify-between text-sm"><span>Trading days:</span> <span id="recordCount" class="font-bold">0</span></div>
+                        <div class="flex justify-between text-sm"><span>Date range:</span> <span id="dateRange" class="text-xs">—</span></div>
+                        <div class="flex justify-between text-sm"><span>Corr (Price/Volume):</span> <span id="priceVolCorr" class="font-mono">—</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center text-[11px] text-gray-400 mt-8 border-t pt-5">Data from database | Last 5 years | Filters apply client-side</footer>
+    </div>
+
+    <script>
+        // ---------- EMBEDDED DATA ----------
+        const fullStockData = [{"dateStr": "2026-08-06", "price": 27.5, "maxp": 27.5, "minp": 27.25, "qty": 367096.0, "opnp": 27.5}, {"dateStr": "2026-08-05", "price": 27.25, "maxp": 27.75, "minp": 27.25, "qty": 399114.0, "opnp": 27.5}, {"dateStr": "2026-08-04", "price": 27.5, "maxp": 27.75, "minp": 27.25, "qty": 688327.0, "opnp": 27.25}, {"dateStr": "2026-08-03", "price": 27.5, "maxp": 27.5, "minp": 27.25, "qty": 454225.0, "opnp": 27.25}, {"dateStr": "2026-07-31", "price": 27.25, "maxp": 27.5, "minp": 27.0, "qty": 349851.0, "opnp": 27.25}, {"dateStr": "2026-07-30", "price": 27.25, "maxp": 27.5, "minp": 27.0, "qty": 714451.0, "opnp": 27.0}, {"dateStr": "2026-07-27", "price": 27.25, "maxp": 27.5, "minp": 27.0, "qty": 271974.0, "opnp": 27.25}, {"dateStr": "2026-07-24", "price": 27.25, "maxp": 27.5, "minp": 27.0, "qty": 1053050.0, "opnp": 27.0}, {"dateStr": "2026-07-23", "price": 27.0, "maxp": 27.25, "minp": 27.0, "qty": 281680.0, "opnp": 27.25}, {"dateStr": "2026-07-22", "price": 27.25, "maxp": 27.5, "minp": 27.0, "qty": 754258.0, "opnp": 27.25}, {"dateStr": "2026-07-21", "price": 27.0, "maxp": 27.5, "minp": 27.0, "qty": 790821.0, "opnp": 27.25}, {"dateStr": "2026-07-20", "price": 27.0, "maxp": 27.25, "minp": 27.0, "qty": 350617.0, "opnp": 27.25}, {"dateStr": "2026-07-17", "price": 27.0, "maxp": 27.25, "minp": 26.75, "qty": 433698.0, "opnp": 27.0}, {"dateStr": "2026-07-16", "price": 27.0, "maxp": 27.25, "minp": 26.75, "qty": 879219.0, "opnp": 26.75}, {"dateStr": "2026-07-15", "price": 26.5, "maxp": 27.0, "minp": 26.5, "qty": 572032.0, "opnp": 26.75}, {"dateStr": "2026-07-14", "price": 26.75, "maxp": 27.0, "minp": 26.75, "qty": 503465.0, "opnp": 26.75}, {"dateStr": "2026-07-13", "price": 26.75, "maxp": 27.0, "minp": 26.75, "qty": 568225.0, "opnp": 26.75}, {"dateStr": "2026-07-10", "price": 26.75, "maxp": 26.75, "minp": 26.5, "qty": 405324.0, "opnp": 26.5}, {"dateStr": "2026-07-09", "price": 26.5, "maxp": 26.75, "minp": 26.25, "qty": 954232.0, "opnp": 26.5}, {"dateStr": "2026-07-08", "price": 26.25, "maxp": 26.75, "minp": 26.25, "qty": 541595.0, "opnp": 26.5}, {"dateStr": "2026-07-07", "price": 26.25, "maxp": 26.75, "minp": 26.25, "qty": 1233840.0, "opnp": 26.5}, {"dateStr": "2026-07-06", "price": 26.5, "maxp": 26.75, "minp": 26.0, "qty": 1012434.0, "opnp": 26.0}, {"dateStr": "2026-07-03", "price": 26.0, "maxp": 26.25, "minp": 25.75, "qty": 637289.0, "opnp": 25.75}, {"dateStr": "2026-07-02", "price": 25.75, "maxp": 26.25, "minp": 25.75, "qty": 478465.0, "opnp": 26.0}, {"dateStr": "2026-07-01", "price": 25.75, "maxp": 26.5, "minp": 25.75, "qty": 1222404.0, "opnp": 26.25}, {"dateStr": "2026-06-30", "price": 26.0, "maxp": 26.25, "minp": 26.0, "qty": 708495.0, "opnp": 26.0}, {"dateStr": "2026-06-29", "price": 26.0, "maxp": 26.5, "minp": 26.0, "qty": 627572.0, "opnp": 26.25}, {"dateStr": "2026-06-26", "price": 26.0, "maxp": 26.25, "minp": 25.75, "qty": 264421.0, "opnp": 26.0}, {"dateStr": "2026-06-25", "price": 26.0, "maxp": 26.25, "minp": 26.0, "qty": 189143.0, "opnp": 26.0}, {"dateStr": "2026-06-24", "price": 26.25, "maxp": 26.5, "minp": 25.75, "qty": 257826.0, "opnp": 26.0}, {"dateStr": "2026-06-23", "price": 26.0, "maxp": 26.25, "minp": 25.75, "qty": 605424.0, "opnp": 26.0}, {"dateStr": "2026-06-22", "price": 26.0, "maxp": 26.25, "minp": 25.75, "qty": 318374.0, "opnp": 25.75}, {"dateStr": "2026-06-19", "price": 25.75, "maxp": 26.25, "minp": 25.75, "qty": 888752.0, "opnp": 26.25}, {"dateStr": "2026-06-18", "price": 26.25, "maxp": 26.5, "minp": 26.0, "qty": 626712.0, "opnp": 26.25}, {"dateStr": "2026-06-17", "price": 26.25, "maxp": 26.75, "minp": 26.0, "qty": 873573.0, "opnp": 26.25}, {"dateStr": "2026-06-16", "price": 26.25, "maxp": 26.75, "minp": 26.25, "qty": 518137.0, "opnp": 26.5}, {"dateStr": "2026-06-15", "price": 26.5, "maxp": 26.5, "minp": 26.25, "qty": 858466.0, "opnp": 26.25}, {"dateStr": "2026-06-12", "price": 26.25, "maxp": 26.25, "minp": 25.75, "qty": 704029.0, "opnp": 26.0}, {"dateStr": "2026-06-11", "price": 25.75, "maxp": 26.25, "minp": 25.25, "qty": 1072854.0, "opnp": 26.0}, {"dateStr": "2026-06-10", "price": 26.0, "maxp": 26.0, "minp": 25.75, "qty": 210823.0, "opnp": 25.75}, {"dateStr": "2026-06-09", "price": 25.75, "maxp": 26.0, "minp": 25.75, "qty": 503362.0, "opnp": 26.0}, {"dateStr": "2026-06-08", "price": 26.0, "maxp": 26.25, "minp": 25.75, "qty": 631971.0, "opnp": 26.25}, {"dateStr": "2026-06-05", "price": 26.0, "maxp": 26.25, "minp": 25.75, "qty": 634550.0, "opnp": 26.0}, {"dateStr": "2026-06-04", "price": 26.0, "maxp": 26.0, "minp": 25.25, "qty": 1356385.0, "opnp": 25.75}, {"dateStr": "2026-06-02", "price": 25.75, "maxp": 26.0, "minp": 25.0, "qty": 1680498.0, "opnp": 25.25}, {"dateStr": "2026-05-29", "price": 25.0, "maxp": 25.5, "minp": 25.0, "qty": 675399.0, "opnp": 25.0}, {"dateStr": "2026-05-28", "price": 25.0, "maxp": 25.5, "minp": 25.0, "qty": 270921.0, "opnp": 25.25}, {"dateStr": "2026-05-27", "price": 25.0, "maxp": 25.5, "minp": 25.0, "qty": 437050.0, "opnp": 25.25}, {"dateStr": "2026-05-26", "price": 25.25, "maxp": 25.5, "minp": 25.0, "qty": 611018.0, "opnp": 25.25}, {"dateStr": "2026-05-25", "price": 25.25, "maxp": 25.5, "minp": 25.0, "qty": 290065.0, "opnp": 25.25}, {"dateStr": "2026-05-22", "price": 25.25, "maxp": 25.5, "minp": 25.0, "qty": 270087.0, "opnp": 25.25}, {"dateStr": "2026-05-21", "price": 25.0, "maxp": 25.5, "minp": 25.0, "qty": 315347.0, "opnp": 25.25}, {"dateStr": "2026-05-20", "price": 25.25, "maxp": 25.5, "minp": 25.0, "qty": 697818.0, "opnp": 25.25}, {"dateStr": "2026-05-19", "price": 25.0, "maxp": 25.25, "minp": 24.9, "qty": 555979.0, "opnp": 25.0}, {"dateStr": "2026-05-18", "price": 25.0, "maxp": 25.25, "minp": 24.9, "qty": 1293321.0, "opnp": 25.25}, {"dateStr": "2026-05-15", "price": 25.25, "maxp": 25.5, "minp": 24.8, "qty": 1503431.0, "opnp": 24.9}, {"dateStr": "2026-05-14", "price": 24.8, "maxp": 24.9, "minp": 24.7, "qty": 299468.0, "opnp": 24.9}, {"dateStr": "2026-05-13", "price": 24.7, "maxp": 24.9, "minp": 24.6, "qty": 589271.0, "opnp": 24.7}, {"dateStr": "2026-05-12", "price": 24.8, "maxp": 25.0, "minp": 24.6, "qty": 564707.0, "opnp": 24.9}, {"dateStr": "2026-05-11", "price": 24.8, "maxp": 24.9, "minp": 24.3, "qty": 1034075.0, "opnp": 24.3}, {"dateStr": "2026-05-08", "price": 24.2, "maxp": 24.4, "minp": 24.1, "qty": 462320.0, "opnp": 24.2}, {"dateStr": "2026-05-07", "price": 24.1, "maxp": 24.4, "minp": 24.1, "qty": 914317.0, "opnp": 24.4}, {"dateStr": "2026-05-06", "price": 24.2, "maxp": 24.5, "minp": 24.1, "qty": 1665077.0, "opnp": 24.2}, {"dateStr": "2026-05-05", "price": 24.2, "maxp": 24.7, "minp": 23.9, "qty": 2585661.0, "opnp": 24.7}, {"dateStr": "2026-04-30", "price": 24.7, "maxp": 24.8, "minp": 24.6, "qty": 206970.0, "opnp": 24.8}, {"dateStr": "2026-04-29", "price": 24.7, "maxp": 24.8, "minp": 24.5, "qty": 341038.0, "opnp": 24.5}, {"dateStr": "2026-04-28", "price": 24.5, "maxp": 24.8, "minp": 24.4, "qty": 510408.0, "opnp": 24.8}, {"dateStr": "2026-04-27", "price": 24.7, "maxp": 25.0, "minp": 24.6, "qty": 659259.0, "opnp": 24.9}, {"dateStr": "2026-04-24", "price": 24.8, "maxp": 24.9, "minp": 24.7, "qty": 170260.0, "opnp": 24.8}, {"dateStr": "2026-04-23", "price": 24.8, "maxp": 24.9, "minp": 24.6, "qty": 673930.0, "opnp": 24.8}, {"dateStr": "2026-04-22", "price": 24.8, "maxp": 25.0, "minp": 24.8, "qty": 353499.0, "opnp": 25.0}, {"dateStr": "2026-04-21", "price": 25.0, "maxp": 25.25, "minp": 24.7, "qty": 1002750.0, "opnp": 25.0}, {"dateStr": "2026-04-20", "price": 25.0, "maxp": 25.25, "minp": 24.8, "qty": 501459.0, "opnp": 24.9}, {"dateStr": "2026-04-17", "price": 24.9, "maxp": 25.0, "minp": 24.7, "qty": 328969.0, "opnp": 25.0}, {"dateStr": "2026-04-16", "price": 25.0, "maxp": 25.25, "minp": 24.8, "qty": 573712.0, "opnp": 24.8}, {"dateStr": "2026-04-10", "price": 24.7, "maxp": 24.9, "minp": 24.5, "qty": 592158.0, "opnp": 24.9}, {"dateStr": "2026-04-09", "price": 24.8, "maxp": 25.0, "minp": 24.8, "qty": 293746.0, "opnp": 24.9}, {"dateStr": "2026-04-08", "price": 24.9, "maxp": 25.25, "minp": 24.9, "qty": 542964.0, "opnp": 25.25}, {"dateStr": "2026-04-07", "price": 25.5, "maxp": 25.5, "minp": 25.25, "qty": 803503.0, "opnp": 25.25}, {"dateStr": "2026-04-03", "price": 25.25, "maxp": 26.0, "minp": 25.0, "qty": 403390.0, "opnp": 26.0}, {"dateStr": "2026-04-02", "price": 25.75, "maxp": 25.75, "minp": 25.0, "qty": 1601966.0, "opnp": 25.25}, {"dateStr": "2026-04-01", "price": 25.25, "maxp": 25.5, "minp": 25.0, "qty": 974445.0, "opnp": 25.0}, {"dateStr": "2026-03-31", "price": 25.0, "maxp": 25.5, "minp": 24.7, "qty": 1574554.0, "opnp": 24.8}, {"dateStr": "2026-03-30", "price": 24.8, "maxp": 25.0, "minp": 24.5, "qty": 998864.0, "opnp": 24.6}, {"dateStr": "2026-03-27", "price": 24.6, "maxp": 24.9, "minp": 24.2, "qty": 1210011.0, "opnp": 24.2}, {"dateStr": "2026-03-26", "price": 24.2, "maxp": 24.4, "minp": 24.1, "qty": 323147.0, "opnp": 24.2}, {"dateStr": "2026-03-25", "price": 24.1, "maxp": 24.3, "minp": 24.0, "qty": 1165709.0, "opnp": 24.2}, {"dateStr": "2026-03-24", "price": 24.1, "maxp": 24.4, "minp": 24.1, "qty": 617084.0, "opnp": 24.3}, {"dateStr": "2026-03-23", "price": 24.3, "maxp": 24.6, "minp": 24.2, "qty": 1094536.0, "opnp": 24.3}, {"dateStr": "2026-03-20", "price": 24.3, "maxp": 24.6, "minp": 24.1, "qty": 1578702.0, "opnp": 24.3}, {"dateStr": "2026-03-19", "price": 24.2, "maxp": 24.7, "minp": 24.2, "qty": 951450.0, "opnp": 24.4}, {"dateStr": "2026-03-18", "price": 24.5, "maxp": 24.7, "minp": 24.5, "qty": 626910.0, "opnp": 24.5}, {"dateStr": "2026-03-17", "price": 24.5, "maxp": 24.7, "minp": 24.0, "qty": 1199407.0, "opnp": 24.1}, {"dateStr": "2026-03-16", "price": 24.0, "maxp": 24.2, "minp": 23.9, "qty": 921488.0, "opnp": 23.9}, {"dateStr": "2026-03-13", "price": 24.2, "maxp": 24.3, "minp": 24.0, "qty": 2486970.0, "opnp": 24.3}, {"dateStr": "2026-03-12", "price": 25.5, "maxp": 25.75, "minp": 25.0, "qty": 3690121.0, "opnp": 25.25}, {"dateStr": "2026-03-11", "price": 25.25, "maxp": 25.5, "minp": 25.25, "qty": 796014.0, "opnp": 25.5}, {"dateStr": "2026-03-10", "price": 25.5, "maxp": 25.75, "minp": 25.0, "qty": 1869289.0, "opnp": 25.0}, {"dateStr": "2026-03-09", "price": 25.0, "maxp": 25.25, "minp": 24.4, "qty": 2508423.0, "opnp": 24.6}, {"dateStr": "2026-03-06", "price": 24.7, "maxp": 24.9, "minp": 24.3, "qty": 1451882.0, "opnp": 24.3}, {"dateStr": "2026-03-05", "price": 24.1, "maxp": 24.3, "minp": 23.7, "qty": 1668978.0, "opnp": 23.7}, {"dateStr": "2026-03-04", "price": 23.8, "maxp": 24.4, "minp": 23.5, "qty": 3147223.0, "opnp": 24.4}, {"dateStr": "2026-03-02", "price": 24.6, "maxp": 25.25, "minp": 24.3, "qty": 2469056.0, "opnp": 24.4}, {"dateStr": "2026-02-27", "price": 24.7, "maxp": 24.9, "minp": 24.7, "qty": 404078.0, "opnp": 24.9}, {"dateStr": "2026-02-26", "price": 24.9, "maxp": 25.0, "minp": 24.6, "qty": 732211.0, "opnp": 24.8}, {"dateStr": "2026-02-25", "price": 24.7, "maxp": 24.9, "minp": 24.4, "qty": 605507.0, "opnp": 24.6}, {"dateStr": "2026-02-24", "price": 24.6, "maxp": 24.6, "minp": 24.3, "qty": 743515.0, "opnp": 24.4}, {"dateStr": "2026-02-23", "price": 24.6, "maxp": 24.8, "minp": 24.4, "qty": 677875.0, "opnp": 24.8}, {"dateStr": "2026-02-20", "price": 24.8, "maxp": 25.25, "minp": 24.5, "qty": 675539.0, "opnp": 25.0}, {"dateStr": "2026-02-19", "price": 25.0, "maxp": 25.25, "minp": 24.8, "qty": 1119417.0, "opnp": 24.8}, {"dateStr": "2026-02-18", "price": 24.8, "maxp": 24.9, "minp": 24.6, "qty": 801744.0, "opnp": 24.8}, {"dateStr": "2026-02-17", "price": 24.7, "maxp": 24.7, "minp": 24.2, "qty": 1707004.0, "opnp": 24.4}, {"dateStr": "2026-02-16", "price": 24.4, "maxp": 24.5, "minp": 24.2, "qty": 395526.0, "opnp": 24.3}, {"dateStr": "2026-02-13", "price": 24.4, "maxp": 24.5, "minp": 24.2, "qty": 606277.0, "opnp": 24.3}, {"dateStr": "2026-02-12", "price": 24.3, "maxp": 24.4, "minp": 24.1, "qty": 1134101.0, "opnp": 24.1}, {"dateStr": "2026-02-11", "price": 24.2, "maxp": 24.4, "minp": 23.9, "qty": 1226924.0, "opnp": 24.0}, {"dateStr": "2026-02-10", "price": 24.0, "maxp": 24.1, "minp": 23.7, "qty": 957240.0, "opnp": 23.8}, {"dateStr": "2026-02-09", "price": 23.7, "maxp": 23.9, "minp": 23.6, "qty": 831789.0, "opnp": 23.7}, {"dateStr": "2026-02-06", "price": 23.7, "maxp": 23.7, "minp": 23.5, "qty": 296116.0, "opnp": 23.6}, {"dateStr": "2026-02-05", "price": 23.7, "maxp": 23.8, "minp": 23.6, "qty": 291484.0, "opnp": 23.7}, {"dateStr": "2026-02-04", "price": 23.8, "maxp": 23.8, "minp": 23.3, "qty": 997567.0, "opnp": 23.6}, {"dateStr": "2026-02-03", "price": 23.6, "maxp": 23.7, "minp": 23.4, "qty": 618496.0, "opnp": 23.4}, {"dateStr": "2026-02-02", "price": 23.4, "maxp": 23.6, "minp": 23.2, "qty": 1048215.0, "opnp": 23.4}, {"dateStr": "2026-01-30", "price": 23.4, "maxp": 23.4, "minp": 23.1, "qty": 550951.0, "opnp": 23.2}, {"dateStr": "2026-01-29", "price": 23.2, "maxp": 23.4, "minp": 23.2, "qty": 537047.0, "opnp": 23.4}, {"dateStr": "2026-01-28", "price": 23.4, "maxp": 23.4, "minp": 23.1, "qty": 492591.0, "opnp": 23.3}, {"dateStr": "2026-01-27", "price": 23.3, "maxp": 23.4, "minp": 22.8, "qty": 1055970.0, "opnp": 22.9}, {"dateStr": "2026-01-26", "price": 22.8, "maxp": 23.0, "minp": 22.8, "qty": 279179.0, "opnp": 22.9}, {"dateStr": "2026-01-23", "price": 22.9, "maxp": 23.4, "minp": 22.9, "qty": 936320.0, "opnp": 23.2}, {"dateStr": "2026-01-22", "price": 23.2, "maxp": 24.0, "minp": 23.1, "qty": 2037613.0, "opnp": 23.6}, {"dateStr": "2026-01-21", "price": 23.6, "maxp": 23.6, "minp": 23.0, "qty": 1570380.0, "opnp": 23.0}, {"dateStr": "2026-01-20", "price": 23.0, "maxp": 23.1, "minp": 22.8, "qty": 999418.0, "opnp": 22.8}, {"dateStr": "2026-01-19", "price": 22.8, "maxp": 22.8, "minp": 22.4, "qty": 918445.0, "opnp": 22.7}, {"dateStr": "2026-01-16", "price": 22.7, "maxp": 22.8, "minp": 22.5, "qty": 674134.0, "opnp": 22.5}, {"dateStr": "2026-01-15", "price": 22.5, "maxp": 22.5, "minp": 22.1, "qty": 837822.0, "opnp": 22.3}, {"dateStr": "2026-01-14", "price": 22.3, "maxp": 22.4, "minp": 22.1, "qty": 713990.0, "opnp": 22.1}, {"dateStr": "2026-01-13", "price": 22.1, "maxp": 22.6, "minp": 22.1, "qty": 1174973.0, "opnp": 22.5}, {"dateStr": "2026-01-12", "price": 22.6, "maxp": 22.8, "minp": 22.5, "qty": 727622.0, "opnp": 22.8}, {"dateStr": "2026-01-09", "price": 22.7, "maxp": 22.9, "minp": 22.6, "qty": 563361.0, "opnp": 22.7}, {"dateStr": "2026-01-08", "price": 22.5, "maxp": 22.8, "minp": 22.4, "qty": 1167474.0, "opnp": 22.7}, {"dateStr": "2026-01-07", "price": 22.9, "maxp": 22.9, "minp": 22.5, "qty": 1312922.0, "opnp": 22.6}, {"dateStr": "2026-01-06", "price": 22.7, "maxp": 22.8, "minp": 22.4, "qty": 1227135.0, "opnp": 22.7}, {"dateStr": "2026-01-05", "price": 22.6, "maxp": 22.8, "minp": 22.3, "qty": 1289183.0, "opnp": 22.4}, {"dateStr": "2025-12-30", "price": 22.4, "maxp": 22.4, "minp": 22.1, "qty": 449374.0, "opnp": 22.2}, {"dateStr": "2025-12-29", "price": 22.1, "maxp": 22.2, "minp": 22.0, "qty": 289376.0, "opnp": 22.2}, {"dateStr": "2025-12-26", "price": 22.1, "maxp": 22.2, "minp": 22.0, "qty": 461394.0, "opnp": 22.0}, {"dateStr": "2025-12-25", "price": 22.0, "maxp": 22.2, "minp": 21.9, "qty": 898718.0, "opnp": 22.2}, {"dateStr": "2025-12-24", "price": 22.1, "maxp": 22.2, "minp": 21.9, "qty": 772935.0, "opnp": 22.0}, {"dateStr": "2025-12-23", "price": 22.0, "maxp": 22.2, "minp": 21.9, "qty": 859936.0, "opnp": 22.0}, {"dateStr": "2025-12-22", "price": 21.9, "maxp": 22.1, "minp": 21.7, "qty": 1126775.0, "opnp": 21.7}, {"dateStr": "2025-12-19", "price": 21.6, "maxp": 21.8, "minp": 21.5, "qty": 931716.0, "opnp": 21.5}, {"dateStr": "2025-12-18", "price": 21.4, "maxp": 21.7, "minp": 21.4, "qty": 1343030.0, "opnp": 21.6}, {"dateStr": "2025-12-17", "price": 21.5, "maxp": 21.7, "minp": 21.3, "qty": 1819777.0, "opnp": 21.4}, {"dateStr": "2025-12-16", "price": 21.4, "maxp": 21.7, "minp": 21.3, "qty": 1113125.0, "opnp": 21.7}, {"dateStr": "2025-12-12", "price": 21.3, "maxp": 21.5, "minp": 21.1, "qty": 1120722.0, "opnp": 21.1}, {"dateStr": "2025-12-11", "price": 21.1, "maxp": 21.3, "minp": 21.0, "qty": 824850.0, "opnp": 21.3}, {"dateStr": "2025-12-09", "price": 21.1, "maxp": 21.3, "minp": 21.0, "qty": 1279506.0, "opnp": 21.0}, {"dateStr": "2025-12-08", "price": 21.0, "maxp": 21.6, "minp": 21.0, "qty": 2182620.0, "opnp": 21.6}, {"dateStr": "2025-12-04", "price": 21.6, "maxp": 21.8, "minp": 21.3, "qty": 1675206.0, "opnp": 21.7}, {"dateStr": "2025-12-03", "price": 21.6, "maxp": 21.9, "minp": 21.6, "qty": 2137050.0, "opnp": 21.9}, {"dateStr": "2025-12-02", "price": 22.0, "maxp": 22.5, "minp": 21.9, "qty": 1764521.0, "opnp": 22.4}, {"dateStr": "2025-12-01", "price": 22.4, "maxp": 22.6, "minp": 22.4, "qty": 806602.0, "opnp": 22.6}, {"dateStr": "2025-11-28", "price": 22.7, "maxp": 22.8, "minp": 22.6, "qty": 196900.0, "opnp": 22.7}, {"dateStr": "2025-11-27", "price": 22.7, "maxp": 22.7, "minp": 22.5, "qty": 160366.0, "opnp": 22.5}, {"dateStr": "2025-11-26", "price": 22.5, "maxp": 22.7, "minp": 22.5, "qty": 655681.0, "opnp": 22.7}, {"dateStr": "2025-11-25", "price": 22.7, "maxp": 22.9, "minp": 22.7, "qty": 389220.0, "opnp": 22.8}, {"dateStr": "2025-11-24", "price": 22.8, "maxp": 23.1, "minp": 22.8, "qty": 499771.0, "opnp": 22.9}, {"dateStr": "2025-11-21", "price": 23.1, "maxp": 23.1, "minp": 22.9, "qty": 294324.0, "opnp": 23.0}, {"dateStr": "2025-11-20", "price": 23.0, "maxp": 23.3, "minp": 22.8, "qty": 663584.0, "opnp": 22.8}, {"dateStr": "2025-11-19", "price": 22.8, "maxp": 23.3, "minp": 22.7, "qty": 1544348.0, "opnp": 23.3}, {"dateStr": "2025-11-18", "price": 23.3, "maxp": 23.3, "minp": 23.1, "qty": 531324.0, "opnp": 23.1}, {"dateStr": "2025-11-17", "price": 23.2, "maxp": 24.4, "minp": 23.0, "qty": 2462501.0, "opnp": 24.4}, {"dateStr": "2025-11-14", "price": 24.4, "maxp": 24.6, "minp": 24.0, "qty": 444709.0, "opnp": 24.6}, {"dateStr": "2025-11-13", "price": 24.6, "maxp": 24.6, "minp": 24.3, "qty": 399738.0, "opnp": 24.5}, {"dateStr": "2025-11-12", "price": 24.5, "maxp": 24.7, "minp": 24.4, "qty": 441661.0, "opnp": 24.4}, {"dateStr": "2025-11-11", "price": 24.5, "maxp": 24.6, "minp": 24.2, "qty": 386199.0, "opnp": 24.3}, {"dateStr": "2025-11-10", "price": 24.3, "maxp": 24.4, "minp": 24.1, "qty": 307914.0, "opnp": 24.2}, {"dateStr": "2025-11-07", "price": 24.4, "maxp": 24.4, "minp": 24.1, "qty": 257372.0, "opnp": 24.1}, {"dateStr": "2025-11-06", "price": 24.2, "maxp": 24.5, "minp": 24.1, "qty": 427902.0, "opnp": 24.2}, {"dateStr": "2025-11-05", "price": 24.1, "maxp": 24.4, "minp": 24.0, "qty": 331187.0, "opnp": 24.0}, {"dateStr": "2025-11-04", "price": 24.0, "maxp": 24.2, "minp": 23.9, "qty": 224947.0, "opnp": 23.9}, {"dateStr": "2025-11-03", "price": 23.9, "maxp": 24.3, "minp": 23.9, "qty": 213917.0, "opnp": 24.2}, {"dateStr": "2025-10-31", "price": 24.2, "maxp": 24.2, "minp": 23.9, "qty": 334531.0, "opnp": 24.0}, {"dateStr": "2025-10-30", "price": 24.2, "maxp": 24.2, "minp": 23.9, "qty": 251235.0, "opnp": 23.9}, {"dateStr": "2025-10-29", "price": 23.9, "maxp": 24.1, "minp": 23.9, "qty": 86237.0, "opnp": 24.0}, {"dateStr": "2025-10-27", "price": 24.2, "maxp": 24.4, "minp": 24.0, "qty": 596765.0, "opnp": 24.1}, {"dateStr": "2025-10-24", "price": 24.0, "maxp": 24.3, "minp": 23.8, "qty": 1291093.0, "opnp": 24.3}, {"dateStr": "2025-10-22", "price": 24.1, "maxp": 24.1, "minp": 23.8, "qty": 433782.0, "opnp": 24.1}, {"dateStr": "2025-10-21", "price": 24.1, "maxp": 24.2, "minp": 23.8, "qty": 871886.0, "opnp": 24.0}, {"dateStr": "2025-10-20", "price": 23.9, "maxp": 24.0, "minp": 23.7, "qty": 363826.0, "opnp": 23.7}, {"dateStr": "2025-10-17", "price": 23.6, "maxp": 23.9, "minp": 23.4, "qty": 2133810.0, "opnp": 23.7}, {"dateStr": "2025-10-16", "price": 23.8, "maxp": 24.1, "minp": 23.3, "qty": 3314588.0, "opnp": 23.4}, {"dateStr": "2025-10-15", "price": 22.9, "maxp": 24.6, "minp": 22.9, "qty": 5489423.0, "opnp": 24.4}, {"dateStr": "2025-10-14", "price": 24.4, "maxp": 24.9, "minp": 24.4, "qty": 895904.0, "opnp": 24.9}, {"dateStr": "2025-10-10", "price": 24.9, "maxp": 25.25, "minp": 24.8, "qty": 503184.0, "opnp": 24.8}, {"dateStr": "2025-10-09", "price": 25.0, "maxp": 25.0, "minp": 24.8, "qty": 137918.0, "opnp": 24.8}, {"dateStr": "2025-10-08", "price": 24.9, "maxp": 25.25, "minp": 24.9, "qty": 413645.0, "opnp": 25.0}, {"dateStr": "2025-10-07", "price": 25.0, "maxp": 25.25, "minp": 25.0, "qty": 427657.0, "opnp": 25.25}, {"dateStr": "2025-10-06", "price": 25.0, "maxp": 25.5, "minp": 25.0, "qty": 293388.0, "opnp": 25.5}, {"dateStr": "2025-10-03", "price": 25.5, "maxp": 25.75, "minp": 25.25, "qty": 337924.0, "opnp": 25.25}, {"dateStr": "2025-10-02", "price": 25.25, "maxp": 25.5, "minp": 25.25, "qty": 310690.0, "opnp": 25.25}, {"dateStr": "2025-10-01", "price": 25.25, "maxp": 25.5, "minp": 25.25, "qty": 148202.0, "opnp": 25.25}, {"dateStr": "2025-09-30", "price": 25.25, "maxp": 25.75, "minp": 25.0, "qty": 1108266.0, "opnp": 25.5}, {"dateStr": "2025-09-29", "price": 25.25, "maxp": 25.75, "minp": 25.25, "qty": 209627.0, "opnp": 25.75}, {"dateStr": "2025-09-26", "price": 25.25, "maxp": 25.75, "minp": 25.25, "qty": 273002.0, "opnp": 25.25}, {"dateStr": "2025-09-25", "price": 25.75, "maxp": 25.75, "minp": 25.0, "qty": 753833.0, "opnp": 25.25}, {"dateStr": "2025-09-24", "price": 25.0, "maxp": 25.25, "minp": 24.9, "qty": 355220.0, "opnp": 25.0}, {"dateStr": "2025-09-23", "price": 25.0, "maxp": 25.25, "minp": 24.9, "qty": 569597.0, "opnp": 25.25}, {"dateStr": "2025-09-22", "price": 25.25, "maxp": 25.25, "minp": 24.6, "qty": 807238.0, "opnp": 25.0}, {"dateStr": "2025-09-19", "price": 25.0, "maxp": 25.75, "minp": 25.0, "qty": 568914.0, "opnp": 25.5}, {"dateStr": "2025-09-18", "price": 25.5, "maxp": 26.0, "minp": 25.5, "qty": 184850.0, "opnp": 25.75}, {"dateStr": "2025-09-17", "price": 25.75, "maxp": 26.0, "minp": 25.5, "qty": 1229282.0, "opnp": 26.0}, {"dateStr": "2025-09-16", "price": 25.5, "maxp": 26.0, "minp": 25.25, "qty": 773353.0, "opnp": 25.5}, {"dateStr": "2025-09-15", "price": 25.75, "maxp": 25.75, "minp": 25.0, "qty": 752481.0, "opnp": 25.0}, {"dateStr": "2025-09-12", "price": 25.25, "maxp": 25.75, "minp": 25.25, "qty": 430597.0, "opnp": 25.75}, {"dateStr": "2025-09-11", "price": 25.75, "maxp": 25.75, "minp": 25.25, "qty": 728993.0, "opnp": 25.75}, {"dateStr": "2025-09-10", "price": 25.5, "maxp": 25.75, "minp": 25.25, "qty": 460345.0, "opnp": 25.75}, {"dateStr": "2025-09-09", "price": 25.5, "maxp": 25.5, "minp": 25.0, "qty": 1055754.0, "opnp": 25.25}, {"dateStr": "2025-09-08", "price": 25.25, "maxp": 25.25, "minp": 24.9, "qty": 565552.0, "opnp": 25.0}, {"dateStr": "2025-09-05", "price": 25.0, "maxp": 25.0, "minp": 24.6, "qty": 453867.0, "opnp": 24.9}, {"dateStr": "2025-09-04", "price": 25.0, "maxp": 25.25, "minp": 24.8, "qty": 1041522.0, "opnp": 25.0}, {"dateStr": "2025-09-03", "price": 24.8, "maxp": 25.25, "minp": 24.7, "qty": 1199134.0, "opnp": 24.8}, {"dateStr": "2025-09-02", "price": 24.7, "maxp": 24.8, "minp": 24.4, "qty": 855069.0, "opnp": 24.6}, {"dateStr": "2025-09-01", "price": 24.5, "maxp": 24.8, "minp": 24.4, "qty": 603284.0, "opnp": 24.7}, {"dateStr": "2025-08-29", "price": 24.7, "maxp": 25.25, "minp": 24.6, "qty": 598543.0, "opnp": 25.25}, {"dateStr": "2025-08-28", "price": 25.0, "maxp": 25.25, "minp": 24.7, "qty": 1321556.0, "opnp": 24.7}, {"dateStr": "2025-08-27", "price": 24.6, "maxp": 24.7, "minp": 24.4, "qty": 1105606.0, "opnp": 24.4}, {"dateStr": "2025-08-26", "price": 24.4, "maxp": 24.6, "minp": 23.9, "qty": 1654866.0, "opnp": 24.0}, {"dateStr": "2025-08-25", "price": 24.2, "maxp": 24.6, "minp": 23.9, "qty": 1144416.0, "opnp": 24.4}, {"dateStr": "2025-08-22", "price": 24.4, "maxp": 24.6, "minp": 24.2, "qty": 1031255.0, "opnp": 24.5}, {"dateStr": "2025-08-21", "price": 25.25, "maxp": 25.75, "minp": 25.25, "qty": 2025288.0, "opnp": 25.25}, {"dateStr": "2025-08-20", "price": 25.25, "maxp": 25.5, "minp": 25.0, "qty": 1779688.0, "opnp": 25.0}, {"dateStr": "2025-08-19", "price": 25.0, "maxp": 25.25, "minp": 25.0, "qty": 904915.0, "opnp": 25.0}, {"dateStr": "2025-08-18", "price": 25.25, "maxp": 25.25, "minp": 24.8, "qty": 2396225.0, "opnp": 25.0}, {"dateStr": "2025-08-15", "price": 25.0, "maxp": 25.0, "minp": 24.6, "qty": 1212778.0, "opnp": 25.0}, {"dateStr": "2025-08-14", "price": 25.0, "maxp": 25.25, "minp": 24.6, "qty": 2811084.0, "opnp": 24.6}, {"dateStr": "2025-08-13", "price": 24.4, "maxp": 24.5, "minp": 23.9, "qty": 1438524.0, "opnp": 23.9}, {"dateStr": "2025-08-08", "price": 23.6, "maxp": 23.6, "minp": 23.4, "qty": 505626.0, "opnp": 23.5}, {"dateStr": "2025-08-07", "price": 23.3, "maxp": 23.5, "minp": 23.3, "qty": 376146.0, "opnp": 23.4}, {"dateStr": "2025-08-06", "price": 23.3, "maxp": 23.4, "minp": 23.2, "qty": 452327.0, "opnp": 23.2}];
+        console.log("Embedded data points:", fullStockData.length);
+        if (fullStockData.length === 0) {
+            console.error("No data embedded! Check JSON generation.");
+            document.body.innerHTML = '<div style="text-align:center; margin-top:50px;"><h2>Error: No data embedded in HTML file.</h2><p>Please regenerate the report.</p></div>';
+        }
+
+        // Ensure each object has a dateObj and use dateStr
+        for (let i = 0; i < fullStockData.length; i++) {
+            fullStockData[i].dateObj = new Date(fullStockData[i].dateStr);
+            if (isNaN(fullStockData[i].dateObj.getTime())) {
+                console.warn("Invalid date at index", i, fullStockData[i].dateStr);
+            }
+        }
+        fullStockData.sort((a,b) => a.dateObj - b.dateObj);
+        console.log("Sorted data range:", fullStockData[0]?.dateStr, "to", fullStockData[fullStockData.length-1]?.dateStr);
+
+        let filteredStockData = [];
+        let currentFilterDays = 90;
+        const DEFAULT_FILTER_DAYS = 90;
+
+        // ----- Statistical functions -----
+        function average(arr) { return arr.reduce((a,b)=>a+b,0) / (arr.length||1); }
+        function stdDev(arr) { let mean = average(arr); let sqDiff = arr.map(v=> (v-mean)**2); return Math.sqrt(average(sqDiff)); }
+        
+        function pearsonCorrelation(x,y) {
+            let n = x.length;
+            if(n<2) return 0;
+            let sumX=0,sumY=0,sumXY=0,sumX2=0,sumY2=0;
+            for(let i=0;i<n;i++) { sumX+=x[i]; sumY+=y[i]; sumXY+=x[i]*y[i]; sumX2+=x[i]*x[i]; sumY2+=y[i]*y[i]; }
+            let numerator = n*sumXY - sumX*sumY;
+            let denominator = Math.sqrt((n*sumX2 - sumX*sumX) * (n*sumY2 - sumY*sumY));
+            return denominator === 0 ? 0 : numerator/denominator;
+        }
+        
+        function computeCorrelationMatrix(dataArray, fields) {
+            const n = fields.length;
+            let matrix = Array(n).fill().map(()=>Array(n).fill(0));
+            let vectors = fields.map(f => dataArray.map(row => row[f]));
+            for(let i=0;i<n;i++) {
+                for(let j=0;j<n;j++) {
+                    if(i===j) matrix[i][j]=1;
+                    else matrix[i][j] = pearsonCorrelation(vectors[i], vectors[j]);
+                }
+            }
+            return matrix;
+        }
+        
+        function analyzeAndRender(dataArray) {
+            if(!dataArray.length) {
+                document.getElementById('latestPrice').innerHTML = '—';
+                document.getElementById('highPrice').innerHTML = '—';
+                document.getElementById('lowPrice').innerHTML = '—';
+                document.getElementById('avgPrice').innerHTML = '—';
+                document.getElementById('totalReturn').innerHTML = '—';
+                document.getElementById('volatility').innerHTML = '—';
+                document.getElementById('avgVolume').innerHTML = '—';
+                document.getElementById('totalVolume').innerHTML = '—';
+                document.getElementById('recordCount').innerHTML = '0';
+                document.getElementById('dateRange').innerHTML = '—';
+                document.getElementById('trendSlope').innerHTML = '—';
+                document.getElementById('bestGainDay').innerHTML = '—';
+                document.getElementById('worstLossDay').innerHTML = '—';
+                document.getElementById('priceVolCorr').innerHTML = '—';
+                document.getElementById('insightText').innerHTML = '<p class="italic text-gray-400">No data for this filter. Try wider range.</p>';
+                document.getElementById('topVolumeDays').innerHTML = '<li>—</li>';
+                Plotly.react('correlationHeatmap', [], {});
+                Plotly.react('mainChart', [{x:[], y:[], type:'scatter'}], {title:"No data for selected period", annotations:[{text:"Adjust filter", xref:"paper", yref:"paper", x:0.5, y:0.5, showarrow:false}]});
+                return;
+            }
+            
+            const closes = dataArray.map(d=>d.price);
+            const highs = dataArray.map(d=>d.maxp);
+            const lows = dataArray.map(d=>d.minp);
+            const opens = dataArray.map(d=>d.opnp);
+            const volumes = dataArray.map(d=>d.qty);
+            const firstClose = closes[0];
+            const lastClose = closes[closes.length-1];
+            const totalReturnPct = ((lastClose - firstClose)/firstClose)*100;
+            
+            let dailyReturns = [];
+            for(let i=1;i<closes.length;i++) dailyReturns.push((closes[i]-closes[i-1])/closes[i-1]);
+            const volatility = dailyReturns.length ? (stdDev(dailyReturns) * Math.sqrt(252) * 100) : 0;
+            
+            const n = closes.length;
+            let sumX=0,sumY=0,sumXY=0,sumX2=0;
+            for(let i=0;i<n;i++) { sumX+=i; sumY+=closes[i]; sumXY+=i*closes[i]; sumX2+=i*i; }
+            const slope = (n*sumXY - sumX*sumY) / (n*sumX2 - sumX*sumX);
+            const slopePerDayPercent = (slope / firstClose) * 100;
+            
+            let maxGain=-Infinity, maxLoss=Infinity, bestDate='', worstDate='';
+            for(let i=1;i<dataArray.length;i++) {
+                let pct = (closes[i]-closes[i-1])/closes[i-1]*100;
+                if(pct>maxGain) { maxGain=pct; bestDate=dataArray[i].dateStr; }
+                if(pct<maxLoss) { maxLoss=pct; worstDate=dataArray[i].dateStr; }
+            }
+            
+            let volList = dataArray.map(d=>({date:d.dateStr, vol:d.qty}));
+            volList.sort((a,b)=>b.vol - a.vol);
+            let top3 = volList.slice(0,3);
+            
+            const fields = ['price','maxp','minp','opnp','qty'];
+            const corrMat = computeCorrelationMatrix(dataArray, fields);
+            const priceVolCorr = corrMat[0][4];
+            
+            document.getElementById('latestPrice').innerHTML = lastClose.toFixed(2);
+            document.getElementById('highPrice').innerHTML = Math.max(...closes).toFixed(2);
+            document.getElementById('lowPrice').innerHTML = Math.min(...closes).toFixed(2);
+            document.getElementById('avgPrice').innerHTML = average(closes).toFixed(2);
+            const retClass = totalReturnPct >=0 ? 'text-emerald-600' : 'text-rose-600';
+            document.getElementById('totalReturn').innerHTML = `<span class="${retClass}">${totalReturnPct.toFixed(2)}%</span>`;
+            document.getElementById('volatility').innerHTML = volatility.toFixed(2)+'%';
+            document.getElementById('avgVolume').innerHTML = Math.round(average(volumes)).toLocaleString();
+            document.getElementById('totalVolume').innerHTML = volumes.reduce((a,b)=>a+b,0).toLocaleString();
+            document.getElementById('recordCount').innerHTML = closes.length;
+            document.getElementById('dateRange').innerHTML = `${dataArray[0].dateStr} → ${dataArray[dataArray.length-1].dateStr}`;
+            document.getElementById('trendSlope').innerHTML = `${slopePerDayPercent>0?'▲':'▼'} ${Math.abs(slopePerDayPercent).toFixed(3)}%`;
+            document.getElementById('bestGainDay').innerHTML = `${maxGain.toFixed(2)}% (${bestDate||'—'})`;
+            document.getElementById('worstLossDay').innerHTML = `${maxLoss.toFixed(2)}% (${worstDate||'—'})`;
+            document.getElementById('priceVolCorr').innerHTML = priceVolCorr.toFixed(3);
+            
+            let insightHtml = `<p class="text-sm"><span class="font-bold">📈 Trend:</span> ${slopePerDayPercent>0?'Bullish slope':'Bearish slope'} (${Math.abs(slopePerDayPercent).toFixed(2)}% avg daily change).</p>`;
+            insightHtml += `<p class="text-sm"><span class="font-bold">🔄 Return:</span> ${totalReturnPct.toFixed(2)}% over ${closes.length} sessions.</p>`;
+            insightHtml += `<p class="text-sm"><span class="font-bold">⚡ Volatility:</span> ${volatility.toFixed(2)}% (annualized).</p>`;
+            insightHtml += `<p class="text-sm"><span class="font-bold">🧩 Price-Volume corr:</span> ${priceVolCorr.toFixed(3)} (${Math.abs(priceVolCorr)>0.5?'significant':'weak'})</p>`;
+            document.getElementById('insightText').innerHTML = insightHtml;
+            
+            let topVolHtml = '';
+            top3.forEach(v=>{ topVolHtml += `<li>📆 ${v.date} → ${v.vol.toLocaleString()}</li>`; });
+            document.getElementById('topVolumeDays').innerHTML = topVolHtml || '<li>—</li>';
+            
+            drawCorrelationHeatmap(corrMat);
+            const chartType = document.getElementById('chartTypeSelect').value;
+            renderChart(chartType, dataArray);
+        }
+        
+        function drawCorrelationHeatmap(corrMatrix) {
+            const fields = ['price','maxp','minp','opnp','qty'];
+            let data = [{
+                z: corrMatrix,
+                x: fields, y: fields,
+                type: 'heatmap', colorscale: 'RdBu', zmin: -1, zmax: 1,
+                text: corrMatrix.map(row=>row.map(v=>v.toFixed(2))),
+                texttemplate: '%{text}', hoverongaps: false, showscale: true
+            }];
+            let layout = { height: 260, margin: { t: 30, b: 30, l: 50, r: 20 }, xaxis: { tickangle: -25 }, yaxis: { autorange: 'reversed' }, font: { size: 10 } };
+            Plotly.react('correlationHeatmap', data, layout, { responsive: true, displayModeBar: false });
+        }
+        
+        function renderChart(type, dataArray) {
+            if(!dataArray.length) return;
+            const dates = dataArray.map(d=>d.dateStr);
+            const closes = dataArray.map(d=>d.price);
+            const volumes = dataArray.map(d=>d.qty);
+            const opens = dataArray.map(d=>d.opnp);
+            const highs = dataArray.map(d=>d.maxp);
+            const lows = dataArray.map(d=>d.minp);
+            
+            let chartData = [];
+            let layout = { title: { text: '', font: { size: 14 } }, xaxis: { title: 'Trade Date', tickangle: -40, type: 'category' }, yaxis: { title: 'Price (THB)' }, template: 'plotly_white', hovermode: 'x unified', margin: { t: 40, b: 60, l: 50, r: 30 }, legend: { orientation: 'h', yanchor: 'bottom', y: 1.02 } };
+            
+            switch(type) {
+                case 'line':
+                    chartData = [{ x: dates, y: closes, mode: 'lines', name: 'Close Price', line: { color: '#2563eb', width: 2.5 }, fill: 'tozeroy', fillcolor: 'rgba(37,99,235,0.05)' }];
+                    break;
+                case 'volume':
+                    let colors = closes.map((c,i)=> (i>0 && c>=closes[i-1]) ? '#22c55e' : '#ef4444');
+                    chartData = [{ x: dates, y: volumes, type: 'bar', name: 'Volume', marker: { color: colors, opacity: 0.7 }, yaxis: 'y' }];
+                    layout.yaxis = { title: 'Volume (shares)', tickformat: ',.0f' };
+                    layout.title.text = 'Daily Trading Volume';
+                    break;
+                case 'candlestick':
+                    chartData = [{ x: dates, open: opens, high: highs, low: lows, close: closes, type: 'candlestick', name: 'OHLC', increasing: { line: { color: '#2ecc71' } }, decreasing: { line: { color: '#e74c3c' } } }];
+                    layout.yaxis.title = 'Price (THB)';
+                    layout.title.text = 'Candlestick Chart';
+                    break;
+                case 'ma20':
+                    let ma20 = [];
+                    for(let i=0;i<closes.length;i++) {
+                        if(i<19) ma20.push(null);
+                        else { let sum=0; for(let j=i-19;j<=i;j++) sum+=closes[j]; ma20.push(sum/20); }
+                    }
+                    chartData = [
+                        { x: dates, y: closes, mode: 'lines', name: 'Close', line: { color: '#1f2937', width: 2 } },
+                        { x: dates, y: ma20, mode: 'lines', name: 'SMA(20)', line: { color: '#f97316', width: 2.5, dash: 'dot' } }
+                    ];
+                    break;
+                case 'scatter':
+                    chartData = [{ x: volumes, y: closes, mode: 'markers', type: 'scatter', marker: { color: '#3b82f6', size: 6, opacity: 0.6 }, text: dates, hovertemplate: 'Vol: %{x:,}<br>Price: %{y}<br>%{text}<extra></extra>' }];
+                    layout.xaxis = { title: 'Volume (shares)', tickformat: ',.0f' };
+                    layout.yaxis = { title: 'Close Price (THB)' };
+                    layout.title.text = 'Price vs Volume Scatter';
+                    break;
+                default: chartData = [{ x: dates, y: closes, mode: 'lines', name: 'Close' }];
+            }
+            Plotly.react('mainChart', chartData, layout, { responsive: true, displayModeBar: true });
+        }
+        
+        function filterDataByDays(daysFromLatest) {
+            if(daysFromLatest === null) return [...fullStockData];
+            const latestDate = fullStockData[fullStockData.length-1].dateObj;
+            const cutoffDate = new Date(latestDate);
+            cutoffDate.setDate(cutoffDate.getDate() - daysFromLatest);
+            return fullStockData.filter(row => row.dateObj >= cutoffDate);
+        }
+        
+        function applyFilter(days) {
+            currentFilterDays = days;
+            const filtered = filterDataByDays(days);
+            filteredStockData = filtered;
+            const rangeLabel = document.getElementById('filterRangeLabel');
+            if(days === null) rangeLabel.innerHTML = '📅 Full history';
+            else rangeLabel.innerHTML = `📅 Last ${days} days (${filtered.length} days)`;
+            analyzeAndRender(filteredStockData);
+            document.querySelectorAll('.filter-preset').forEach(btn => btn.classList.remove('active', 'bg-blue-600', 'text-white', 'border-blue-600'));
+            if(days !== null) {
+                const activeBtn = document.querySelector(`.filter-preset[data-days="${days}"]`);
+                if(activeBtn) activeBtn.classList.add('active', 'bg-blue-600', 'text-white', 'border-blue-600');
+            }
+        }
+        
+        function resetFilter() { applyFilter(null); }
+        
+        document.querySelectorAll('.filter-preset').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const days = parseInt(btn.getAttribute('data-days'), 10);
+                if(!isNaN(days)) applyFilter(days);
+            });
+        });
+        document.getElementById('resetFilter').addEventListener('click', resetFilter);
+        document.getElementById('applyCustomDays').addEventListener('click', () => {
+            let daysInput = document.getElementById('customDaysInput');
+            let days = parseInt(daysInput.value, 10);
+            if (isNaN(days) || days < 1) {
+                days = 30;
+                daysInput.value = 30;
+            }
+            applyFilter(days);
+        });
+        document.getElementById('chartTypeSelect').addEventListener('change', (e) => {
+            if(filteredStockData.length) renderChart(e.target.value, filteredStockData);
+        });
+        
+        function init() {
+            document.getElementById('customDaysInput').value = 30;
+            const defaultBtn = document.querySelector('.filter-preset[data-days="90"]');
+            if(defaultBtn) defaultBtn.classList.add('active', 'bg-blue-600', 'text-white', 'border-blue-600');
+            document.getElementById('filterRangeLabel').innerHTML = '📅 Last 90 days (default)';
+            if (fullStockData.length > 0) {
+                applyFilter(DEFAULT_FILTER_DAYS);
+            } else {
+                document.getElementById('insightText').innerHTML = '<p class="italic text-gray-400">No data embedded. Please regenerate the report.</p>';
+            }
+        }
+        init();
+    </script>
+</body>
+</html>

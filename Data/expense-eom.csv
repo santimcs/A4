@@ -1,10 +1,7 @@
 ,date,amount,item,kind
-0,2026-06-30,5000,Parent,Parent
-1,2026-06-30,680,ChatGPT,Edutainment
-2,2026-06-30,520,Netflix,Edutainment
-3,2026-06-30,510,Internet Home,Communication
-4,2026-06-30,320,Telephone Dtac,Communication
-5,2026-06-30,240,Apple,Edutainment
-6,2026-06-30,140,Apple,Edutainment
-7,2026-06-30,40,Apple,Edutainment
-8,2026-06-30,100,Google,Edutainment
+0,2026-07-31,5000,Parent,Parent
+1,2026-07-31,680,ChatGPT,Edutainment
+2,2026-07-31,520,Netflix,Edutainment
+3,2026-07-31,510,Internet Home,Communication
+4,2026-07-31,320,Telephone Dtac,Communication
+5,2026-07-31,200,Google,Edutainment
