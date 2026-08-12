@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-30T15:19:39.493265",
-  "total_songs": 484,
+  "generated_at": "2026-08-08T16:23:51.897339",
+  "total_songs": 485,
   "songs_with_youtube_ids": 465,
-  "songs_without_youtube_ids": 19,
+  "songs_without_youtube_ids": 20,
   "songs": [
     {
       "filename": "(Everything I Do) I Do It For You_Bryan Adams.mp4",
@@ -2276,7 +2276,7 @@
       "filename": "Waiting for a Girl Like You_Foreigner .mp4",
       "song_title": "Waiting for a Girl Like You",
       "artist": "Foreigner",
-      "youtube_id": "20qVro3bcJI"
+      "youtube_id": "AWA1kt8mRKw"
     },
     {
       "filename": "Wake Me Up_Avicii .mp4",
@@ -2745,6 +2745,12 @@
       "song_title": "น้ำผึ้งหรือยาพิษ (TH)",
       "artist": "วารุณี สุนทรีสวัสดิ์",
       "youtube_id": "_vaUQjUxq6o"
+    },
+    {
+      "filename": "ยิ่งใกล้ยิ่งเจ็บ (TH)_อินคา.mp4",
+      "song_title": "ยิ่งใกล้ยิ่งเจ็บ (TH)",
+      "artist": "อินคา",
+      "youtube_id": ""
     },
     {
       "filename": "ยิ้มกลางสายฝน (TH)_หงา คาราวาน.mp4",
