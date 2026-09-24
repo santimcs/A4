@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-08T16:23:51.897339",
-  "total_songs": 485,
-  "songs_with_youtube_ids": 465,
+  "generated_at": "2026-09-08T00:36:45.764245",
+  "total_songs": 498,
+  "songs_with_youtube_ids": 478,
   "songs_without_youtube_ids": 20,
   "songs": [
     {
@@ -647,6 +647,12 @@
       "youtube_id": "hlOwOFJJ-RI"
     },
     {
+      "filename": "Eye Of The Tiger_Survivor.mp4",
+      "song_title": "Eye Of The Tiger",
+      "artist": "Survivor",
+      "youtube_id": "btPJPFnesV4"
+    },
+    {
       "filename": "Faded_Alan Walker.mp4",
       "song_title": "Faded",
       "artist": "Alan Walker",
@@ -1073,6 +1079,12 @@
       "youtube_id": "NdYWuo9OFAw"
     },
     {
+      "filename": "It's A Heartache_Bonnie Tyler.mp4",
+      "song_title": "It's A Heartache",
+      "artist": "Bonnie Tyler",
+      "youtube_id": "bEOl38y8Nj8"
+    },
+    {
       "filename": "It's Too Late_Carole King.mp4",
       "song_title": "It's Too Late",
       "artist": "Carole King",
@@ -1101,6 +1113,12 @@
       "song_title": "Johnny B. Goode",
       "artist": "Chuck Berry",
       "youtube_id": ""
+    },
+    {
+      "filename": "Jolene_Dolly Parton.mp4",
+      "song_title": "Jolene",
+      "artist": "Dolly Parton",
+      "youtube_id": "Ixrje2rXLMA"
     },
     {
       "filename": "July Morning_Uriah Heep.mp4",
@@ -1613,6 +1631,12 @@
       "youtube_id": "7x8wPt8xarE"
     },
     {
+      "filename": "Please Release Me_Engelbert Humperdink.mp4",
+      "song_title": "Please Release Me",
+      "artist": "Engelbert Humperdink",
+      "youtube_id": "ch_Fz2Np-Z4"
+    },
+    {
       "filename": "Poker Face_Lady Gaga.mp4",
       "song_title": "Poker Face",
       "artist": "Lady Gaga",
@@ -1745,6 +1769,12 @@
       "youtube_id": "6JnGBs88sL0"
     },
     {
+      "filename": "Say You, Say Me_Lionel Richie.mp4",
+      "song_title": "Say You, Say Me",
+      "artist": "Lionel Richie",
+      "youtube_id": "9OfoTaLXrUo"
+    },
+    {
       "filename": "Seasons In The Sun_Westlife .mp4",
       "song_title": "Seasons In The Sun",
       "artist": "Westlife",
@@ -1755,6 +1785,12 @@
       "song_title": "See You Again",
       "artist": "Wiz Khalifa",
       "youtube_id": "RgKAFK5djSk"
+    },
+    {
+      "filename": "Send In the clowns_Judy Collins.mp4",
+      "song_title": "Send In the clowns",
+      "artist": "Judy Collins",
+      "youtube_id": "mvgPo7AIBlc"
     },
     {
       "filename": "Senorita_Shawn Mendes.mp4",
@@ -2057,6 +2093,12 @@
       "youtube_id": "9jK-NcRmVcw"
     },
     {
+      "filename": "The First Time Ever I Saw Your Face_Roberta Flack.mp4",
+      "song_title": "The First Time Ever I Saw Your Face",
+      "artist": "Roberta Flack",
+      "youtube_id": "qk-T9rRBTEU"
+    },
+    {
       "filename": "The Letter_The Box Tops.mp4",
       "song_title": "The Letter",
       "artist": "The Box Tops",
@@ -2259,6 +2301,12 @@
       "song_title": "Unfaithful",
       "artist": "Rihanna",
       "youtube_id": "rp4UwPZfRis"
+    },
+    {
+      "filename": "Unforgettable_Natalie Cole & Nat King Cole.mp4",
+      "song_title": "Unforgettable",
+      "artist": "Natalie Cole & Nat King Cole",
+      "youtube_id": "MwLUkcNnU6A"
     },
     {
       "filename": "Viva La Vida_Coldplay .mp4",
@@ -2558,7 +2606,7 @@
       "filename": "You've got a friend_Carole King.mp4",
       "song_title": "You've got a friend",
       "artist": "Carole King",
-      "youtube_id": "Hnu53l7brEE"
+      "youtube_id": "VbMI4imWFzY"
     },
     {
       "filename": "Your Cheatin' Heart_Hank Williams.mp4",
@@ -2631,6 +2679,12 @@
       "song_title": "กำลังใจ (TH)",
       "artist": "โฮป",
       "youtube_id": "UxTRMtddwkE"
+    },
+    {
+      "filename": "ขอมือเธอหน่อย (TH)_นันทิดา แก้วบัวสาย.mp4",
+      "song_title": "ขอมือเธอหน่อย (TH)",
+      "artist": "นันทิดา แก้วบัวสาย",
+      "youtube_id": "a8EvoQH9nXk"
     },
     {
       "filename": "ขอใจเธอแลกเบอร์โทร (TH)_หญิงลี ศรีจุมพล.mp4",
@@ -2747,6 +2801,12 @@
       "youtube_id": "_vaUQjUxq6o"
     },
     {
+      "filename": "บอกหน่อยได้ไหม (TH)_นันทิดา แก้วบัวสาย.mp4",
+      "song_title": "บอกหน่อยได้ไหม (TH)",
+      "artist": "นันทิดา แก้วบัวสาย",
+      "youtube_id": "01Cst_mqhXU"
+    },
+    {
       "filename": "ยิ่งใกล้ยิ่งเจ็บ (TH)_อินคา.mp4",
       "song_title": "ยิ่งใกล้ยิ่งเจ็บ (TH)",
       "artist": "อินคา",
@@ -2831,10 +2891,28 @@
       "youtube_id": ""
     },
     {
+      "filename": "อธิษฐานรัก (TH)_ต้อม เรนโบว์.mp4",
+      "song_title": "อธิษฐานรัก (TH)",
+      "artist": "ต้อม เรนโบว์",
+      "youtube_id": "c1kCV68WN70"
+    },
+    {
       "filename": "อยู่ตรงนี้ (TH)_พงษ์สิทธิ์ คำภีร์.mp4",
       "song_title": "อยู่ตรงนี้ (TH)",
       "artist": "พงษ์สิทธิ์ คำภีร์",
       "youtube_id": "w827Ayb9I0w"
+    },
+    {
+      "filename": "อย่าปล่อยมือ (TH)_ไม้เมือง.mp4",
+      "song_title": "อย่าปล่อยมือ (TH)",
+      "artist": "ไม้เมือง",
+      "youtube_id": "yALU5hTb9S0"
+    },
+    {
+      "filename": "อาจจะเป็นคนนี้ (TH)_แหวน ฐิติมา.mp4",
+      "song_title": "อาจจะเป็นคนนี้ (TH)",
+      "artist": "แหวน ฐิติมา",
+      "youtube_id": "6AlpaZwqo2U"
     },
     {
       "filename": "เก็บตะวัน (TH)_อิทธิ พลางกูร.mp4",

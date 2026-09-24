@@ -7,15 +7,15 @@ rails log:clear
 
 cd\Users\User\OneDrive\A4\data
 
-ruby db_backup_old_to_new.rb music_development May-31
+ruby db_backup_old_to_new.rb music_development Sep-14
 
-# Restore process
+# Restore process for Music from Old to New
 
 MySQL
 
 cd\Users\PC1\OneDrive\Documents\Backup\mysql
 
-C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_May-31.sql
+==============================================
 
 # Backup Process for Music from New to Old
 
