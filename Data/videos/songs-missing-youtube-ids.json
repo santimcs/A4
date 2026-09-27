@@ -1,0 +1,99 @@
+{
+  "generated_at": "2026-09-27T17:03:50.949795",
+  "total_songs": 528,
+  "songs_with_youtube_ids": 515,
+  "songs_without_youtube_ids": 13,
+  "no_youtube_id_songs": [
+    {
+      "filename": "Back To Black_Amy Winehouse.mp4",
+      "song_title": "Back To Black",
+      "artist": "Amy Winehouse",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "He Aint Heavy, Hes My Brother_The Hollies.mp4",
+      "song_title": "He Aint Heavy, Hes My Brother",
+      "artist": "The Hollies",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "I'll Never Dance Again_The Wynners.mp4",
+      "song_title": "I'll Never Dance Again",
+      "artist": "The Wynners",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "If I Cant Have You_Yvonne Elliman.mp4",
+      "song_title": "If I Cant Have You",
+      "artist": "Yvonne Elliman",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "In the Year 2525_Zager & Evans.mp4",
+      "song_title": "In the Year 2525",
+      "artist": "Zager & Evans",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "Islands In the Stream_Dolly Parton & Kenny Rogers.mp4",
+      "song_title": "Islands In the Stream",
+      "artist": "Dolly Parton & Kenny Rogers",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "Roses Are Red_Bobby Vinton.mp4",
+      "song_title": "Roses Are Red",
+      "artist": "Bobby Vinton",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "Simon Says_1910 Fruitgum Co.mp4",
+      "song_title": "Simon Says",
+      "artist": "1910 Fruitgum Co",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "Stumblin' in_Suzi Quatro & Chris Norman.mp4",
+      "song_title": "Stumblin' in",
+      "artist": "Suzi Quatro & Chris Norman",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "Tell Laura I Love Her_Ray Peterson.mp4",
+      "song_title": "Tell Laura I Love Her",
+      "artist": "Ray Peterson",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "You Don't Bring Me Flowers_Neil Diamond & Barbra Streisand.mp4",
+      "song_title": "You Don't Bring Me Flowers",
+      "artist": "Neil Diamond & Barbra Streisand",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "You've Lost That Lovin' Feelin'_The Everly Brothers.mp4",
+      "song_title": "You've Lost That Lovin' Feelin'",
+      "artist": "The Everly Brothers",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "สหายสุรา (TH)_ไข่ มาลีฮวนนา.mp4",
+      "song_title": "สหายสุรา (TH)",
+      "artist": "ไข่ มาลีฮวนนา",
+      "youtube_id": "",
+      "no_youtube_id": true
+    }
+  ]
+}
