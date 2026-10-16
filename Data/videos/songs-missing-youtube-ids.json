@@ -1,23 +1,9 @@
 {
-  "generated_at": "2026-09-27T17:03:50.949795",
-  "total_songs": 528,
-  "songs_with_youtube_ids": 515,
+  "generated_at": "2026-10-14T16:52:02.970470",
+  "total_songs": 543,
+  "songs_with_youtube_ids": 530,
   "songs_without_youtube_ids": 13,
   "no_youtube_id_songs": [
-    {
-      "filename": "Back To Black_Amy Winehouse.mp4",
-      "song_title": "Back To Black",
-      "artist": "Amy Winehouse",
-      "youtube_id": "",
-      "no_youtube_id": true
-    },
-    {
-      "filename": "He Aint Heavy, Hes My Brother_The Hollies.mp4",
-      "song_title": "He Aint Heavy, Hes My Brother",
-      "artist": "The Hollies",
-      "youtube_id": "",
-      "no_youtube_id": true
-    },
     {
       "filename": "I'll Never Dance Again_The Wynners.mp4",
       "song_title": "I'll Never Dance Again",
@@ -26,23 +12,30 @@
       "no_youtube_id": true
     },
     {
-      "filename": "If I Cant Have You_Yvonne Elliman.mp4",
-      "song_title": "If I Cant Have You",
-      "artist": "Yvonne Elliman",
+      "filename": "La vie en rose_Louis Armstrong.mp4",
+      "song_title": "La vie en rose",
+      "artist": "Louis Armstrong",
       "youtube_id": "",
       "no_youtube_id": true
     },
     {
-      "filename": "In the Year 2525_Zager & Evans.mp4",
-      "song_title": "In the Year 2525",
-      "artist": "Zager & Evans",
+      "filename": "No Milk Today_Herman's Hermits.mp4",
+      "song_title": "No Milk Today",
+      "artist": "Herman's Hermits",
       "youtube_id": "",
       "no_youtube_id": true
     },
     {
-      "filename": "Islands In the Stream_Dolly Parton & Kenny Rogers.mp4",
-      "song_title": "Islands In the Stream",
-      "artist": "Dolly Parton & Kenny Rogers",
+      "filename": "Proud Mary_Ike & Tina Turner.mp4",
+      "song_title": "Proud Mary",
+      "artist": "Ike & Tina Turner",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "Roar_Katy Perry.mp4",
+      "song_title": "Roar",
+      "artist": "Katy Perry",
       "youtube_id": "",
       "no_youtube_id": true
     },
@@ -57,13 +50,6 @@
       "filename": "Simon Says_1910 Fruitgum Co.mp4",
       "song_title": "Simon Says",
       "artist": "1910 Fruitgum Co",
-      "youtube_id": "",
-      "no_youtube_id": true
-    },
-    {
-      "filename": "Stumblin' in_Suzi Quatro & Chris Norman.mp4",
-      "song_title": "Stumblin' in",
-      "artist": "Suzi Quatro & Chris Norman",
       "youtube_id": "",
       "no_youtube_id": true
     },
@@ -85,6 +71,20 @@
       "filename": "You've Lost That Lovin' Feelin'_The Everly Brothers.mp4",
       "song_title": "You've Lost That Lovin' Feelin'",
       "artist": "The Everly Brothers",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "จำเลยรัก (TH)_Nene Royal.mp4",
+      "song_title": "จำเลยรัก (TH)",
+      "artist": "Nene Royal",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "รอวันฉันรักเธอ_คีรีบูน.mp4",
+      "song_title": "รอวันฉันรักเธอ",
+      "artist": "คีรีบูน",
       "youtube_id": "",
       "no_youtube_id": true
     },

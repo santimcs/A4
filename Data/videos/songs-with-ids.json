@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-27T17:03:50.928013",
-  "total_songs": 528,
-  "songs_with_youtube_ids": 515,
+  "generated_at": "2026-10-14T16:52:02.942070",
+  "total_songs": 543,
+  "songs_with_youtube_ids": 530,
   "songs_without_youtube_ids": 13,
   "songs": [
     {
@@ -57,6 +57,12 @@
       "song_title": "A Horse With No Name",
       "artist": "America",
       "youtube_id": "Xxh9Da_EJB4"
+    },
+    {
+      "filename": "A Man Without Love_Engelbert Humperdink.mp4",
+      "song_title": "A Man Without Love",
+      "artist": "Engelbert Humperdink",
+      "youtube_id": "wRE8SW0HVvk"
     },
     {
       "filename": "AMANI_Beyond (CN).mp4",
@@ -161,6 +167,12 @@
       "youtube_id": "RcZn2-bGXqQ"
     },
     {
+      "filename": "Annie's Song_John Denver.mp4",
+      "song_title": "Annie's Song",
+      "artist": "John Denver",
+      "youtube_id": "4Nz-AT70ZX0"
+    },
+    {
       "filename": "Anti-Hero_Taylor Swift.mp4",
       "song_title": "Anti-Hero",
       "artist": "Taylor Swift",
@@ -206,7 +218,13 @@
       "filename": "Back To Black_Amy Winehouse.mp4",
       "song_title": "Back To Black",
       "artist": "Amy Winehouse",
-      "youtube_id": ""
+      "youtube_id": "TJAfLE39ZZ8"
+    },
+    {
+      "filename": "Back on the Chain Gang_Pretenders.mp4",
+      "song_title": "Back on the Chain Gang",
+      "artist": "Pretenders",
+      "youtube_id": "cMOKamtpUA8"
     },
     {
       "filename": "Bad Blood_Taylor Swift.mp4",
@@ -434,7 +452,7 @@
       "filename": "Cold Heart_Elton John.mp4",
       "song_title": "Cold Heart",
       "artist": "Elton John",
-      "youtube_id": "qod03PVTLqk"
+      "youtube_id": "mSFPhdyfY2A"
     },
     {
       "filename": "Come Together_Beatles The.mp4",
@@ -815,6 +833,12 @@
       "youtube_id": "46o1joHp7t0"
     },
     {
+      "filename": "Green Green Grass of Home_Tom Jones.mp4",
+      "song_title": "Green Green Grass of Home",
+      "artist": "Tom Jones",
+      "youtube_id": "jOadV3Zymvk"
+    },
+    {
       "filename": "Grenade_Bruno Mars.mp4",
       "song_title": "Grenade",
       "artist": "Bruno Mars",
@@ -839,6 +863,12 @@
       "youtube_id": "W551fO839oc"
     },
     {
+      "filename": "Happy Together_Turtles The.mp4",
+      "song_title": "Happy Together",
+      "artist": "Turtles The",
+      "youtube_id": "WiPcgmSQ5uI"
+    },
+    {
       "filename": "Have You Ever Seen the Rain_Creedence Clearwater Revival .mp4",
       "song_title": "Have You Ever Seen the Rain",
       "artist": "Creedence Clearwater Revival",
@@ -851,10 +881,10 @@
       "youtube_id": "PdF7Ssm6tEU"
     },
     {
-      "filename": "He Aint Heavy, Hes My Brother_The Hollies.mp4",
-      "song_title": "He Aint Heavy, Hes My Brother",
-      "artist": "The Hollies",
-      "youtube_id": ""
+      "filename": "He Ain't Heavy, He's My Brother_Hollies The.mp4",
+      "song_title": "He Ain't Heavy, He's My Brother",
+      "artist": "Hollies The",
+      "youtube_id": "iPDl9yKSnDE"
     },
     {
       "filename": "He'll Have To Go_Jim Reeves.mp4",
@@ -1085,10 +1115,10 @@
       "youtube_id": "IlV7RhT6zHs"
     },
     {
-      "filename": "If I Cant Have You_Yvonne Elliman.mp4",
-      "song_title": "If I Cant Have You",
+      "filename": "If I Can't Have You_Yvonne Elliman.mp4",
+      "song_title": "If I Can't Have You",
       "artist": "Yvonne Elliman",
-      "youtube_id": ""
+      "youtube_id": "CZVUzho-nok"
     },
     {
       "filename": "If You Leave Me Now_Chicago .mp4",
@@ -1124,7 +1154,7 @@
       "filename": "In the Year 2525_Zager & Evans.mp4",
       "song_title": "In the Year 2525",
       "artist": "Zager & Evans",
-      "youtube_id": ""
+      "youtube_id": "zKQfxi8V5FA"
     },
     {
       "filename": "Iris_Goo Goo Dolls.mp4",
@@ -1136,7 +1166,7 @@
       "filename": "Islands In the Stream_Dolly Parton & Kenny Rogers.mp4",
       "song_title": "Islands In the Stream",
       "artist": "Dolly Parton & Kenny Rogers",
-      "youtube_id": ""
+      "youtube_id": "uObstcmJeLw"
     },
     {
       "filename": "It's A Heartache_Bonnie Tyler.mp4",
@@ -1239,6 +1269,12 @@
       "song_title": "Knockin’ on Heaven’s Door",
       "artist": "Bob Dylan",
       "youtube_id": "rm9coqlk8fY"
+    },
+    {
+      "filename": "La vie en rose_Louis Armstrong.mp4",
+      "song_title": "La vie en rose",
+      "artist": "Louis Armstrong",
+      "youtube_id": ""
     },
     {
       "filename": "Landslide_Fleetwood Mac .mp4",
@@ -1535,6 +1571,12 @@
       "youtube_id": "Tg-Q-Acv4qs"
     },
     {
+      "filename": "No Milk Today_Herman's Hermits.mp4",
+      "song_title": "No Milk Today",
+      "artist": "Herman's Hermits",
+      "youtube_id": ""
+    },
+    {
       "filename": "No Woman, No Cry_Bob Marley and the Wailers .mp4",
       "song_title": "No Woman, No Cry",
       "artist": "Bob Marley and the Wailers",
@@ -1733,6 +1775,12 @@
       "youtube_id": "UUA-3WHCqbM"
     },
     {
+      "filename": "Proud Mary_Ike & Tina Turner.mp4",
+      "song_title": "Proud Mary",
+      "artist": "Ike & Tina Turner",
+      "youtube_id": ""
+    },
+    {
       "filename": "Purple Haze_Jimi Hendrix Experience The.mp4",
       "song_title": "Purple Haze",
       "artist": "Jimi Hendrix Experience The",
@@ -1791,6 +1839,12 @@
       "song_title": "Right Here Waiting",
       "artist": "Richard Marx",
       "youtube_id": "S_E2EHVxNAE"
+    },
+    {
+      "filename": "Roar_Katy Perry.mp4",
+      "song_title": "Roar",
+      "artist": "Katy Perry",
+      "youtube_id": ""
     },
     {
       "filename": "Rocket Man_Elton John.mp4",
@@ -2036,7 +2090,7 @@
       "filename": "Stumblin' in_Suzi Quatro & Chris Norman.mp4",
       "song_title": "Stumblin' in",
       "artist": "Suzi Quatro & Chris Norman",
-      "youtube_id": ""
+      "youtube_id": "Z1PcY59AX2Q"
     },
     {
       "filename": "Style_Taylor Swift.mp4",
@@ -2117,6 +2171,12 @@
       "youtube_id": "AaBw37-nWaY"
     },
     {
+      "filename": "Take Me Home, Country Roads_John Denver.mp4",
+      "song_title": "Take Me Home, Country Roads",
+      "artist": "John Denver",
+      "youtube_id": "KSmh6FO3T74"
+    },
+    {
       "filename": "Take Me To Church_Hozier .mp4",
       "song_title": "Take Me To Church",
       "artist": "Hozier",
@@ -2162,7 +2222,7 @@
       "filename": "Temple of the King_Rainbow.mp4",
       "song_title": "Temple of the King",
       "artist": "Rainbow",
-      "youtube_id": "DeLNVdRPY2Y"
+      "youtube_id": "B7nKzCRL_oo"
     },
     {
       "filename": "Tequila Sunrise_Eagles The.mp4",
@@ -2217,6 +2277,12 @@
       "song_title": "The Gambler",
       "artist": "Kenny Rogers",
       "youtube_id": "7hx4gdlfamo"
+    },
+    {
+      "filename": "The Last Waltz_Engelbert Humperdink.mp4",
+      "song_title": "The Last Waltz",
+      "artist": "Engelbert Humperdink",
+      "youtube_id": "KsdTvFpggG4"
     },
     {
       "filename": "The Letter_The Box Tops.mp4",
@@ -2831,6 +2897,12 @@
       "youtube_id": "UxTRMtddwkE"
     },
     {
+      "filename": "ก่อน (TH)_Moderndog.mp4",
+      "song_title": "ก่อน (TH)",
+      "artist": "Moderndog",
+      "youtube_id": "lUQP-bXCgYc"
+    },
+    {
       "filename": "ขอมือเธอหน่อย (TH)_นันทิดา แก้วบัวสาย.mp4",
       "song_title": "ขอมือเธอหน่อย (TH)",
       "artist": "นันทิดา แก้วบัวสาย",
@@ -2889,6 +2961,12 @@
       "song_title": "คืนรัง (TH)",
       "artist": "หงา คาราวาน",
       "youtube_id": "hCA2aaMHFOs"
+    },
+    {
+      "filename": "จำเลยรัก (TH)_Nene Royal.mp4",
+      "song_title": "จำเลยรัก (TH)",
+      "artist": "Nene Royal",
+      "youtube_id": ""
     },
     {
       "filename": "ซมซาน (TH)_เสก โลโซ.mp4",
@@ -2967,6 +3045,12 @@
       "song_title": "ยิ้มกลางสายฝน (TH)",
       "artist": "หงา คาราวาน",
       "youtube_id": "3ImUY-AQSrw"
+    },
+    {
+      "filename": "รอวันฉันรักเธอ_คีรีบูน.mp4",
+      "song_title": "รอวันฉันรักเธอ",
+      "artist": "คีรีบูน",
+      "youtube_id": ""
     },
     {
       "filename": "รักคงยังไม่พอ (TH)_เสือ ธนพล.mp4",
@@ -3099,6 +3183,12 @@
       "song_title": "เราและนาย (TH)",
       "artist": "เสก โลโซ",
       "youtube_id": "UUf1IV6DTMA"
+    },
+    {
+      "filename": "เรือรักกระดาษ (TH)_ไข่ มาลีฮวนน่า.mp4",
+      "song_title": "เรือรักกระดาษ (TH)",
+      "artist": "ไข่ มาลีฮวนน่า",
+      "youtube_id": "jvzDP1Qoz60"
     },
     {
       "filename": "เรือลำหนึ่ง (TH)_เสือ ธนพล.mp4",

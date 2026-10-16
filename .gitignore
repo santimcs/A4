@@ -2,7 +2,7 @@
 node_modules/
 
 # Ignore YouTube folder as it contains API key
-#YouTube/
+YouTube/
 
 # Ignore log files
 *.log
@@ -15,6 +15,12 @@ node_modules/
 
 # Ignore MP4 files
 *.mp4
+
+# Jupyter checkpoints and caches - never sync these
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.virtual_documents/
 
 # Ignore specific CSV files in MovieLens folder
 MovieLens/genome-scores.csv

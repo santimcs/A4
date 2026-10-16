@@ -1,7 +1,5 @@
 ,date,amount,item,kind
-0,2026-08-31,330,OpenRouter,Edutainment
-1,2026-08-31,510,Food,Food
-2,2026-08-31,640,Internet Home,Communication
-3,2026-08-31,320,Telephone Dtac,Communication
-4,2026-08-31,520,Netflix,Edutainment
-5,2026-08-31,5000,Parent,Parent
+0,2026-09-30,5000,Parent,Parent
+1,2026-09-30,520,Netflix,Edutainment
+2,2026-09-30,640,Internet Home,Communication
+3,2026-09-30,320,Telephone Dtac,Communication

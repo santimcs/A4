@@ -8,8 +8,8 @@ cd\Users\PC1\OneDrive\A4\data
 
 1. mysql
 
-ruby db_backup.rb portfolio_development Aug-31
-ruby db_backup.rb stock Aug-31
+ruby db_backup.rb portfolio_development Oct-02
+ruby db_backup.rb stock Oct-02
 
 2. postgres password = admin
 
@@ -30,9 +30,9 @@ MySQL
 
 cd\Users\User\OneDrive\Documents\Backup\mysql
 
-mysql -u root -p stock < stock_Aug-31.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p stock < stock_Aug-31.sql
-C:\xampp\MySQL\bin\mysql.exe -u root -p portfolio_development < portfolio_development_Aug-31.sql
+mysql -u root -p stock < stock_Oct-02.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p stock < stock_Oct-02.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p portfolio_development < portfolio_development_Oct-02.sql
 
 Postgres
 
@@ -60,7 +60,7 @@ rails log:clear
 
 cd\Users\User\OneDrive\A4\data
 
-ruby db_backup_old_to_new.rb music_development Aug-31
+ruby db_backup_old_to_new.rb music_development Oct-02
 
 # Restore process for Music from Old to New
 
@@ -68,13 +68,13 @@ MySQL
 
 cd\Users\PC1\OneDrive\Documents\Backup\mysql
 
-C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Aug-31.sql
+C:\xampp\MySQL\bin\mysql.exe -u root -p music_development < music_development_Oct-02.sql
 
 # Backup Process for Music from New to Old
 
 cd\Users\PC1\OneDrive\A4\data
 
-ruby db_backup_new_to_old.rb music_development Aug-31
+ruby db_backup_new_to_old.rb music_development Oct-02
 
 # Restore process for Music from New to Old
 
