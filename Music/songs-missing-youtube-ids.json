@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-14T16:52:02.970470",
-  "total_songs": 543,
-  "songs_with_youtube_ids": 530,
-  "songs_without_youtube_ids": 13,
+  "generated_at": "2026-10-27T11:13:42.457890",
+  "total_songs": 567,
+  "songs_with_youtube_ids": 547,
+  "songs_without_youtube_ids": 20,
   "no_youtube_id_songs": [
     {
       "filename": "I'll Never Dance Again_The Wynners.mp4",
@@ -22,6 +22,13 @@
       "filename": "No Milk Today_Herman's Hermits.mp4",
       "song_title": "No Milk Today",
       "artist": "Herman's Hermits",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "Physical_Olivia Newton John.mp4",
+      "song_title": "Physical",
+      "artist": "Olivia Newton John",
       "youtube_id": "",
       "no_youtube_id": true
     },
@@ -47,6 +54,13 @@
       "no_youtube_id": true
     },
     {
+      "filename": "San Francisco_Scott McKenzie.mp4",
+      "song_title": "San Francisco",
+      "artist": "Scott McKenzie",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
       "filename": "Simon Says_1910 Fruitgum Co.mp4",
       "song_title": "Simon Says",
       "artist": "1910 Fruitgum Co",
@@ -57,6 +71,13 @@
       "filename": "Tell Laura I Love Her_Ray Peterson.mp4",
       "song_title": "Tell Laura I Love Her",
       "artist": "Ray Peterson",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "What'd I Say-Ray Charles.mp4",
+      "song_title": "What'd I Say-Ray Charles",
+      "artist": "",
       "youtube_id": "",
       "no_youtube_id": true
     },
@@ -75,6 +96,13 @@
       "no_youtube_id": true
     },
     {
+      "filename": "ขอให้เหมือนเดิม (TH)_สุนทราภรฌ์.mp4",
+      "song_title": "ขอให้เหมือนเดิม (TH)",
+      "artist": "สุนทราภรฌ์",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
       "filename": "จำเลยรัก (TH)_Nene Royal.mp4",
       "song_title": "จำเลยรัก (TH)",
       "artist": "Nene Royal",
@@ -89,9 +117,30 @@
       "no_youtube_id": true
     },
     {
+      "filename": "รักคงยังไม่พอ (TH)_ธนพล อินทฤทธิ์.mp4",
+      "song_title": "รักคงยังไม่พอ (TH)",
+      "artist": "ธนพล อินทฤทธิ์",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
       "filename": "สหายสุรา (TH)_ไข่ มาลีฮวนนา.mp4",
       "song_title": "สหายสุรา (TH)",
       "artist": "ไข่ มาลีฮวนนา",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "สายเกินไป - โอเวชั่น.mp4",
+      "song_title": "สายเกินไป - โอเวชั่น",
+      "artist": "",
+      "youtube_id": "",
+      "no_youtube_id": true
+    },
+    {
+      "filename": "เด็กปั๊ม (TH)_คนด่านเกวียน.mp4",
+      "song_title": "เด็กปั๊ม (TH)",
+      "artist": "คนด่านเกวียน",
       "youtube_id": "",
       "no_youtube_id": true
     }

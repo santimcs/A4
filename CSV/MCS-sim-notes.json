@@ -1,0 +1,201 @@
+{
+  "generated_at": "2026-10-28T10:21:03",
+  "stock": "MCS",
+  "source_csv_rows": 722,
+  "thresholds": {
+    "DROP_PCT": 0.0344,
+    "TARGET_PCT": 0.05,
+    "HORIZONS_ROWS": [
+      5,
+      10,
+      20
+    ],
+    "MA_GATE_WINDOW": 200
+  },
+  "summary": {
+    "n_qualifying_down_days": 12,
+    "hit_rate_pct": {
+      "h5": 8.333333333333332,
+      "h10": 25.0,
+      "h20": 58.333333333333336
+    },
+    "median_rows_to_target": 14,
+    "worst_miss_pct": -14.62,
+    "avg_realized_pct_on_hits": 6.41,
+    "n_hit_target": 7,
+    "above_ma": {
+      "n": 3,
+      "hit20_pct": 33.33333333333333
+    },
+    "below_ma": {
+      "n": 9,
+      "hit20_pct": 66.66666666666666
+    }
+  },
+  "episodes": [
+    {
+      "down_date": "2024-03-14",
+      "entry_close": 6.5,
+      "prior_close": 6.75,
+      "drop_pct": -3.7,
+      "target_price": 6.825,
+      "hit_date": "2024-04-11",
+      "rows_to_target": 19.0,
+      "cal_days": 28.0,
+      "realized_pct": 8.46,
+      "max_drawdown_before_hit_pct": 0.0,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2024-05-10",
+      "entry_close": 7.65,
+      "prior_close": 8.1,
+      "drop_pct": -5.56,
+      "target_price": 8.0325,
+      "hit_date": "2024-05-20",
+      "rows_to_target": 6.0,
+      "cal_days": 10.0,
+      "realized_pct": 5.23,
+      "max_drawdown_before_hit_pct": 0.0,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2024-06-17",
+      "entry_close": 6.8,
+      "prior_close": 7.1,
+      "drop_pct": -4.23,
+      "target_price": 7.14,
+      "hit_date": "2024-07-12",
+      "rows_to_target": 19.0,
+      "cal_days": 25.0,
+      "realized_pct": 5.15,
+      "max_drawdown_before_hit_pct": -1.47,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2024-07-18",
+      "entry_close": 6.85,
+      "prior_close": 7.15,
+      "drop_pct": -4.2,
+      "target_price": 7.1925,
+      "hit_date": "2024-08-19",
+      "rows_to_target": 19.0,
+      "cal_days": 32.0,
+      "realized_pct": 5.84,
+      "max_drawdown_before_hit_pct": -7.3,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2024-07-23",
+      "entry_close": 6.65,
+      "prior_close": 6.9,
+      "drop_pct": -3.62,
+      "target_price": 6.9825,
+      "hit_date": "2024-08-14",
+      "rows_to_target": 14.0,
+      "cal_days": 22.0,
+      "realized_pct": 6.02,
+      "max_drawdown_before_hit_pct": -4.51,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2024-08-05",
+      "entry_close": 6.45,
+      "prior_close": 6.7,
+      "drop_pct": -3.73,
+      "target_price": 6.7725,
+      "hit_date": "2024-08-09",
+      "rows_to_target": 4.0,
+      "cal_days": 4.0,
+      "realized_pct": 6.2,
+      "max_drawdown_before_hit_pct": -1.55,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2024-11-06",
+      "entry_close": 7.1,
+      "prior_close": 7.45,
+      "drop_pct": -4.7,
+      "target_price": 7.455,
+      "hit_date": "",
+      "rows_to_target": NaN,
+      "cal_days": NaN,
+      "realized_pct": NaN,
+      "max_drawdown_before_hit_pct": -1.41,
+      "above_200ma_at_entry": true
+    },
+    {
+      "down_date": "2024-12-20",
+      "entry_close": 6.65,
+      "prior_close": 6.9,
+      "drop_pct": -3.62,
+      "target_price": 6.9825,
+      "hit_date": "",
+      "rows_to_target": NaN,
+      "cal_days": NaN,
+      "realized_pct": NaN,
+      "max_drawdown_before_hit_pct": -5.26,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2025-04-18",
+      "entry_close": 7.5,
+      "prior_close": 7.85,
+      "drop_pct": -4.46,
+      "target_price": 7.875,
+      "hit_date": "2025-05-02",
+      "rows_to_target": 9.0,
+      "cal_days": 14.0,
+      "realized_pct": 8.0,
+      "max_drawdown_before_hit_pct": -0.67,
+      "above_200ma_at_entry": true
+    },
+    {
+      "down_date": "2026-04-20",
+      "entry_close": 8.55,
+      "prior_close": 9.4,
+      "drop_pct": -9.04,
+      "target_price": 8.9775,
+      "hit_date": "",
+      "rows_to_target": NaN,
+      "cal_days": NaN,
+      "realized_pct": NaN,
+      "max_drawdown_before_hit_pct": -14.62,
+      "above_200ma_at_entry": true
+    },
+    {
+      "down_date": "2026-04-27",
+      "entry_close": 8.0,
+      "prior_close": 8.35,
+      "drop_pct": -4.19,
+      "target_price": 8.4,
+      "hit_date": "",
+      "rows_to_target": NaN,
+      "cal_days": NaN,
+      "realized_pct": NaN,
+      "max_drawdown_before_hit_pct": -8.75,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2026-05-11",
+      "entry_close": 7.55,
+      "prior_close": 8.25,
+      "drop_pct": -8.48,
+      "target_price": 7.9275,
+      "hit_date": "",
+      "rows_to_target": NaN,
+      "cal_days": NaN,
+      "realized_pct": NaN,
+      "max_drawdown_before_hit_pct": -3.31,
+      "above_200ma_at_entry": false
+    }
+  ],
+  "notes": [
+    "realized_pct = (hit_close / entry - 1) * 100, i.e. simple % gain on the hit",
+    "rows_to_target = trading rows after the down-day, not calendar days",
+    "above_200ma_at_entry uses rolling(N, min_periods=N); first N-1 rows are NaN → 'below'",
+    "source CSV contains exact-duplicate rows; dedupe on date before absolute counts",
+    "Recommended refinement: gate alerts on above_200ma_at_entry == True",
+    "Do NOT rank by annualized_pct — rank by hit_rate × gain − miss_rate × stop"
+  ]
+}

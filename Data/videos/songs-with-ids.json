@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-10-14T16:52:02.942070",
-  "total_songs": 543,
-  "songs_with_youtube_ids": 530,
-  "songs_without_youtube_ids": 13,
+  "generated_at": "2026-10-27T11:13:42.441044",
+  "total_songs": 567,
+  "songs_with_youtube_ids": 547,
+  "songs_without_youtube_ids": 20,
   "songs": [
     {
       "filename": "(Everything I Do) I Do It For You_Bryan Adams.mp4",
@@ -383,7 +383,7 @@
       "youtube_id": "aCnf46boC3I"
     },
     {
-      "filename": "Bridge over Troubled Water_Simon and Garfunkel .mp4",
+      "filename": "Bridge over Troubled Water_Simon and Garfunkel.mp4",
       "song_title": "Bridge over Troubled Water",
       "artist": "Simon and Garfunkel",
       "youtube_id": "WrcwRt6J32o"
@@ -392,6 +392,12 @@
       "filename": "California Dreamin'_Mamas and The Papas The.mp4",
       "song_title": "California Dreamin'",
       "artist": "Mamas and The Papas The",
+      "youtube_id": "N-aK6JnyFmk"
+    },
+    {
+      "filename": "California Dreamin_Mamas and the Papas The.mp4",
+      "song_title": "California Dreamin",
+      "artist": "Mamas and the Papas The",
       "youtube_id": "N-aK6JnyFmk"
     },
     {
@@ -421,6 +427,12 @@
     {
       "filename": "Chan Fu (CN)_Ma Jiantao.mp4",
       "song_title": "Chan Fu (CN)",
+      "artist": "Ma Jiantao",
+      "youtube_id": "GexT3LET3Ts"
+    },
+    {
+      "filename": "Chan Fu_Ma Jiantao.mp4",
+      "song_title": "Chan Fu",
       "artist": "Ma Jiantao",
       "youtube_id": "GexT3LET3Ts"
     },
@@ -671,6 +683,12 @@
       "youtube_id": "R5y1uy3abDM"
     },
     {
+      "filename": "Every Breath You Take_Police The.mp4",
+      "song_title": "Every Breath You Take",
+      "artist": "Police The",
+      "youtube_id": "OMOGaugKpzs"
+    },
+    {
       "filename": "Every Breath You Take_Police.mp4",
       "song_title": "Every Breath You Take",
       "artist": "Police",
@@ -731,7 +749,7 @@
       "youtube_id": "Sok3OorM9w8"
     },
     {
-      "filename": "Forever Young_UNDRESSD .mp4",
+      "filename": "Forever Young_UNDRESSD.mp4",
       "song_title": "Forever Young",
       "artist": "UNDRESSD",
       "youtube_id": "7c5S50Eh36k"
@@ -1025,6 +1043,12 @@
       "youtube_id": "w46bWxS9IjY"
     },
     {
+      "filename": "I Fell In Love With The Devil_Avril Lavigne.mp4",
+      "song_title": "I Fell In Love With The Devil",
+      "artist": "Avril Lavigne",
+      "youtube_id": "XIw_e2B0AbE"
+    },
+    {
       "filename": "I Hate Myself for Loving You_Joan Jett and the Blackhearts .mp4",
       "song_title": "I Hate Myself for Loving You",
       "artist": "Joan Jett and the Blackhearts",
@@ -1235,6 +1259,12 @@
       "youtube_id": "OpQFFLBMEPI"
     },
     {
+      "filename": "Just Like You (CN)_Chris Lee.mp4",
+      "song_title": "Just Like You (CN)",
+      "artist": "Chris Lee",
+      "youtube_id": "3Sj8F6Rdjg0"
+    },
+    {
       "filename": "Just The Way You Are_Bruno Mars.mp4",
       "song_title": "Just The Way You Are",
       "artist": "Bruno Mars",
@@ -1295,7 +1325,7 @@
       "youtube_id": "YqeW9_5kURI"
     },
     {
-      "filename": "Let Her Go_Passenger .mp4",
+      "filename": "Let Her Go_Passenger.mp4",
       "song_title": "Let Her Go",
       "artist": "Passenger",
       "youtube_id": "xv1EprTdgBE"
@@ -1361,7 +1391,7 @@
       "youtube_id": "U5qS0g84KqE"
     },
     {
-      "filename": "Lose Yourself_Eminem.mp4",
+      "filename": "Lose Yourself_Eminem .mp4",
       "song_title": "Lose Yourself",
       "artist": "Eminem",
       "youtube_id": "7YuAzR2XVAM"
@@ -1481,7 +1511,7 @@
       "youtube_id": "en2D_5TzXCA"
     },
     {
-      "filename": "Mockingbird_Eminem.mp4",
+      "filename": "Mockingbird_Eminem .mp4",
       "song_title": "Mockingbird",
       "artist": "Eminem",
       "youtube_id": "S9bCLPwzSC0"
@@ -1497,6 +1527,12 @@
       "song_title": "More Than Words",
       "artist": "Extreme",
       "youtube_id": "UrIiLvg58SY"
+    },
+    {
+      "filename": "Morning Has Broken_Cat Stevens.mp4",
+      "song_title": "Morning Has Broken",
+      "artist": "Cat Stevens",
+      "youtube_id": "j_efw1-3OvU"
     },
     {
       "filename": "Mr. Tambourine Man_Bob Dylan.mp4",
@@ -1733,6 +1769,12 @@
       "youtube_id": "2Vv-BfVoq4g"
     },
     {
+      "filename": "Physical_Olivia Newton John.mp4",
+      "song_title": "Physical",
+      "artist": "Olivia Newton John",
+      "youtube_id": ""
+    },
+    {
       "filename": "Please Forgive Me_Bryan Adams.mp4",
       "song_title": "Please Forgive Me",
       "artist": "Bryan Adams",
@@ -1779,6 +1821,12 @@
       "song_title": "Proud Mary",
       "artist": "Ike & Tina Turner",
       "youtube_id": ""
+    },
+    {
+      "filename": "Pull Me Under_Dream Theatre.mp4",
+      "song_title": "Pull Me Under",
+      "artist": "Dream Theatre",
+      "youtube_id": "mipc-JxrhRk"
     },
     {
       "filename": "Purple Haze_Jimi Hendrix Experience The.mp4",
@@ -1877,6 +1925,12 @@
       "youtube_id": "NrLkTZrPZA4"
     },
     {
+      "filename": "San Francisco_Scott McKenzie.mp4",
+      "song_title": "San Francisco",
+      "artist": "Scott McKenzie",
+      "youtube_id": ""
+    },
+    {
       "filename": "Save The Best For Last_Vanessa Williams.mp4",
       "song_title": "Save The Best For Last",
       "artist": "Vanessa Williams",
@@ -1919,8 +1973,8 @@
       "youtube_id": "8foyktslOFY"
     },
     {
-      "filename": "Send in the clowns_Judy Collins.mp4",
-      "song_title": "Send in the clowns",
+      "filename": "Send In the clowns_Judy Collins.mp4",
+      "song_title": "Send In the clowns",
       "artist": "Judy Collins",
       "youtube_id": "mvgPo7AIBlc"
     },
@@ -2039,9 +2093,9 @@
       "youtube_id": "9pVH4XDHzx8"
     },
     {
-      "filename": "Stan_Eminem.mp4",
+      "filename": "Stan_Eminem feat. Dido .mp4",
       "song_title": "Stan",
-      "artist": "Eminem",
+      "artist": "Eminem feat. Dido",
       "youtube_id": "gOMhN-hfMtY"
     },
     {
@@ -2417,6 +2471,12 @@
       "youtube_id": "WtYx1geh_sg"
     },
     {
+      "filename": "Time of Our LIves_Zhao Lei.mp4",
+      "song_title": "Time of Our LIves",
+      "artist": "Zhao Lei",
+      "youtube_id": "WtYx1geh_sg"
+    },
+    {
       "filename": "Time_Culture Club .mp4",
       "song_title": "Time",
       "artist": "Culture Club",
@@ -2579,10 +2639,10 @@
       "youtube_id": "QJO3ROT-A4E"
     },
     {
-      "filename": "What'd I Say_Ray Charles.mp4",
-      "song_title": "What'd I Say",
-      "artist": "Ray Charles",
-      "youtube_id": "6uTDa3771HM"
+      "filename": "What'd I Say-Ray Charles.mp4",
+      "song_title": "What'd I Say-Ray Charles",
+      "artist": "",
+      "youtube_id": ""
     },
     {
       "filename": "What's Going On_Marvin Gaye.mp4",
@@ -2795,6 +2855,12 @@
       "youtube_id": ""
     },
     {
+      "filename": "You Mean Everything To Me_Neil Sedaka.mp4",
+      "song_title": "You Mean Everything To Me",
+      "artist": "Neil Sedaka",
+      "youtube_id": "9A5RkRcdk5Y"
+    },
+    {
       "filename": "You Needed Me_Anne Murray.mp4",
       "song_title": "You Needed Me",
       "artist": "Anne Murray",
@@ -2909,10 +2975,28 @@
       "youtube_id": "a8EvoQH9nXk"
     },
     {
+      "filename": "ขอมือเธอหน่อย_นันทิดา แก้วบัวสาย.mp4",
+      "song_title": "ขอมือเธอหน่อย",
+      "artist": "นันทิดา แก้วบัวสาย",
+      "youtube_id": "a8EvoQH9nXk"
+    },
+    {
       "filename": "ขอใจเธอแลกเบอร์โทร (TH)_หญิงลี ศรีจุมพล.mp4",
       "song_title": "ขอใจเธอแลกเบอร์โทร (TH)",
       "artist": "หญิงลี ศรีจุมพล",
       "youtube_id": "CKDwsFbq1_c"
+    },
+    {
+      "filename": "ขอให้เหมือนเดิม (TH)_บูโดกัน.mp4",
+      "song_title": "ขอให้เหมือนเดิม (TH)",
+      "artist": "บูโดกัน",
+      "youtube_id": "gVXaNpb0cYo"
+    },
+    {
+      "filename": "ขอให้เหมือนเดิม (TH)_สุนทราภรฌ์.mp4",
+      "song_title": "ขอให้เหมือนเดิม (TH)",
+      "artist": "สุนทราภรฌ์",
+      "youtube_id": ""
     },
     {
       "filename": "คนจะรักกัน (TH)_สุเทพ วงศ์กำแหง.mp4",
@@ -2957,6 +3041,12 @@
       "youtube_id": "A8uDxNd6sW4"
     },
     {
+      "filename": "คืนจันทร์ (TH)_เสก โลโซ.mp4",
+      "song_title": "คืนจันทร์ (TH)",
+      "artist": "เสก โลโซ",
+      "youtube_id": "G2JFOEFmnnI"
+    },
+    {
       "filename": "คืนรัง (TH)_หงา คาราวาน.mp4",
       "song_title": "คืนรัง (TH)",
       "artist": "หงา คาราวาน",
@@ -2997,6 +3087,18 @@
       "song_title": "ตราบธุลีดิน (TH)",
       "artist": "ปู่จ๋านลองไมค์",
       "youtube_id": "V4pdp4d4NWo"
+    },
+    {
+      "filename": "ตาผุยชุมแพ (TH)_อมตะ.mp4",
+      "song_title": "ตาผุยชุมแพ (TH)",
+      "artist": "อมตะ",
+      "youtube_id": "FjA4T2M7NAo"
+    },
+    {
+      "filename": "ถั่งโถมโหมแรงไฟ (TH)_หงา คาราวาน.mp4",
+      "song_title": "ถั่งโถมโหมแรงไฟ (TH)",
+      "artist": "หงา คาราวาน",
+      "youtube_id": "U5kzBaIqrY0"
     },
     {
       "filename": "ถ้าหัวใจมีปีก (TH)_ไข่มุก เพ็ญสินี.mp4",
@@ -3053,6 +3155,12 @@
       "youtube_id": ""
     },
     {
+      "filename": "รักคงยังไม่พอ (TH)_ธนพล อินทฤทธิ์.mp4",
+      "song_title": "รักคงยังไม่พอ (TH)",
+      "artist": "ธนพล อินทฤทธิ์",
+      "youtube_id": ""
+    },
+    {
       "filename": "รักคงยังไม่พอ (TH)_เสือ ธนพล.mp4",
       "song_title": "รักคงยังไม่พอ (TH)",
       "artist": "เสือ ธนพล",
@@ -3063,6 +3171,12 @@
       "song_title": "รักฉันนั้นเพื่อเธอ (TH)",
       "artist": "ต้อม เรนโบว์",
       "youtube_id": "qLxlcPQFJ_8"
+    },
+    {
+      "filename": "รักเอ๋ย (TH)_ธงไชย แมคอินไตย์.mp4",
+      "song_title": "รักเอ๋ย (TH)",
+      "artist": "ธงไชย แมคอินไตย์",
+      "youtube_id": "Qbr7CH40OS4"
     },
     {
       "filename": "ลึกสุดใจ (TH)_ก้อง สหรัถ.mp4",
@@ -3079,6 +3193,12 @@
     {
       "filename": "ล้างใจ (TH)_อนันต์ บุนนาค.mp4",
       "song_title": "ล้างใจ (TH)",
+      "artist": "อนันต์ บุนนาค",
+      "youtube_id": "yD__EmJ2qTI"
+    },
+    {
+      "filename": "ล้างใจ_อนันต์ บุนนาค.mp4",
+      "song_title": "ล้างใจ",
       "artist": "อนันต์ บุนนาค",
       "youtube_id": "yD__EmJ2qTI"
     },
@@ -3111,6 +3231,12 @@
       "song_title": "สัญญาหน้าฝน (TH)",
       "artist": "คาราบาว",
       "youtube_id": "94uXIY-hpu0"
+    },
+    {
+      "filename": "สายเกินไป - โอเวชั่น.mp4",
+      "song_title": "สายเกินไป - โอเวชั่น",
+      "artist": "",
+      "youtube_id": ""
     },
     {
       "filename": "สาวเชียงใหม (TH)_สุนทรี เวชานนท์.mp4",
@@ -3149,6 +3275,12 @@
       "youtube_id": "c1kCV68WN70"
     },
     {
+      "filename": "อธิษฐานรัก (TH)_เรนโบว์.mp4",
+      "song_title": "อธิษฐานรัก (TH)",
+      "artist": "เรนโบว์",
+      "youtube_id": "c1kCV68WN70"
+    },
+    {
       "filename": "อยู่ตรงนี้ (TH)_พงษ์สิทธิ์ คำภีร์.mp4",
       "song_title": "อยู่ตรงนี้ (TH)",
       "artist": "พงษ์สิทธิ์ คำภีร์",
@@ -3167,10 +3299,22 @@
       "youtube_id": "6AlpaZwqo2U"
     },
     {
+      "filename": "อาจจะเป็นคนนี้_แหวน ฐิติมา.mp4",
+      "song_title": "อาจจะเป็นคนนี้",
+      "artist": "แหวน ฐิติมา",
+      "youtube_id": "6AlpaZwqo2U"
+    },
+    {
       "filename": "เก็บตะวัน (TH)_อิทธิ พลางกูร.mp4",
       "song_title": "เก็บตะวัน (TH)",
       "artist": "อิทธิ พลางกูร",
       "youtube_id": "6rPHOagyq2s"
+    },
+    {
+      "filename": "เด็กปั๊ม (TH)_คนด่านเกวียน.mp4",
+      "song_title": "เด็กปั๊ม (TH)",
+      "artist": "คนด่านเกวียน",
+      "youtube_id": ""
     },
     {
       "filename": "เรามีเรา (TH)_แหวน ฐิติมา.mp4",

@@ -1,0 +1,473 @@
+# =====================================================================
+# RENDER XXX PORTFOLIO DASHBOARD
+# =====================================================================
+
+
+dashboard_html = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{name} Portfolio Dashboard (THB)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<style>
+  :root {{
+    --bg:#0f1720; --panel:#17212b; --text:#e6edf3; --muted:#8b9aa8;
+    --accent:#4fc3f7; --green:#4caf50; --red:#ef5350; --amber:#ffb74d; --border:#26333f;
+  }}
+  * {{ box-sizing: border-box; }}
+  body {{ margin:0; background:var(--bg); color:var(--text);
+          font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; padding:24px; }}
+  h1 {{ font-size:24px; margin:0 0 4px 0; font-weight:600; }}
+  .sub {{ color:var(--muted); font-size:13px; margin-bottom:24px; }}
+  .kpis {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+           gap:12px; margin-bottom:24px; }}
+  .kpi {{ background:var(--panel); border:1px solid var(--border);
+          border-radius:10px; padding:14px 16px; }}
+  .kpi .label {{ color:var(--muted); font-size:11px; text-transform:uppercase;
+                 letter-spacing:0.5px; margin-bottom:6px; }}
+  .kpi .value {{ font-size:22px; font-weight:600; }}
+  .kpi .sub-value {{ font-size:12px; color:var(--muted); margin-top:4px; }}
+  .grid {{ display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:16px; }}
+  .card {{ background:var(--panel); border:1px solid var(--border);
+           border-radius:10px; padding:16px; }}
+  .card h2 {{ font-size:14px; margin:0 0 12px 0; font-weight:600; }}
+  .card .hint {{ font-size:11px; color:var(--muted); margin-top:10px; line-height:1.5; }}
+  .chart-wrap {{ position:relative; height:260px; }}
+  .chart-wrap.tall {{ height:320px; }}
+  .green {{ color:var(--green); }} .red {{ color:var(--red); }} .amber {{ color:var(--amber); }}
+  table.data {{ width:100%; border-collapse:collapse; font-size:12px; }}
+  table.data th, table.data td {{ text-align:left; padding:6px 8px; border-bottom:1px solid var(--border); }}
+  table.data th {{ color:var(--muted); font-weight:500; text-transform:uppercase;
+                   font-size:10px; letter-spacing:0.5px; }}
+  table.data td.num {{ text-align:right; font-variant-numeric:tabular-nums; }}
+</style>
+</head>
+<body>
+
+<h1>{name} Portfolio Dashboard</h1>
+<div class="sub" id="subline">Loading…</div>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="grid">
+  <div class="card">
+    <h2>Total Return Composition (฿)</h2>
+    <div class="chart-wrap"><canvas id="composeChart"></canvas></div>
+    <div class="hint">Dividends vs realized vs unrealized.</div>
+  </div>
+
+  <div class="card">
+    <h2>Return by Year (Realized + Dividends)</h2>
+    <div class="chart-wrap"><canvas id="yearChart"></canvas></div>
+    <div class="hint">Stacked: capital gains + net dividends.</div>
+  </div>
+
+  <div class="card">
+    <h2>{name} Price + 200-Day MA</h2>
+    <div class="chart-wrap tall"><canvas id="maChart"></canvas></div>
+    <div class="hint">Above MA = bullish regime.</div>
+  </div>
+
+  <div class="card">
+    <h2>{name} vs SET Index (Rebased to 100)</h2>
+    <div class="chart-wrap tall"><canvas id="vsChart"></canvas></div>
+    <div class="hint">Is {name} outperforming the Thai market?</div>
+  </div>
+
+  <div class="card" style="grid-column:1 / -1;">
+    <h2>Active Lots vs 200-Day MA — Sell Signal Table</h2>
+    <table class="data" id="signalTable">
+      <thead><tr>
+        <th>ID</th><th>Buy Date</th><th class="num">Qty</th><th class="num">Cost/sh</th>
+        <th class="num">Cost Basis</th><th class="num">Market Value</th>
+        <th class="num">P/L</th><th class="num">P/L %</th><th class="num">vs MA</th><th>Signal</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+    <div class="card" style="grid-column:1 / -1;">
+      <h2>Technical Buy Zones — Reference Table</h2>
+      <table class="data" id="buyZoneTable">
+        <thead><tr>
+          <th>Zone</th><th class="num">From (฿)</th><th class="num">To (฿)</th>
+          <th class="num">Distance from today</th>
+          <th>Trend context</th><th>Rationale</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="hint">
+        Zones are derived from the 200-day MA × multipliers (1.00–1.05, 0.90–1.00, 0.75–0.90).
+        These are technical levels only — they don't assess whether RCL is fundamentally cheap.
+      </div>
+    </div>
+
+  <div class="card">
+      <h2>Technical Buy Zones vs 200-MA</h2>
+      <div class="chart-wrap tall"><canvas id="buyZoneChart"></canvas></div>
+      <div class="hint" id="buyZoneHint"></div>
+  </div>
+
+  <div class="card" style="grid-column:1 / -1;">
+    <h2>Closed Trades Detail (฿)</h2>
+    <table class="data" id="sellsTable">
+      <thead><tr>
+        <th>Sell Date</th><th>Buy Date</th><th class="num">Days</th>
+        <th class="num">Qty</th><th class="num">Cost</th><th class="num">Proceeds</th>
+        <th class="num">Profit</th><th class="num">Return</th><th class="num">Annualized</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="card" style="grid-column:1 / -1;">
+    <h2>Dividend Income by Year (฿ net)</h2>
+    <div class="chart-wrap"><canvas id="divYearChart"></canvas></div>
+    <div class="hint">Net dividends per calendar year, based on <code>df_div_dash</code>. Bars stack per year; multiple payments in the same year are summed.</div>
+  </div>
+  
+
+  
+  </div>
+
+<script>
+const P = {payload};
+const THB  = n => '฿' + Number(n).toLocaleString('en-US', {{maximumFractionDigits:0}});
+const THB2 = n => '฿' + Number(n).toLocaleString('en-US', {{minimumFractionDigits:2,maximumFractionDigits:2}});
+const fmt  = n => Number(n).toLocaleString('en-US', {{maximumFractionDigits:0}});
+
+function annualizedPct(dec, days) {{
+  if (days <= 0) return 0;
+  return (Math.pow(1 + dec, 365/days) - 1) * 100;
+}}
+
+Chart.defaults.color = '#8b9aa8';
+Chart.defaults.borderColor = '#26333f';
+
+document.getElementById('subline').innerHTML =
+  `Snapshot ${{P.latestDate}} · ${{P.name}} ฿${{P.latestPrice.toFixed(2)}} · 200-MA ฿${{P.lastMA.toFixed(2)}} · All amounts in Thai Baht (฿)`;
+
+// ---- KPIs ----
+const kpis = [
+    {{label:'Buy Zone Signal', value: P.buyZoneStatus.split(' — ')[0],
+     sub:'200-MA ฿' + P.lastMA.toFixed(2),
+     cls: P.buyZoneStatus.includes('INSIDE') ? 'green'
+        : P.buyZoneStatus.includes('BELOW')  ? 'amber' : 'red'}},
+    {{label:'200-MA Trend', value: P.maTrend,
+      sub: (P.maTrend20dPct>=0?'+':'') + P.maTrend20dPct.toFixed(2) + '% over 20d',
+      cls: P.maTrend === 'RISING' ? 'green'
+         : P.maTrend === 'FALLING' ? 'red' : 'amber'}},        
+  {{label:'Active Position', value:THB(P.marketValue),
+    sub: fmt(P.activeQty) + ' sh @ ฿' + P.latestPrice.toFixed(2)}},
+  {{label:'Active Cost Basis', value:THB(P.activeCost),
+    sub:'avg ฿' + (P.activeCost/P.activeQty).toFixed(2) + '/sh'}},
+  {{label:'Unrealized P&L', value:(P.unrealized>=0?'+':'−')+THB(Math.abs(P.unrealized)),
+    sub:(P.unrealizedPct>=0?'+':'')+P.unrealizedPct.toFixed(2)+'%',
+    cls: P.unrealized>=0?'green':'red'}},
+    
+
+
+    {{label:'Realized Gains', value:(P.realized>=0?'+':'−')+THB(Math.abs(P.realized)),
+      sub:P.sells.length + ' closed trades',
+      cls: P.realized>=0?'green':'red'}},
+    
+  {{label:'Net Dividends', value:THB(P.dividends),
+    sub:P.dividendsList.length + ' payments', cls:'green'}},
+    
+    {{label:'Total Return',
+      value:(P.totalReturn>=0?'+':'−')+THB(Math.abs(P.totalReturn)),
+      sub:'realized + dividends + unrealized',
+      cls: P.totalReturn>=0?'green':'red'}},
+    
+  {{label:'Price vs 200-MA', value:'฿' + P.latestPrice.toFixed(2),
+    sub:(P.maDistance>=0?'+':'')+P.maDistance.toFixed(2)+'% vs ฿'+P.lastMA.toFixed(2),
+    cls: P.maDistance>=0?'green':'red'}},
+];
+document.getElementById('kpis').innerHTML = kpis.map(k =>
+  `<div class="kpi"><div class="label">${{k.label}}</div>
+   <div class="value ${{k.cls||''}}">${{k.value}}</div>
+   <div class="sub-value">${{k.sub}}</div></div>`).join('');
+
+// ---- 1. Composition ----
+new Chart(document.getElementById('composeChart'), {{
+  type:'doughnut',
+  data:{{ labels:['Net Dividends','Realized Gains','Unrealized P&L'],
+    datasets:[{{ data:[P.dividends, P.realized, Math.max(P.unrealized,0)],
+      backgroundColor:['#4fc3f7','#4caf50','#ffb74d'],
+      borderColor:'#17212b', borderWidth:3 }}] }},
+  options:{{responsive:true, maintainAspectRatio:false,
+    plugins:{{legend:{{position:'bottom', labels:{{padding:14, boxWidth:12}}}},
+             tooltip:{{callbacks:{{label:c => c.label + ': ' + THB(c.raw)}}}}}}}}
+}});
+
+// ---- 2. Year stack ----
+const years = [...new Set([...P.dividendsList.map(d=>d.year),
+                            ...P.sells.map(s=>+s.sellDate.slice(0,4))])].sort();
+const divByYear  = years.map(y => P.dividendsList.filter(d=>d.year===y).reduce((s,d)=>s+d.net,0));
+const gainByYear = years.map(y => P.sells.filter(s=>+s.sellDate.slice(0,4)===y).reduce((s,x)=>s+x.profit,0));
+new Chart(document.getElementById('yearChart'), {{
+  type:'bar',
+  data:{{labels:years, datasets:[
+    {{label:'Net Dividends', data:divByYear, backgroundColor:'#4fc3f7'}},
+    {{label:'Realized Gains', data:gainByYear, backgroundColor:'#4caf50'}} ]}},
+  options:{{responsive:true, maintainAspectRatio:false,
+    scales:{{x:{{stacked:true, grid:{{display:false}}}},
+            y:{{stacked:true, ticks:{{callback:v => '฿' + (v/1000).toFixed(0) + 'k'}}}}}},
+    plugins:{{legend:{{position:'bottom', labels:{{padding:12, boxWidth:12}}}},
+             tooltip:{{callbacks:{{label:c => c.dataset.label + ': ' + THB(c.raw)}}}}}}}}
+}});
+
+// ---- 3. MA chart ----
+new Chart(document.getElementById('maChart'), {{
+  type:'line',
+  data:{{labels:P.rcl.map(p=>p.date), datasets:[
+    {{label:'Close', data:P.rcl.map(p=>p.price), borderColor:'#4fc3f7',
+      backgroundColor:'rgba(79,195,247,0.08)', fill:true, tension:0.15,
+      pointRadius:0, borderWidth:1.5}},
+    {{label:'200-Day MA', data:P.rcl.map(p=>p.ma), borderColor:'#ffb74d',
+      borderWidth:2, pointRadius:0, tension:0.15, spanGaps:true}} ]}},
+  options:{{responsive:true, maintainAspectRatio:false,
+    interaction:{{mode:'index', intersect:false}},
+    scales:{{x:{{ticks:{{maxRotation:0, autoSkip:true, maxTicksLimit:8}}}},
+            y:{{ticks:{{callback:v => '฿' + v}}}}}},
+    plugins:{{legend:{{position:'bottom', labels:{{padding:12, boxWidth:12}}}},
+             tooltip:{{callbacks:{{label:c => c.dataset.label + ': ฿' + (c.raw!=null ? c.raw.toFixed(2) : '—')}}}}}}}}
+}});
+
+// ---- Buy zones overlay on price + MA ----
+(function(){{
+  const zones = P.buyZones;
+  const lastMA = P.lastMA;
+
+  const xStart = P.rcl[0].date;
+  const xEnd   = P.rcl[P.rcl.length - 1].date;
+
+  const shapes = zones.map(z => ({{
+    type: 'rect',
+    xref: 'x', yref: 'y',
+    x0: xStart, x1: xEnd,
+    y0: z.lo,   y1: z.hi,
+    fillcolor: z.color,
+    opacity: 0.12,
+    line: {{ width: 0 }},
+    layer: 'below',
+  }}));
+
+  shapes.push({{
+    type: 'line',
+    xref: 'paper', yref: 'y',
+    x0: 0, x1: 1,
+    y0: lastMA, y1: lastMA,
+    line: {{ color: '#ffb74d', width: 1.5, dash: 'dot' }},
+  }});
+
+  shapes.push({{
+    type: 'line',
+    xref: 'paper', yref: 'y',
+    x0: 0, x1: 1,
+    y0: P.latestPrice, y1: P.latestPrice,
+    line: {{ color: '#4fc3f7', width: 1.5, dash: 'dash' }},
+  }});
+
+  const trace1 = {{
+    x: P.rcl.map(p => p.date),
+    y: P.rcl.map(p => p.price),
+    mode: 'lines',
+    name: 'Close',
+    line: {{ color: '#e6edf3', width: 1.5 }},
+    hovertemplate: '%{{x}}<br>฿%{{y:.2f}}<extra></extra>',
+  }};
+
+  const trace2 = {{
+    x: P.rcl.map(p => p.date),
+    y: P.rcl.map(p => p.ma),
+    mode: 'lines',
+    name: '200-MA',
+    line: {{ color: '#ffb74d', width: 2 }},
+    connectgaps: false,
+    hovertemplate: '%{{x}}<br>MA ฿%{{y:.2f}}<extra></extra>',
+  }};
+
+    const maDirectionText = P.maTrend === 'RISING'   ? '↗ MA RISING'
+                           : P.maTrend === 'FALLING' ? '↘ MA FALLING'
+                           :                            '→ MA FLAT';
+
+    const annotations = zones.map(z => ({{
+      x: xEnd, y: (z.lo + z.hi) / 2,
+      xref: 'x', yref: 'y',
+      text: `${{z.label}}<br>฿${{z.lo}}–฿${{z.hi}}`,
+      showarrow: false,
+      xanchor: 'right',
+      font: {{ size: 10, color: z.color }},
+    }})).concat([{{
+      x: xEnd,
+      y: P.lastMA,
+      xref: 'x', yref: 'y',
+      text: maDirectionText,
+      showarrow: false,
+      xanchor: 'right',
+      yanchor: 'bottom',
+      font: {{ size: 11, color: P.maTrendColor, weight: 'bold' }},
+    }}]);
+
+  Plotly.newPlot('buyZoneChart', [trace1, trace2], {{
+    margin: {{ t: 20, b: 40, l: 55, r: 90 }},
+    shapes,
+    annotations,
+    xaxis: {{ showgrid: false, tickfont: {{ size: 10 }} }},
+    yaxis: {{ title: 'Price (฿)', tickprefix: '฿' }},
+    legend: {{ orientation: 'h', y: 1.05 }},
+    plot_bgcolor: '#17212b',
+    paper_bgcolor: '#17212b',
+    font: {{ color: '#8b9aa8' }},
+    hovermode: 'x unified',
+  }}, {{ responsive: true, displayModeBar: false }});
+
+  document.getElementById('buyZoneHint').innerHTML =
+    `<b>Today:</b> ฿${{P.latestPrice.toFixed(2)}} — ${{P.buyZoneStatus}}.<br>` +
+    zones.map(z => `&nbsp;&nbsp;<span style="color:${{z.color}}">■</span> ${{z.label}}: ฿${{z.lo}}–฿${{z.hi}} — ${{z.sub}}`).join('<br>');
+}})();
+
+// ---- 4. vs SET ----
+const setMap = new Map(P.set.map(p => [p.date, p.value]));
+const aligned = P.rcl.filter(p => setMap.has(p.date));
+if (aligned.length > 0) {{
+  const baseRCL = aligned[0].price;
+  const baseSET = setMap.get(aligned[0].date);
+  const rclN = aligned.map(p => +(p.price/baseRCL*100).toFixed(2));
+  const setN = aligned.map(p => +(setMap.get(p.date)/baseSET*100).toFixed(2));
+  new Chart(document.getElementById('vsChart'), {{
+    type:'line',
+    data:{{labels:aligned.map(p=>p.date), datasets:[
+      {{label:P.name+' (rebased)', data:rclN, borderColor:'#4fc3f7', borderWidth:2, pointRadius:0, tension:0.15}},
+      {{label:'SET Index (rebased)', data:setN, borderColor:'#ffb74d', borderWidth:2, pointRadius:0, tension:0.15}} ]}},
+    options:{{responsive:true, maintainAspectRatio:false,
+      interaction:{{mode:'index', intersect:false}},
+      scales:{{x:{{ticks:{{maxRotation:0, autoSkip:true, maxTicksLimit:8}}}}}},
+      plugins:{{legend:{{position:'bottom', labels:{{padding:12, boxWidth:12}}}}}}}}
+  }});
+}}
+
+
+// ---- Dividends by Year ----\n",
+const divYears = [...new Set(P.dividendsList.map(d => d.year))].sort((a,b) => a-b);\n",
+const divByYearMap = new Map();\n",
+divYears.forEach(y => divByYearMap.set(y, 0));\n",
+P.dividendsList.forEach(d => divByYearMap.set(d.year, divByYearMap.get(d.year) + d.net));\n",
+const divByYearValues = divYears.map(y => +divByYearMap.get(y).toFixed(2));\n",
+const divTotalAll = divByYearValues.reduce((a,b) => a+b, 0);\n",
+new Chart(document.getElementById('divYearChart'), {{\n",
+  type:'bar',\n",
+  data:{{labels:divYears, datasets:[{{\n",
+    label:'Net Dividends (฿)',\n",
+    data:divByYearValues,\n",
+    backgroundColor:'#4fc3f7',\n",
+    borderColor:'#4fc3f7', borderWidth:1\n",
+  }}]}},\n",
+  options:{{responsive:true, maintainAspectRatio:false,\n",
+    scales:{{x:{{grid:{{display:false}}, ticks:{{maxRotation:0, autoSkip:false}}}},\n",
+            y:{{ticks:{{callback:v => '฿' + Number(v).toLocaleString('en-US',{{maximumFractionDigits:0}})}}}}}},\n",
+    plugins:{{legend:{{display:false}},\n",
+             tooltip:{{callbacks:{{\n",
+               label:c => 'Net: ' + THB(c.raw),\n",
+               afterLabel:c => 'Share of total: ' + (divTotalAll ? (c.raw/divTotalAll*100).toFixed(1) : '0.0') + '%'\n",
+             }}}}}},\n",
+  }}\n",
+}});\n",
+\n",
+
+
+// ---- 7. Signal table ----
+const maDelta = P.maDistance;
+document.querySelector('#signalTable tbody').innerHTML =
+  P.buys.filter(b => b.status === 'Active').map(b => {{
+    const mv = b.qty * P.latestPrice;
+    const pl = mv - b.net;
+    const plPct = pl / b.net * 100;
+    let signal, cls;
+    if (P.latestPrice > P.lastMA && plPct > 15) {{ signal = 'TAKE PROFIT'; cls = 'green'; }}
+    else if (P.latestPrice > P.lastMA)          {{ signal = 'HOLD · TREND UP'; cls = 'green'; }}
+    else if (plPct < -10)                        {{ signal = 'REASSESS'; cls = 'red'; }}
+    else                                          {{ signal = 'HOLD'; cls = 'amber'; }}
+    return `<tr>
+      <td>${{b.id}}</td><td>${{b.date}}</td>
+      <td class="num">${{fmt(b.qty)}}</td>
+      <td class="num">฿${{b.price.toFixed(2)}}</td>
+      <td class="num">${{THB(b.net)}}</td>
+      <td class="num">${{THB(mv)}}</td>
+      <td class="num ${{pl>=0?'green':'red'}}">${{pl>=0?'+':'−'}}${{THB(Math.abs(pl))}}</td>
+      <td class="num ${{plPct>=0?'green':'red'}}">${{plPct>=0?'+':''}}${{plPct.toFixed(1)}}%</td>
+      <td class="num ${{maDelta>=0?'green':'red'}}">${{maDelta>=0?'+':''}}${{maDelta.toFixed(1)}}%</td>
+      <td class="${{cls}}">${{signal}}</td>
+    </tr>`;
+  }}).join('');
+
+// ---- 8. Sells table ----
+document.querySelector('#sellsTable tbody').innerHTML = P.sells.map(s => {{
+  const ann = annualizedPct(s.pct/100, s.days);
+  const annDisplay = ann > 999 ? '>999%' : ann.toFixed(1) + '%';
+  return `<tr>
+    <td>${{s.sellDate}}</td><td>${{s.buyDate}}</td>
+    <td class="num">${{s.days}}</td>
+    <td class="num">${{fmt(s.qty)}}</td>
+    <td class="num">${{THB2(s.cost)}}</td>
+    <td class="num">${{THB2(s.proceeds)}}</td>
+    <td class="num green">+${{THB2(s.profit)}}</td>
+    <td class="num ${{s.pct>=20?'green':s.pct>=10?'':'amber'}}">${{s.pct.toFixed(2)}}%</td>
+    <td class="num ${{ann>=50?'green':ann>=15?'amber':'red'}}">${{annDisplay}}</td>
+  </tr>`;
+}}).join('');
+
+document.querySelector('#buyZoneTable tbody').innerHTML =
+  P.buyZones.map(z => {{
+    const mid  = (z.lo + z.hi) / 2;
+    const dist = ((P.latestPrice - mid) / mid * 100);
+    const distCls = Math.abs(dist) <= 5 ? 'green' : dist > 0 ? 'amber' : 'green';
+    const distLabel = dist > 0
+      ? `+${{dist.toFixed(1)}}% above`
+      : `${{dist.toFixed(1)}}% below`;
+
+    // Trend context per zone
+    let trendNote = '';
+    if (z.label === 'Trend-following') {{
+      trendNote = P.maTrend === 'RISING'
+        ? '✅ MA rising — pullbacks are buyable'
+        : P.maTrend === 'FALLING'
+         : '➖ MA flat — wait for direction';
+    }} else if (z.label === 'Mean-reversion') {{
+      trendNote = P.maTrend === 'RISING'
+        ? '✅ Healthy dip in an uptrend'
+        : P.maTrend === 'FALLING'
+          ? '⚠️ Catching a falling knife — size small'
+          : '➖ Range-bound — normal accumulation';
+    }} else {{
+      trendNote = P.maTrend === 'FALLING'
+        ? '⚠️ Only if thesis is intact'
+        : '✅ Best entry if thesis holds';
+    }}
+
+    return `<tr>
+      <td style="color:${{z.color}}; font-weight:600">${{z.label}}</td>
+      <td class="num">฿${{z.lo.toFixed(2)}}</td>
+      <td class="num">฿${{z.hi.toFixed(2)}}</td>
+      <td class="num ${{distCls}}">${{distLabel}}</td>
+      <td style="color:${{P.maTrendColor}}">${{trendNote}}</td>
+      <td>${{z.note}}</td>
+    </tr>`;
+  }}).join('');
+
+</script>
+</body>
+</html>
+"""
+
+# Escape braces for .format() then substitute
+rendered = dashboard_html.format(name=NAME, payload=payload_json)
+
+output_file = os.path.join(csv_path, f"{NAME}-dashboard-{dd}.html")
+with open(output_file, "w", encoding="utf-8") as f:
+    f.write(rendered)
+
+print(f"✅ Dashboard generated: {output_file}")
+print(f"File size: {os.path.getsize(output_file) / 1024:.2f} KB")

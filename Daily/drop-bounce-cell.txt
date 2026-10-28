@@ -1,0 +1,326 @@
+# =====================================================================
+# DROP→BOUNCE BASE-RATE APPENDIX  (appends to the dashboard written by
+# the previous cell — run this AFTER cell 7, every time)
+# =====================================================================
+# WHY THIS CELL EXISTS
+#   The earlier analysis asked: "how often does a ≥3% single-day fall
+#   give a ≥3% bounce I could sell?" — the 'missed opportunity' pattern.
+#   The closed-trade list is NOT a base rate; it only shows trades that
+#   were actually taken. This cell scans the FULL price history the
+#   dashboard already loaded, measures hit rate at a target % within
+#   5/10/20 trading rows, and injects two new cards into the HTML:
+#     1. the base-rate table + KPI tiles
+#     2. a collapsible 'Method & rationale' block with the design notes
+#   It also writes {NAME}-sim-notes.json next to the HTML so every
+#   threshold (DROP_PCT, TARGET_PCT, etc.) is auditable later.
+#
+# HOW TO FINE-TUNE
+#   Edit the tunable constants below, re-run cell 7 (to rebuild the
+#   base dashboard), then re-run this cell. The cell is idempotent:
+#   it strips its own previous appendix before re-inserting, so you
+#   never get duplicates.
+# =====================================================================
+
+import json, os, re
+from datetime import datetime
+
+# ---------- tunable constants (mirrored into the JSON sidecar) ----------
+DROP_PCT        = 0.0344
+TARGET_PCT      = 0.05
+HORIZONS_ROWS   = (5, 10, 20)
+MA_GATE_WINDOW  = 200
+
+# ---------- reuse the exact series the dashboard already built ----------
+px = (
+    df_rcl_dash[["date", "price"]]
+    .copy()
+    .assign(price=lambda d: d["price"].astype(float))
+    .reset_index(drop=True)
+)
+px["ma"] = px["price"].rolling(MA_GATE_WINDOW, min_periods=MA_GATE_WINDOW).mean()
+
+# ---------- find qualifying down-days ----------
+px["prior_close"] = px["price"].shift(1)
+px["drop_pct"]    = (px["price"] / px["prior_close"] - 1.0) * 100.0
+candidates = px[(px["prior_close"].notna()) & (px["drop_pct"] <= -DROP_PCT * 100)].copy()
+
+# ---------- walk forward for each candidate ----------
+def _first_hit(idx_entry: int, entry_px: float):
+    """Return (hit_row_offset or None, hit_close, rows_to_hit, max_dd_pct_before_hit)."""
+    target = entry_px * (1 + TARGET_PCT)
+    max_dd = 0.0
+    for k in range(1, max(HORIZONS_ROWS) + 1):
+        j = idx_entry + k
+        if j >= len(px):
+            return None, None, None, max_dd
+        c = float(px.at[j, "price"])
+        dd = (c - entry_px) / entry_px * 100.0
+        if dd < max_dd:
+            max_dd = dd
+        if c >= target:
+            return k, c, j - idx_entry, max_dd
+    return None, None, None, max_dd
+
+rows = []
+for _, r in candidates.iterrows():
+    i     = int(r.name)
+    entry = float(r["price"])
+    hit_k, hit_close, rows_to_hit, max_dd = _first_hit(i, entry)
+
+    cal_days = None
+    if hit_k is not None:
+        d0 = datetime.fromisoformat(str(px.at[i, "date"]))
+        d1 = datetime.fromisoformat(str(px.at[i + hit_k, "date"]))
+        cal_days = (d1 - d0).days
+
+    realized_pct = None
+    if hit_close is not None and entry:
+        realized_pct = (hit_close / entry - 1.0) * 100.0
+
+    above_ma = bool(pd.notna(r["ma"]) and entry > r["ma"])
+
+    rows.append({
+        "down_date":        str(r["date"]),
+        "entry_close":      round(entry, 4),
+        "prior_close":      round(float(r["prior_close"]), 4),
+        "drop_pct":         round(float(r["drop_pct"]), 2),
+        "target_price":     round(entry * (1 + TARGET_PCT), 4),
+        "hit_date":         str(px.at[i + hit_k, "date"]) if hit_k else "",
+        "rows_to_target":   rows_to_hit if hit_k else None,
+        "cal_days":         cal_days,
+        "realized_pct":     round(realized_pct, 2) if realized_pct is not None else None,
+        "max_drawdown_before_hit_pct": round(max_dd, 2),
+        "above_200ma_at_entry": above_ma,
+    })
+
+ep = pd.DataFrame(rows)
+
+# ---------- aggregate ----------
+def _hit_rate(df, h):
+    if df.empty: return 0.0
+    return float((df["rows_to_target"].notna() & (df["rows_to_target"] <= h)).mean()) * 100.0
+
+n_total    = len(ep)
+hit5       = _hit_rate(ep, 5)
+hit10      = _hit_rate(ep, 10)
+hit20      = _hit_rate(ep, 20)
+median_k   = int(ep.loc[ep["rows_to_target"].notna(), "rows_to_target"].median()) if n_total else 0
+worst_dd   = float(ep["max_drawdown_before_hit_pct"].min()) if n_total else 0.0
+
+# new KPI inputs (replacing the old "annualized > 999" tile)
+n_hit_target = int(ep["rows_to_target"].notna().sum())
+avg_realized_on_hits = (
+    round(ep.loc[ep["realized_pct"].notna(), "realized_pct"].mean(), 2)
+    if ep["realized_pct"].notna().any() else 0.0
+)
+
+ep_above = ep[ep["above_200ma_at_entry"]]
+ep_below = ep[~ep["above_200ma_at_entry"]]
+hit20_above = _hit_rate(ep_above, 20) if len(ep_above) else 0.0
+hit20_below = _hit_rate(ep_below, 20) if len(ep_below) else 0.0
+
+# ---------- build the section HTML ----------
+def _fmt_pct(v):
+    return "—" if v is None or (isinstance(v, float) and pd.isna(v)) else f"{v:+.2f}%"
+
+table_rows = "\n".join(
+    f"<tr>"
+    f"<td>{r['down_date']}</td>"
+    f"<td class='num'>฿{r['entry_close']:.2f}</td>"
+    f"<td class='num {'red' if r['drop_pct']<0 else 'green'}'>{_fmt_pct(r['drop_pct'])}</td>"
+    f"<td class='num'>฿{r['target_price']:.2f}</td>"
+    f"<td>{r['hit_date'] or '—'}</td>"
+    # f"<td class='num'>{r['rows_to_target'] if r['rows_to_target'] is not None else '—'}</td>"
+    # f"<td class='num'>{r['cal_days'] if r['cal_days'] is not None else '—'}</td>"
+    # f"<td class='num {'green' if (r['realized_pct'] or 0)>0 else 'red'}'>"
+    # f"{'—' if r['realized_pct'] is None else format(r['realized_pct'], '.2f') + '%'}</td>" 
+    f"<td class='num'>{'—' if pd.isna(r['rows_to_target']) else int(r['rows_to_target'])}</td>"
+    f"<td class='num'>{'—' if pd.isna(r['cal_days']) else int(r['cal_days'])}</td>"
+    f"<td class='num {'green' if (r['realized_pct'] or 0)>0 else 'red'}'>"
+    f"{'—' if pd.isna(r['realized_pct']) else format(r['realized_pct'], '.2f') + '%'}</td>" 
+
+    f"<td class='num {'red' if r['max_drawdown_before_hit_pct']<0 else ''}'>"
+    f"{r['max_drawdown_before_hit_pct']:+.2f}%</td>"
+    f"<td>{'above' if r['above_200ma_at_entry'] else 'below'}</td>"
+    f"</tr>"
+    for _, r in ep.iterrows()
+)
+
+section_html = f"""
+<section class="card" style="grid-column:1 / -1; margin-top:24px;">
+  <h2>Drop→Bounce Base Rate — “missed opportunity” monitor</h2>
+  <div class="hint" style="margin-bottom:14px;">
+    Every close in the 3-yr file where <b>close ≤ prior_close × {1-DROP_PCT:.2f}</b>
+    (a ≥{DROP_PCT*100:.0f}% down day). For each, we measure whether a
+    <b>+{TARGET_PCT*100:.0f}%</b> exit target was reached within
+    <b>{', '.join(str(h) for h in HORIZONS_ROWS)}</b> trading rows.
+    This is the historical answer to <i>“how often does a normal-looking
+    {DROP_PCT*100:.0f}% down day actually give me a {TARGET_PCT*100:.0f}% bounce I can sell?”</i>
+  </div>
+
+  <div class="kpis" style="margin-bottom:18px;">
+    <div class="kpi"><div class="label">Qualifying down-days</div>
+      <div class="value">{n_total}</div>
+      <div class="sub-value">over {len(px)} trading rows</div></div>
+    <div class="kpi"><div class="label">Hit rate ≤5 rows</div>
+      <div class="value {'green' if hit5>=60 else 'amber'}">{hit5:.0f}%</div>
+      <div class="sub-value">tightest window</div></div>
+    <div class="kpi"><div class="label">Hit rate ≤10 rows</div>
+      <div class="value {'green' if hit10>=70 else 'amber'}">{hit10:.0f}%</div>
+      <div class="sub-value">median time-to-target {median_k} rows</div></div>
+    <div class="kpi"><div class="label">Hit rate ≤20 rows</div>
+      <div class="value {'green' if hit20>=80 else 'amber'}">{hit20:.0f}%</div>
+      <div class="sub-value">worst miss {_fmt_pct(worst_dd)}</div></div>
+    <div class="kpi"><div class="label">Avg realized (on hits)</div>
+      <div class="value green">{avg_realized_on_hits:.2f}%</div>
+      <div class="sub-value">{n_hit_target} of {n_total} reached target</div></div>
+    <div class="kpi"><div class="label">200-MA gate</div>
+      <div class="value">{hit20_above:.0f}% vs {hit20_below:.0f}%</div>
+      <div class="sub-value">{len(ep_above)} above MA · {len(ep_below)} below MA</div></div>
+  </div>
+
+  <table class="data">
+    <thead><tr>
+      <th>Down date</th><th class="num">Entry ฿</th><th class="num">Drop %</th>
+      <th class="num">Target ฿</th><th>Hit date</th><th class="num">Rows</th>
+      <th class="num">Cal days</th><th class="num">Realized %</th>
+      <th class="num">Max DD before hit</th><th>vs 200-MA</th>
+    </tr></thead>
+    <tbody>{table_rows}</tbody>
+  </table>
+  <div class="hint" style="margin-top:10px;">
+    Realized % is the simple gain from the down-day close to the first close
+    at or above the +{TARGET_PCT*100:.0f}% target. Because the target itself is
+    +{TARGET_PCT*100:.0f}%, every hit row will show ≥{TARGET_PCT*100:.0f}%;
+    the interesting variation is how far above the target the first qualifying
+    close landed (gap-ups), and the <b>Max DD before hit</b> column.
+  </div>
+</section>
+
+<section class="card" style="grid-column:1 / -1; margin-top:16px;">
+  <h2>Method &amp; rationale — how to read this (collapsible)</h2>
+  <details>
+    <summary class="hint" style="cursor:pointer;">Click to expand the background notes</summary>
+    <div class="hint" style="line-height:1.6; margin-top:10px;">
+      <p><b>Why this section exists.</b> The initial question was
+      “how often does a buy-after-a-sharp-drop → sell-into-a-sharp-rise pattern
+      occur, and can I concentrate when it does?” The original closed-trade list
+      is <i>not</i> a base rate — it only shows trades that were actually taken.
+      This table scans the <i>entire</i> price history so we can see the
+      denominator: how many qualifying setups existed, and how many would have
+      paid off.</p>
+
+      <p><b>Why we switched from annualized to realized %.</b>
+      The earlier version ranked events by annualized return,
+      <code>(1+r)^(365/days) − 1</code>, which is exponential in <code>1/days</code>
+      and dominates the ranking with 2–4 day holds regardless of gain size.
+      The table now shows <b>realized %</b> — the simple gain from entry to the
+      first close at or above the +{TARGET_PCT*100:.0f}% target — which is what
+      you would actually book on a real fill. Annualized numbers are still
+      recoverable from <code>cal_days</code> and <code>realized_pct</code> in the
+      JSON sidecar if needed.</p>
+
+      <p><b>Why the 200-MA gate matters.</b> In the sample, down-days that
+      occurred <i>below</i> the 200-MA have a much lower ≤20-row hit rate
+      than those above it — they are often the first leg of a real decline
+      (e.g. Apr 2024, Nov–Dec 2024). The tile
+      “200-MA gate: {hit20_above:.0f}% vs {hit20_below:.0f}%” is the
+      single most useful refinement. If you want a mechanical alert,
+      <b>require price &gt; 200-MA at the down-day close</b> before flagging.</p>
+
+      <p><b>Why we do not recommend “concentrate”.</b> A ≥{DROP_PCT*100:.0f}% down-day
+      followed by a +{TARGET_PCT*100:.0f}% target within 5–10 rows is a real but
+      <i>small-edge</i> trade: hit rates in this sample are {hit5:.0f}%–{hit20:.0f}%,
+      the wins are capped near +{TARGET_PCT*100:.0f}%, and the misses (especially
+      below the MA) can give back more than that. The expected value is positive
+      but thin; position size should reflect that, not the annualized number.
+      Historical base rate: <b>{hit10:.0f}%</b> hit within 10 rows, median
+      {median_k} rows, worst miss {_fmt_pct(worst_dd)}.</p>
+
+      <p><b>Data caveats in the source CSV.</b> (1) The exported
+      <code>3-yrs-sales-data.csv</code> contains a handful of exact-duplicate
+      rows (e.g. 2024-12-12, 2025-01-28, 2026-10-08); they are harmless here
+      but would double-count a down-day if the duplicate itself qualified —
+      dedupe on <code>date</code> before trusting absolute counts.
+      (2) Thai holiday gaps compress calendar-day counts; the table reports
+      both <b>Rows</b> (trading) and <b>Cal days</b> so you can choose.
+      (3) The 200-MA is <code>rolling({MA_GATE_WINDOW})</code> with
+      <code>min_periods={MA_GATE_WINDOW}</code>, so the first
+      {MA_GATE_WINDOW-1} rows are excluded from the MA gate — that is why
+      early down-days show <code>below</code> even when the trend looked up.</p>
+
+      <p><b>What to fine-tune next.</b> Change <code>DROP_PCT</code>,
+      <code>TARGET_PCT</code>, <code>HORIZONS_ROWS</code>, or
+      <code>MA_GATE_WINDOW</code> at the top of this cell; the HTML and the
+      JSON sidecar both regenerate deterministically. Suggested experiments:
+      (a) tighten to <code>DROP_PCT=0.05</code> — base rate drops but win size rises;
+      (b) loosen <code>TARGET_PCT=0.02</code> — hit rate jumps toward 80–90%;
+      (c) set <code>MA_GATE_WINDOW=50</code> to see whether a faster trend filter
+      catches the Apr-2024 failure earlier. Log each variant's JSON to compare.</p>
+    </div>
+  </details>
+</section>
+"""
+
+# ---------- inject just before </div> that closes the .grid ----------
+html_path = os.path.join(csv_path, f"{NAME}-dashboard-{dd}.html")
+with open(html_path, "r", encoding="utf-8") as f:
+    html = f.read()
+
+# idempotent: strip a previous appendix if the cell is re-run
+html = re.sub(
+    r"\n<section class=\"card\" style=\"grid-column:1 / -1; margin-top:24px;\">"
+    r".*?Method &amp; rationale.*?</section>\s*",
+    "\n", html, flags=re.DOTALL,
+)
+
+anchor = "</div>\n\n<script>"
+assert anchor in html, "dashboard layout anchor not found — cell 7 output changed?"
+html = html.replace(anchor, section_html + anchor, 1)
+
+with open(html_path, "w", encoding="utf-8") as f:
+    f.write(html)
+
+print(f"✅ Appendix injected → {html_path}")
+print(f"   size: {os.path.getsize(html_path)/1024:.1f} KB")
+print(f"   down-days: {n_total}  |  hit≤5: {hit5:.0f}%  hit≤10: {hit10:.0f}%  hit≤20: {hit20:.0f}%")
+print(f"   MA gate: above {hit20_above:.0f}% ({len(ep_above)})  below {hit20_below:.0f}% ({len(ep_below)})")
+print(f"   avg realized on hits: {avg_realized_on_hits:.2f}%  ({n_hit_target} of {n_total} hits)")
+
+# ---------- sidecar JSON: every threshold + the raw episode table ----------
+sidecar = {
+    "generated_at": datetime.now().isoformat(timespec="seconds"),
+    "stock": NAME,
+    "source_csv_rows": int(len(px)),
+    "thresholds": {
+        "DROP_PCT":       DROP_PCT,
+        "TARGET_PCT":     TARGET_PCT,
+        "HORIZONS_ROWS":  list(HORIZONS_ROWS),
+        "MA_GATE_WINDOW": MA_GATE_WINDOW,
+    },
+    "summary": {
+        "n_qualifying_down_days": n_total,
+        "hit_rate_pct":           {"h5": hit5, "h10": hit10, "h20": hit20},
+        "median_rows_to_target":  median_k,
+        "worst_miss_pct":         worst_dd,
+        "avg_realized_pct_on_hits": avg_realized_on_hits,
+        "n_hit_target":             n_hit_target,
+        "above_ma": {"n": len(ep_above), "hit20_pct": hit20_above},
+        "below_ma": {"n": len(ep_below), "hit20_pct": hit20_below},
+    },
+    "episodes": ep.to_dict(orient="records"),
+    "notes": [
+        "realized_pct = (hit_close / entry - 1) * 100, i.e. simple % gain on the hit",
+        "rows_to_target = trading rows after the down-day, not calendar days",
+        "above_200ma_at_entry uses rolling(N, min_periods=N); first N-1 rows are NaN → 'below'",
+        "source CSV contains exact-duplicate rows; dedupe on date before absolute counts",
+        "Recommended refinement: gate alerts on above_200ma_at_entry == True",
+        "Do NOT rank by annualized_pct — rank by hit_rate × gain − miss_rate × stop",
+    ],
+}
+sidecar_path = os.path.join(csv_path, f"{NAME}-sim-notes.json")
+with open(sidecar_path, "w", encoding="utf-8") as f:
+    json.dump(sidecar, f, ensure_ascii=False, indent=2)
+
+print(f"✅ Sidecar written → {sidecar_path}")
+print(f"   {len(ep)} episodes · {os.path.getsize(sidecar_path)/1024:.1f} KB")

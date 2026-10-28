@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Music Hub</title>
+    <style>
+        :root {
+            /* Dark Theme (App 1 Style) */
+            --bg-color: #121212;
+            --surface-color: #1e1e1e;
+            --surface-hover: #2c2c2c;
+            --primary-color: #ff0000;
+            --primary-hover: #cc0000;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --border-color: #333333;
+            --error-bg: #3a1d1d;
+            --error-text: #ff6b6b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- LANDING PAGE --- */
+        #landing-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .landing-title {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff0000, #ff8888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        .landing-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+        }
+
+        .mode-cards {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .mode-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 40px;
+            width: 300px;
+            cursor: pointer;
+            transition: transform 0.2s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .mode-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.1);
+        }
+
+        .mode-icon {
+            font-size: 4rem;
+        }
+
+        .mode-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .mode-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* --- MAIN APP LAYOUT --- */
+        #app-view {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--surface-color);
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        @media (min-width: 600px) {
+            header {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            justify-content: space-between;
+        }
+        
+        @media (min-width: 600px) {
+            .header-left {
+                width: auto;
+            }
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        /* Header Search Count Badge */
+        #header-count-display {
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            background: rgba(255, 0, 0, 0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: none; /* Hidden by default */
+            white-space: nowrap;
+        }
+
+        .back-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 5px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .back-btn:hover {
+            color: white;
+            border-color: white;
+        }
+
+        /* Search Box */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 12px 40px 12px 44px; /* Right padding adjusted for clear button */
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: #000;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        #search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        /* Clear Button Styling */
+        #clear-btn {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            display: none; /* Hidden by default */
+            padding: 4px;
+            border-radius: 50%;
+            transition: all 0.2s;
+            width: 24px;
+            height: 24px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        #clear-btn:hover {
+            color: var(--text-primary);
+            background-color: rgba(255,255,255,0.1);
+        }
+
+        /* MP4 Player Section (Visible only in MP4 Mode) */
+        #mp4-player-section {
+            display: none; /* Hidden by default */
+            background-color: var(--surface-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .video-container {
+            width: 100%;
+            background: #000;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            position: relative;
+            min-height: 200px; /* Ensure consistent height */
+        }
+
+        video {
+            width: 100%;
+            display: block;
+        }
+
+        .video-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+
+        .video-placeholder.hidden {
+            display: none;
+        }
+
+        .current-playing-info {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .current-playing-info h2 { font-size: 1.2rem; margin-bottom: 5px; }
+        .current-playing-info p { color: var(--text-secondary); font-size: 0.9rem; }
+
+        /* Custom Controls for MP4 */
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background-color: var(--surface-hover);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .control-btn:hover {
+            background: #444;
+            border-color: #666;
+        }
+
+        .control-btn.primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        .control-btn.primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            margin: 15px 0;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        /* --- PLAYLIST HEADER & CONTROLS --- */
+        .playlist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 0 8px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .playlist-count {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .playlist-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* --- SONG LIST CONTAINER --- */
+        #playlist-container {
+            display: grid;
+            gap: 12px;
+        }
+
+        /* UNIFIED Grid Layout (Applied to both MP4 and YouTube) */
+        #playlist-container.grid-view {
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        }
+
+        /* SONG CARD (Shared Base) */
+        .song-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column; /* Unified Vertical Layout */
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .song-card:hover {
+            background-color: var(--surface-hover);
+            border-color: #555;
+            transform: translateY(-2px);
+        }
+
+        /* Unified Text Styles (Grid Layout) */
+        .song-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--text-primary);
+            line-height: 1.4;
+            padding-right: 25px; /* Space for hover icon */
+        }
+
+        .song-artist {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Unified Icon Style (Hover to Reveal) */
+        .play-icon {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.2s;
+        }
+        
+        .song-card:hover .play-icon { 
+            opacity: 1; /* Visible on hover */
+        }
+
+        /* Loading / Error */
+        .message-box {
+            grid-column: 1 / -1;
+            padding: 40px;
+            text-align: center;
+            background: var(--surface-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+        }
+        
+        .error { color: var(--error-text); border: 1px solid var(--error-text); }
+
+    </style>
+</head>
+<body>
+
+    <!-- LANDING PAGE -->
+    <div id="landing-page">
+        <div class="landing-title">Music Hub</div>
+        <div class="landing-subtitle">Select your playback mode</div>
+        
+        <div class="mode-cards">
+            <div class="mode-card" onclick="startApp('mp4')">
+                <div class="mode-icon">🎵</div>
+                <div class="mode-title">MP4 Player</div>
+                <div class="mode-desc">Stream local server files with custom controls</div>
+            </div>
+            
+            <div class="mode-card" onclick="startApp('youtube')">
+                <div class="mode-icon">▶️</div>
+                <div class="mode-title">YouTube Library</div>
+                <div class="mode-desc">Browse catalog and launch videos on YouTube</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP VIEW -->
+    <div id="app-view">
+        <header>
+            <div class="header-left">
+                <button class="back-btn" onclick="goHome()">← Home</button>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <h1 id="page-title">Library</h1>
+                    <!-- Search Result Count in Header -->
+                    <span id="header-count-display">0 found</span>
+                </div>
+            </div>
+            <div class="search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="search-input" placeholder="Search songs or artists...">
+                <button id="clear-btn" aria-label="Clear search">✕</button>
+            </div>
+        </header>
+
+        <!-- PLAYER -->
+        <div id="mp4-player-section">
+            <div class="current-playing-info">
+                <h2 id="mp4-title">No song selected</h2>
+                <p id="mp4-artist">Select a song to play</p>
+            </div>
+            
+            <div class="video-container">
+                <div class="video-placeholder" id="video-placeholder">
+                    <div style="font-size: 3rem; margin-bottom: 10px;">🎵</div>
+                    <div>Select a song to play</div>
+                </div>
+                <video id="video-player" style="display: none;">
+                    Your browser does not support video tag.
+                </video>
+            </div>
+
+            <!-- Custom Progress -->
+            <div class="progress-container" id="progress-container" style="display: none;">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+
+            <div class="controls">
+                <button class="control-btn" id="prev-btn" style="display: none;">⏮ Prev</button>
+                <button class="control-btn primary" id="play-pause-btn" style="display: none;">▶ Play</button>
+                <button class="control-btn" id="next-btn" style="display: none;">Next ⏭</button>
+                <button class="control-btn" id="loop-btn" style="display: none;">🔁 Loop</button>
+                <!-- NEW: SHARE BUTTON (Works for S3 Links) -->
+                <button class="control-btn" id="share-mp4-btn" style="display: none;" title="Share Video Link">🔗 Share</button>
+            </div>
+        </div>
+
+        <!-- PLAYLIST HEADER -->
+        <div class="playlist-header">
+            <div class="playlist-count" id="song-count">Loading data...</div>
+            <div class="playlist-actions">
+                <!-- UPDATED: Play All and Shuffle buttons work for both modes -->
+                <button class="control-btn primary" id="header-play-all-btn" style="display:none;">
+                    <span id="play-all-text">▶ Play All</span>
+                </button>
+                <button class="control-btn" id="header-shuffle-btn" style="display:none;">
+                    🔀 Shuffle
+                </button>
+            </div>
+        </div>
+
+        <!-- SONG LIST -->
+        <div id="playlist-container" class="grid-view">
+            <div class="message-box loading">Loading library...</div>
+        </div>
+    </div>
+
+    <script>
+        // --- GLOBAL STATE ---
+        let allSongs = [];
+        let filteredSongs = [];
+        let currentMode = null; // 'mp4' or 'youtube'
+        let currentSongIndex = -1;
+        let isLooping = false;
+        let isShuffleOn = false;
+        let isMp4Playing = false;
+        let mp4Playlist = []; // The list currently being played
+        let currentMp4Song = null; // NEW: Track current song for sharing
+        let lastSearchQuery = ''; // NEW: Store the last search query
+
+        // DOM Elements
+        const landingPage = document.getElementById('landing-page');
+        const appView = document.getElementById('app-view');
+        const pageTitle = document.getElementById('page-title');
+        const headerCountDisplay = document.getElementById('header-count-display');
+        const searchInput = document.getElementById('search-input');
+        const clearBtn = document.getElementById('clear-btn'); 
+        const playlistContainer = document.getElementById('playlist-container');
+        const songCount = document.getElementById('song-count');
+        
+        // UPDATED: Only one set of buttons (the header ones)
+        const headerPlayAllBtn = document.getElementById('header-play-all-btn');
+        const headerShuffleBtn = document.getElementById('header-shuffle-btn');
+        const playAllText = document.getElementById('play-all-text');
+
+        // MP4 Elements
+        const mp4Section = document.getElementById('mp4-player-section');
+        const videoPlayer = document.getElementById('video-player');
+        const videoPlaceholder = document.getElementById('video-placeholder');
+        const mp4Title = document.getElementById('mp4-title');
+        const mp4Artist = document.getElementById('mp4-artist');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const progressContainer = document.getElementById('progress-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const loopBtn = document.getElementById('loop-btn');
+        const shareMp4Btn = document.getElementById('share-mp4-btn');
+
+        // --- DATA LOADING ---
+        async function loadData() {
+            try {
+                const response = await fetch('songs-with-ids.json');
+                if (!response.ok) throw new Error("Failed to fetch JSON");
+                
+                const data = await response.json();
+                
+                // Process data into a unified structure
+                allSongs = data.songs.map(item => ({
+                    title: item.song_title,
+                    artist: item.artist,
+                    // The filename usually comes as "Title_Artist.mp4" in the JSON provided
+                    filename: item.filename, 
+                    youtubeId: item.youtube_id
+                }));
+
+                filteredSongs = [...allSongs];
+                updateUI();
+                
+            } catch (error) {
+                console.error(error);
+                playlistContainer.innerHTML = `
+                    <div class="message-box error">
+                        Error loading data.<br>
+                        Make sure <strong>songs-with-ids.json</strong> is in the same folder.
+                    </div>
+                `;
+            }
+        }
+
+        // --- NAVIGATION ---
+        function startApp(mode) {
+            currentMode = mode;
+            landingPage.style.display = 'none';
+            appView.style.display = 'flex';
+            
+            // Setup Mode Specifics
+            if (mode === 'mp4') {
+                pageTitle.textContent = "MP4 Player";
+                mp4Section.style.display = 'block';
+                
+                // FIX: Reset MP4 player completely
+                resetMp4Player();
+            } else {
+                pageTitle.textContent = "YouTube Library";
+                mp4Section.style.display = 'none';
+            }
+            
+            // NEW: Apply the last search query if it exists
+            if (lastSearchQuery !== '') {
+                searchInput.value = lastSearchQuery;
+                performSearch();
+            } else {
+                updateUI();
+            }
+        }
+
+        // FIX: Function to reset MP4 player state
+        function resetMp4Player() {
+            // Completely reset video player
+            videoPlayer.pause();
+            videoPlayer.src = '';
+            videoPlayer.load(); // Force browser to unload current video
+            
+            // Hide video player and show placeholder
+            videoPlayer.style.display = 'none';
+            videoPlaceholder.classList.remove('hidden');
+            
+            // Hide all controls
+            prevBtn.style.display = 'none';
+            playPauseBtn.style.display = 'none';
+            nextBtn.style.display = 'none';
+            loopBtn.style.display = 'none';
+            shareMp4Btn.style.display = 'none';
+            progressContainer.style.display = 'none';
+            
+            // Reset UI text
+            mp4Title.textContent = "No song selected";
+            mp4Artist.textContent = "Select a song to play";
+            progressBar.style.width = "0%";
+            
+            // Reset state
+            currentMp4Song = null;
+            currentSongIndex = -1;
+            mp4Playlist = [];
+            isMp4Playing = false;
+            isShuffleOn = false;
+            isLooping = false;
+            
+            // Reset button states
+            loopBtn.textContent = "🔁 Loop";
+            loopBtn.classList.remove('primary');
+            headerShuffleBtn.textContent = "🔀 Shuffle";
+            headerShuffleBtn.classList.remove('primary');
+        }
+
+        function goHome() {
+            // Stop MP4 if playing
+            videoPlayer.pause();
+            videoPlayer.src = "";
+            videoPlayer.load();
+            
+            appView.style.display = 'none';
+            landingPage.style.display = 'flex';
+            
+            // NEW: Don't clear the search input when going home
+            // This allows the search to persist when switching modes
+            
+            // Reset search UI
+            clearBtn.style.display = 'none'; 
+            updateHeaderCount(); 
+        }
+
+        // NEW: Unified search function
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            // NEW: Store the search query for persistence
+            lastSearchQuery = query;
+            
+            // Show/Hide clear button
+            if (query.length > 0) {
+                clearBtn.style.display = 'flex';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+
+            if (!query) {
+                filteredSongs = [...allSongs];
+            } else {
+                filteredSongs = allSongs.filter(s => 
+                    s.title.toLowerCase().includes(query) || 
+                    s.artist.toLowerCase().includes(query)
+                );
+            }
+            
+            // Update UI
+            updateHeaderCount();
+            songCount.textContent = `${filteredSongs.length} songs`;
+            renderList();
+        }
+
+        // --- SEARCH & RENDERING ---
+        searchInput.addEventListener('input', (e) => {
+            performSearch();
+        });
+
+        // Clear Button Logic
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            lastSearchQuery = ''; // NEW: Clear the stored query
+            performSearch();
+            searchInput.focus();
+        });
+
+        // Update Header Count Display
+        function updateHeaderCount() {
+            if (searchInput.value.trim().length > 0) {
+                headerCountDisplay.textContent = `${filteredSongs.length} found`;
+                headerCountDisplay.style.display = 'inline-block';
+            } else {
+                headerCountDisplay.style.display = 'none';
+            }
+        }
+
+        function updateUI() {
+            renderList();
+            songCount.textContent = `${filteredSongs.length} songs`;
+            updateHeaderCount();
+        }
+
+        function renderList() {
+            playlistContainer.innerHTML = '';
+            
+            if (filteredSongs.length === 0) {
+                playlistContainer.innerHTML = '<div class="message-box">No songs found.</div>';
+                // Hide buttons if no songs
+                headerPlayAllBtn.style.display = 'none';
+                headerShuffleBtn.style.display = 'none';
+                return;
+            }
+
+            // UPDATED: Always show Play All and Shuffle buttons for both modes if there are songs
+            headerPlayAllBtn.style.display = 'flex';
+            headerShuffleBtn.style.display = 'flex';
+            playAllText.textContent = `▶ Play All (${filteredSongs.length})`;
+
+            filteredSongs.forEach((song, index) => {
+                const card = document.createElement('div');
+                card.className = 'song-card';
+                
+                // Different click actions based on mode
+                card.onclick = () => {
+                    if (currentMode === 'mp4') playMp4Song(song);
+                    else openYoutubeVideo(song.youtubeId);
+                };
+
+                // Unified HTML for both Grids (Title/Artist vertical stack)
+                // Icons are positioned absolute by CSS
+                card.innerHTML = `
+                    <div class="song-title">${song.title}</div>
+                    <div class="song-artist">${song.artist}</div>
+                    <div class="play-icon">▶</div>
+                `;
+
+                playlistContainer.appendChild(card);
+            });
+        }
+
+        // --- MP4 PLAYER LOGIC ---
+        function playMp4Song(song) {
+            // Scroll to player
+            mp4Section.scrollIntoView({ behavior: 'smooth' });
+
+            // Update UI
+            mp4Title.textContent = song.title;
+            mp4Artist.textContent = song.artist;
+            currentMp4Song = song; // NEW: Save reference for sharing/lyrics
+
+            // Show video player and hide placeholder
+            videoPlaceholder.classList.add('hidden');
+            videoPlayer.style.display = 'block';
+            
+            // Show all controls
+            prevBtn.style.display = 'flex';
+            playPauseBtn.style.display = 'flex';
+            nextBtn.style.display = 'flex';
+            loopBtn.style.display = 'flex';
+            shareMp4Btn.style.display = 'flex';
+            progressContainer.style.display = 'block';
+
+            // Load video
+            // We use the filename directly. Assumes files are on S3 in same folder.
+            videoPlayer.src = song.filename;
+            videoPlayer.load(); // Load the new source
+            videoPlayer.play().then(() => {
+                playPauseBtn.textContent = "⏸ Pause";
+                isMp4Playing = true;
+            }).catch(e => {
+                console.log("Auto-play prevented", e);
+                playPauseBtn.textContent = "▶ Play";
+            });
+
+            // Update playlist context to current filtered list
+            mp4Playlist = [...filteredSongs]; 
+            currentSongIndex = mp4Playlist.findIndex(s => s.filename === song.filename);
+            
+            renderList(); 
+        }
+
+        // Video Events
+        videoPlayer.addEventListener('timeupdate', () => {
+            const pct = (videoPlayer.currentTime / videoPlayer.duration) * 100;
+            progressBar.style.width = `${pct}%`;
+        });
+
+        videoPlayer.addEventListener('ended', () => {
+            if (isLooping) {
+                videoPlayer.currentTime = 0;
+                videoPlayer.play();
+            } else if (isShuffleOn) {
+                playRandomMp4();
+            } else {
+                playNextMp4();
+            }
+        });
+
+        progressContainer.addEventListener('click', (e) => {
+            const rect = progressContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const pct = x / rect.width;
+            videoPlayer.currentTime = pct * videoPlayer.duration;
+        });
+
+        // Control Handlers
+        playPauseBtn.addEventListener('click', () => {
+            if (videoPlayer.paused) {
+                videoPlayer.play();
+                playPauseBtn.textContent = "⏸ Pause";
+            } else {
+                videoPlayer.pause();
+                playPauseBtn.textContent = "▶ Play";
+            }
+        });
+
+        function playNextMp4() {
+            if (currentSongIndex < mp4Playlist.length - 1) {
+                currentSongIndex++;
+                playMp4Song(mp4Playlist[currentSongIndex]);
+            } else {
+                // End of list
+                isMp4Playing = false;
+                playPauseBtn.textContent = "▶ Play";
+            }
+        }
+
+        function playPrevMp4() {
+            if (currentSongIndex > 0) {
+                currentSongIndex--;
+                playMp4Song(mp4Playlist[currentSongIndex]);
+            }
+        }
+
+        function playRandomMp4() {
+            let randomIndex = Math.floor(Math.random() * mp4Playlist.length);
+            // Avoid repeating same song if possible
+            if (mp4Playlist.length > 1 && randomIndex === currentSongIndex) {
+                randomIndex = (randomIndex + 1) % mp4Playlist.length;
+            }
+            currentSongIndex = randomIndex;
+            playMp4Song(mp4Playlist[currentSongIndex]);
+        }
+
+        nextBtn.addEventListener('click', playNextMp4);
+        prevBtn.addEventListener('click', playPrevMp4);
+
+        loopBtn.addEventListener('click', () => {
+            isLooping = !isLooping;
+            loopBtn.textContent = isLooping ? "🔁 Loop On" : "🔁 Loop Off";
+            loopBtn.classList.toggle('primary', isLooping);
+            videoPlayer.loop = isLooping;
+        });
+
+        // --- UNIFIED HEADER BUTTONS ---
+        
+        // Play All Button for Both Modes
+        headerPlayAllBtn.addEventListener('click', () => {
+            if (currentMode === 'mp4') {
+                // In MP4 mode, start playing first song of filtered list
+                if (filteredSongs.length > 0) {
+                    playMp4Song(filteredSongs[0]);
+                }
+            } else {
+                // YouTube Mode
+                // Visual Feedback
+                const originalText = playAllText.textContent;
+                playAllText.textContent = "Opening...";
+                headerPlayAllBtn.classList.add('active');
+                
+                // Generate List
+                let songsToPlay = [...filteredSongs];
+                
+                // Check for IDs
+                const ids = songsToPlay.map(s => s.youtubeId).filter(id => id);
+                if (ids.length === 0) {
+                    // Error Handling
+                    alert("No valid YouTube IDs found in current list.");
+                    
+                    // Reset Button immediately
+                    playAllText.textContent = originalText;
+                    headerPlayAllBtn.classList.remove('active');
+                    return;
+                }
+
+                // Open URL
+                const url = `https://www.youtube.com/watch_videos?video_ids=${ids.join(',')}`;
+                window.open(url, '_blank');
+
+                // Reset Button Visuals after short delay
+                setTimeout(() => {
+                    playAllText.textContent = originalText;
+                    headerPlayAllBtn.classList.remove('active');
+                }, 1000);
+            }
+        });
+
+        // Shuffle Button for Both Modes
+        headerShuffleBtn.addEventListener('click', () => {
+            if (currentMode === 'mp4') {
+                // In MP4 mode, toggle shuffle state
+                if (filteredSongs.length === 0) return;
+                
+                isShuffleOn = !isShuffleOn;
+                
+                if (isShuffleOn) {
+                    // 1. Create a copy of list and shuffle it
+                    const shuffledList = [...filteredSongs];
+                    shuffleArray(shuffledList);
+                    
+                    // 2. Set as playlist
+                    mp4Playlist = shuffledList;
+                    
+                    // 3. Update UI
+                    headerShuffleBtn.textContent = "🔀 Shuffle On";
+                    headerShuffleBtn.classList.add('primary');
+                    
+                    // 4. Start playing immediately from index 0
+                    currentSongIndex = 0;
+                    playMp4Song(mp4Playlist[0]);
+                } else {
+                    // Turn OFF
+                    headerShuffleBtn.textContent = "🔀 Shuffle";
+                    headerShuffleBtn.classList.remove('primary');
+                    // Restore standard list order
+                    mp4Playlist = [...filteredSongs];
+                    // Keep playing current song
+                    if (currentSongIndex >= mp4Playlist.length) {
+                        currentSongIndex = 0;
+                    }
+                }
+            } else {
+                // YouTube Mode
+                // Add visual feedback for consistency
+                headerShuffleBtn.textContent = "Shuffling...";
+                headerShuffleBtn.classList.add('active');
+                
+                // Shuffle and play all YouTube videos
+                let songsToPlay = [...filteredSongs];
+                shuffleArray(songsToPlay);
+                
+                const ids = songsToPlay.map(s => s.youtubeId).filter(id => id);
+                if (ids.length === 0) {
+                    alert("No valid YouTube IDs found in current list.");
+                    headerShuffleBtn.textContent = "🔀 Shuffle";
+                    headerShuffleBtn.classList.remove('active');
+                    return;
+                }
+
+                const url = `https://www.youtube.com/watch_videos?video_ids=${ids.join(',')}`;
+                window.open(url, '_blank');
+                
+                // Reset button text after delay
+                setTimeout(() => {
+                    headerShuffleBtn.textContent = "🔀 Shuffle";
+                    headerShuffleBtn.classList.remove('active');
+                }, 1000);
+            }
+        });
+
+        // --- NEW: SHARE BUTTON LOGIC (S3/WEB CONTEXT) ---
+        shareMp4Btn.addEventListener('click', async () => {
+            if (!currentMp4Song) {
+                alert("Please play a song first to share it.");
+                return;
+            }
+
+            // Construct S3 URL
+            // IMPORTANT: decodeURIComponent fixes garbled Thai characters/encoding
+            const cleanFilename = decodeURIComponent(currentMp4Song.filename);
+            const shareUrl = `${window.location.origin}/Lyrics/${cleanFilename}`;
+            const shareText = `Listening to ${currentMp4Song.title} by ${currentMp4Song.artist}`;
+
+            // 1. Try Native Share API (Best for Mobile/iPhone)
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: currentMp4Song.title,
+                        text: shareText,
+                        url: shareUrl
+                    });
+                } catch (err) {
+                    console.error('Share failed (cancelled?):', err);
+                }
+            } else {
+                // 2. Fallback for Desktop (Copy Link to Clipboard)
+                try {
+                    await navigator.clipboard.writeText(shareUrl);
+                    alert("Link copied to clipboard!\n\n" + shareUrl);
+                } catch (err) {
+                    console.error('Clipboard failed:', err);
+                    alert("Could not copy link.");
+                }
+            }
+        });
+
+        // --- YOUTUBE LOGIC ---
+        function openYoutubeVideo(id) {
+            const url = `https://www.youtube.com/watch?v=${id}`;
+            window.open(url, '_blank');
+        }
+
+        // --- UTILITY FUNCTIONS ---
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // --- INITIALIZATION ---
+        loadData();
+
+    </script>
+</body>
+</html>

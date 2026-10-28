@@ -1,0 +1,35 @@
+Windows filename collisions in s3://www.santiwebsite.com/Lyrics/
+(files that collapse into ONE file on Windows because names differ only by case or a trailing space)
+Generated 2026-10-18
+
+1. Bridge over Troubled Water_Simon and Garfunkel .mp4   <- trailing space
+   Bridge over Troubled Water_Simon and Garfunkel.mp4
+
+2. Counting Stars_OneRepublic .mp4                        <- trailing space
+   Counting Stars_OneRepublic.mp4
+
+3. Dust in the Wind_Kansas .mp4                           <- trailing space
+   Dust in the Wind_Kansas.mp4
+
+4. Empire State Of Mind_JAY-Z .mp4                        <- trailing space
+   Empire State Of Mind_JAY-Z.mp4
+
+5. Forever Young_UNDRESSD .mp4                            <- trailing space
+   Forever Young_UNDRESSD.mp4
+
+6. Just When I Needed You Most_Randy VanWarmer.mp4        <- case
+   Just When I Needed You Most_Randy Vanwarmer.mp4
+
+7. Let Her Go_Passenger .mp4                              <- trailing space
+   Let Her Go_Passenger.mp4
+
+8. Paint It Black_Rolling Stones The.mp4                  <- case
+   Paint it Black_Rolling Stones The.mp4
+
+9. Send In the clowns_Judy Collins.mp4                    <- case
+   Send in the clowns_Judy Collins.mp4
+
+10. The Power Of Love_Jennifer Rush.mp4                   <- case
+    The Power of Love_Jennifer Rush.mp4
+
+Total: 10 groups (20 objects) — all are near-duplicate names, same song.

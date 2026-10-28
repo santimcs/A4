@@ -18,11 +18,10 @@ pg_dump -U postgres -W -c portpg_development > portpg.sql
 
 3. sqlite
 
-
+copy c:\ruby\expense\db\development.sqlite3 c:\Users\PC1\OneDrive\Backup\expense\development.sqlite3
 copy c:\ruby\port_lite\db\development.sqlite3 c:\Users\PC1\OneDrive\Backup\port_lite\development.sqlite3
 copy c:\ruby\portlt\db\development.sqlite3 c:\Users\PC1\OneDrive\Backup\portlt\development.sqlite3
 copy c:\ruby\portmy\db\development.sqlite3 c:\Users\PC1\OneDrive\Backup\portmy\development.sqlite3
-copy c:\ruby\expense\db\development.sqlite3 c:\Users\PC1\OneDrive\Backup\expense\development.sqlite3
 
 # Restore process
 

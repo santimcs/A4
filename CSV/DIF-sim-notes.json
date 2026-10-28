@@ -1,0 +1,97 @@
+{
+  "generated_at": "2026-10-27T23:55:55",
+  "stock": "DIF",
+  "source_csv_rows": 721,
+  "thresholds": {
+    "DROP_PCT": 0.0344,
+    "TARGET_PCT": 0.05,
+    "HORIZONS_ROWS": [
+      5,
+      10,
+      20
+    ],
+    "MA_GATE_WINDOW": 200
+  },
+  "summary": {
+    "n_qualifying_down_days": 4,
+    "hit_rate_pct": {
+      "h5": 0.0,
+      "h10": 0.0,
+      "h20": 25.0
+    },
+    "median_rows_to_target": 12,
+    "worst_miss_pct": -5.36,
+    "avg_realized_pct_on_hits": 7.69,
+    "n_hit_target": 1,
+    "above_ma": {
+      "n": 0,
+      "hit20_pct": 0.0
+    },
+    "below_ma": {
+      "n": 4,
+      "hit20_pct": 25.0
+    }
+  },
+  "episodes": [
+    {
+      "down_date": "2023-12-15",
+      "entry_close": 7.8,
+      "prior_close": 8.1,
+      "drop_pct": -3.7,
+      "target_price": 8.19,
+      "hit_date": "2024-01-04",
+      "rows_to_target": 12.0,
+      "cal_days": 20.0,
+      "realized_pct": 7.69,
+      "max_drawdown_before_hit_pct": -5.13,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2024-01-08",
+      "entry_close": 8.4,
+      "prior_close": 8.85,
+      "drop_pct": -5.08,
+      "target_price": 8.82,
+      "hit_date": "",
+      "rows_to_target": NaN,
+      "cal_days": NaN,
+      "realized_pct": NaN,
+      "max_drawdown_before_hit_pct": -5.36,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2026-10-12",
+      "entry_close": 9.5,
+      "prior_close": 9.9,
+      "drop_pct": -4.04,
+      "target_price": 9.975,
+      "hit_date": "",
+      "rows_to_target": NaN,
+      "cal_days": NaN,
+      "realized_pct": NaN,
+      "max_drawdown_before_hit_pct": -4.21,
+      "above_200ma_at_entry": false
+    },
+    {
+      "down_date": "2026-10-14",
+      "entry_close": 9.1,
+      "prior_close": 9.5,
+      "drop_pct": -4.21,
+      "target_price": 9.555,
+      "hit_date": "",
+      "rows_to_target": NaN,
+      "cal_days": NaN,
+      "realized_pct": NaN,
+      "max_drawdown_before_hit_pct": 0.0,
+      "above_200ma_at_entry": false
+    }
+  ],
+  "notes": [
+    "realized_pct = (hit_close / entry - 1) * 100, i.e. simple % gain on the hit",
+    "rows_to_target = trading rows after the down-day, not calendar days",
+    "above_200ma_at_entry uses rolling(N, min_periods=N); first N-1 rows are NaN → 'below'",
+    "source CSV contains exact-duplicate rows; dedupe on date before absolute counts",
+    "Recommended refinement: gate alerts on above_200ma_at_entry == True",
+    "Do NOT rank by annualized_pct — rank by hit_rate × gain − miss_rate × stop"
+  ]
+}

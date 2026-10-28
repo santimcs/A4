@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PTG Portfolio Dashboard (THB)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+<style>
+  :root {
+    --bg:#0f1720; --panel:#17212b; --text:#e6edf3; --muted:#8b9aa8;
+    --accent:#4fc3f7; --green:#4caf50; --red:#ef5350; --amber:#ffb74d; --border:#26333f;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text);
+          font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; padding:24px; }
+  h1 { font-size:24px; margin:0 0 4px 0; font-weight:600; }
+  .sub { color:var(--muted); font-size:13px; margin-bottom:24px; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+           gap:12px; margin-bottom:24px; }
+  .kpi { background:var(--panel); border:1px solid var(--border);
+          border-radius:10px; padding:14px 16px; }
+  .kpi .label { color:var(--muted); font-size:11px; text-transform:uppercase;
+                 letter-spacing:0.5px; margin-bottom:6px; }
+  .kpi .value { font-size:22px; font-weight:600; }
+  .kpi .sub-value { font-size:12px; color:var(--muted); margin-top:4px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(420px,1fr)); gap:16px; }
+  .card { background:var(--panel); border:1px solid var(--border);
+           border-radius:10px; padding:16px; }
+  .card h2 { font-size:14px; margin:0 0 12px 0; font-weight:600; }
+  .card .hint { font-size:11px; color:var(--muted); margin-top:10px; line-height:1.5; }
+  .chart-wrap { position:relative; height:260px; }
+  .chart-wrap.tall { height:320px; }
+  .green { color:var(--green); } .red { color:var(--red); } .amber { color:var(--amber); }
+  table.data { width:100%; border-collapse:collapse; font-size:12px; }
+  table.data th, table.data td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--border); }
+  table.data th { color:var(--muted); font-weight:500; text-transform:uppercase;
+                   font-size:10px; letter-spacing:0.5px; }
+  table.data td.num { text-align:right; font-variant-numeric:tabular-nums; }
+</style>
+</head>
+<body>
+
+<h1>PTG Portfolio Dashboard</h1>
+<div class="sub" id="subline">Loading…</div>
+
+<div class="kpis" id="kpis"></div>
+
+<div class="grid">
+  <div class="card">
+    <h2>Total Return Composition (฿)</h2>
+    <div class="chart-wrap"><canvas id="composeChart"></canvas></div>
+    <div class="hint">Dividends vs realized vs unrealized.</div>
+  </div>
+
+  <div class="card">
+    <h2>Return by Year (Realized + Dividends)</h2>
+    <div class="chart-wrap"><canvas id="yearChart"></canvas></div>
+    <div class="hint">Stacked: capital gains + net dividends.</div>
+  </div>
+
+  <div class="card">
+    <h2>PTG Price + 200-Day MA</h2>
+    <div class="chart-wrap tall"><canvas id="maChart"></canvas></div>
+    <div class="hint">Above MA = bullish regime.</div>
+  </div>
+
+  <div class="card">
+    <h2>PTG vs SET Index (Rebased to 100)</h2>
+    <div class="chart-wrap tall"><canvas id="vsChart"></canvas></div>
+    <div class="hint">Is PTG outperforming the Thai market?</div>
+  </div>
+
+  <div class="card">
+    <h2>Hold Days vs Profit %</h2>
+    <div class="chart-wrap"><canvas id="scatterChart"></canvas></div>
+    <div class="hint">Each dot is a closed sell.</div>
+  </div>
+
+  <div class="card">
+    <h2>Annualized Return vs Days Held</h2>
+    <div class="chart-wrap"><canvas id="annualChart"></canvas></div>
+    <div class="hint">Time-normalized comparison.</div>
+  </div>
+
+  <div class="card" style="grid-column:1 / -1;">
+    <h2>Active Lots vs 200-Day MA — Sell Signal Table</h2>
+    <table class="data" id="signalTable">
+      <thead><tr>
+        <th>ID</th><th>Buy Date</th><th class="num">Qty</th><th class="num">Cost/sh</th>
+        <th class="num">Cost Basis</th><th class="num">Market Value</th>
+        <th class="num">P/L</th><th class="num">P/L %</th><th class="num">vs MA</th><th>Signal</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+    <div class="card" style="grid-column:1 / -1;">
+      <h2>Technical Buy Zones — Reference Table</h2>
+      <table class="data" id="buyZoneTable">
+        <thead><tr>
+          <th>Zone</th><th class="num">From (฿)</th><th class="num">To (฿)</th>
+          <th class="num">Distance from today</th>
+          <th>Trend context</th><th>Rationale</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+      <div class="hint">
+        Zones are derived from the 200-day MA × multipliers (1.00–1.05, 0.90–1.00, 0.75–0.90).
+        These are technical levels only — they don't assess whether RCL is fundamentally cheap.
+      </div>
+    </div>
+
+  <div class="card">
+      <h2>Technical Buy Zones vs 200-MA</h2>
+      <div class="chart-wrap tall"><canvas id="buyZoneChart"></canvas></div>
+      <div class="hint" id="buyZoneHint"></div>
+  </div>
+
+  <div class="card" style="grid-column:1 / -1;">
+    <h2>Closed Trades Detail (฿)</h2>
+    <table class="data" id="sellsTable">
+      <thead><tr>
+        <th>Sell Date</th><th>Buy Date</th><th class="num">Days</th>
+        <th class="num">Qty</th><th class="num">Cost</th><th class="num">Proceeds</th>
+        <th class="num">Profit</th><th class="num">Return</th><th class="num">Annualized</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+<section class="card" style="grid-column:1 / -1; margin-top:24px;">
+  <h2>Drop→Bounce Base Rate — “missed opportunity” monitor</h2>
+  <div class="hint" style="margin-bottom:14px;">
+    Every close in the 3-yr file where <b>close ≤ prior_close × 0.97</b>
+    (a ≥3% down day). For each, we measure whether a
+    <b>+5%</b> exit target was reached within
+    <b>5, 10, 20</b> trading rows.
+    This is the historical answer to <i>“how often does a normal-looking
+    3% down day actually give me a 5% bounce I can sell?”</i>
+  </div>
+
+  <div class="kpis" style="margin-bottom:18px;">
+    <div class="kpi"><div class="label">Qualifying down-days</div>
+      <div class="value">25</div>
+      <div class="sub-value">over 722 trading rows</div></div>
+    <div class="kpi"><div class="label">Hit rate ≤5 rows</div>
+      <div class="value amber">12%</div>
+      <div class="sub-value">tightest window</div></div>
+    <div class="kpi"><div class="label">Hit rate ≤10 rows</div>
+      <div class="value amber">36%</div>
+      <div class="sub-value">median time-to-target 7 rows</div></div>
+    <div class="kpi"><div class="label">Hit rate ≤20 rows</div>
+      <div class="value amber">52%</div>
+      <div class="sub-value">worst miss -17.84%</div></div>
+    <div class="kpi"><div class="label">Avg realized (on hits)</div>
+      <div class="value green">6.36%</div>
+      <div class="sub-value">13 of 25 reached target</div></div>
+    <div class="kpi"><div class="label">200-MA gate</div>
+      <div class="value">25% vs 65%</div>
+      <div class="sub-value">8 above MA · 17 below MA</div></div>
+  </div>
+
+  <table class="data">
+    <thead><tr>
+      <th>Down date</th><th class="num">Entry ฿</th><th class="num">Drop %</th>
+      <th class="num">Target ฿</th><th>Hit date</th><th class="num">Rows</th>
+      <th class="num">Cal days</th><th class="num">Realized %</th>
+      <th class="num">Max DD before hit</th><th>vs 200-MA</th>
+    </tr></thead>
+    <tbody><tr><td>2023-10-26</td><td class='num'>฿8.10</td><td class='num red'>-4.14%</td><td class='num'>฿8.51</td><td>2023-11-03</td><td class='num'>6</td><td class='num'>8</td><td class='num green'>6.79%</td><td class='num '>+0.00%</td><td>below</td></tr>
+<tr><td>2023-12-20</td><td class='num'>฿8.60</td><td class='num red'>-3.91%</td><td class='num'>฿9.03</td><td>2024-01-02</td><td class='num'>7</td><td class='num'>13</td><td class='num green'>5.23%</td><td class='num red'>-5.23%</td><td>below</td></tr>
+<tr><td>2024-02-08</td><td class='num'>฿8.75</td><td class='num red'>-5.91%</td><td class='num'>฿9.19</td><td>2024-02-23</td><td class='num'>11</td><td class='num'>15</td><td class='num green'>5.14%</td><td class='num red'>-0.57%</td><td>below</td></tr>
+<tr><td>2024-08-30</td><td class='num'>฿8.45</td><td class='num red'>-6.63%</td><td class='num'>฿8.87</td><td>2024-09-03</td><td class='num'>2</td><td class='num'>4</td><td class='num green'>5.92%</td><td class='num '>+0.00%</td><td>below</td></tr>
+<tr><td>2024-10-15</td><td class='num'>฿9.75</td><td class='num red'>-3.47%</td><td class='num'>฿10.24</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-8.72%</td><td>above</td></tr>
+<tr><td>2024-11-26</td><td class='num'>฿8.65</td><td class='num red'>-4.42%</td><td class='num'>฿9.08</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-7.51%</td><td>below</td></tr>
+<tr><td>2025-01-09</td><td class='num'>฿7.85</td><td class='num red'>-3.68%</td><td class='num'>฿8.24</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-7.01%</td><td>below</td></tr>
+<tr><td>2025-02-06</td><td class='num'>฿6.85</td><td class='num red'>-6.16%</td><td class='num'>฿7.19</td><td>2025-02-17</td><td class='num'>6</td><td class='num'>11</td><td class='num green'>5.84%</td><td class='num '>+0.00%</td><td>below</td></tr>
+<tr><td>2025-03-10</td><td class='num'>฿7.05</td><td class='num red'>-4.73%</td><td class='num'>฿7.40</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-12.77%</td><td>below</td></tr>
+<tr><td>2025-03-12</td><td class='num'>฿6.85</td><td class='num red'>-3.52%</td><td class='num'>฿7.19</td><td>2025-03-24</td><td class='num'>8</td><td class='num'>12</td><td class='num green'>5.11%</td><td class='num red'>-2.19%</td><td>below</td></tr>
+<tr><td>2025-04-04</td><td class='num'>฿6.65</td><td class='num red'>-3.62%</td><td class='num'>฿6.98</td><td>2025-04-29</td><td class='num'>14</td><td class='num'>25</td><td class='num green'>6.02%</td><td class='num red'>-7.52%</td><td>below</td></tr>
+<tr><td>2025-04-08</td><td class='num'>฿6.15</td><td class='num red'>-7.52%</td><td class='num'>฿6.46</td><td>2025-04-10</td><td class='num'>2</td><td class='num'>2</td><td class='num green'>5.69%</td><td class='num '>+0.00%</td><td>below</td></tr>
+<tr><td>2025-05-15</td><td class='num'>฿6.40</td><td class='num red'>-7.25%</td><td class='num'>฿6.72</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-5.47%</td><td>below</td></tr>
+<tr><td>2025-06-20</td><td class='num'>฿5.75</td><td class='num red'>-4.17%</td><td class='num'>฿6.04</td><td>2025-07-15</td><td class='num'>16</td><td class='num'>25</td><td class='num green'>8.70%</td><td class='num red'>-4.35%</td><td>below</td></tr>
+<tr><td>2025-06-23</td><td class='num'>฿5.50</td><td class='num red'>-4.35%</td><td class='num'>฿5.78</td><td>2025-06-25</td><td class='num'>2</td><td class='num'>2</td><td class='num green'>6.36%</td><td class='num '>+0.00%</td><td>below</td></tr>
+<tr><td>2025-11-03</td><td class='num'>฿7.60</td><td class='num red'>-5.00%</td><td class='num'>฿7.98</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-9.87%</td><td>above</td></tr>
+<tr><td>2025-11-14</td><td class='num'>฿7.05</td><td class='num red'>-4.08%</td><td class='num'>฿7.40</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-2.84%</td><td>below</td></tr>
+<tr><td>2026-01-12</td><td class='num'>฿7.20</td><td class='num red'>-4.64%</td><td class='num'>฿7.56</td><td>2026-01-21</td><td class='num'>7</td><td class='num'>9</td><td class='num green'>9.72%</td><td class='num red'>-2.08%</td><td>above</td></tr>
+<tr><td>2026-03-02</td><td class='num'>฿9.25</td><td class='num red'>-7.04%</td><td class='num'>฿9.71</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-17.84%</td><td>above</td></tr>
+<tr><td>2026-03-04</td><td class='num'>฿8.70</td><td class='num red'>-5.95%</td><td class='num'>฿9.13</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-12.64%</td><td>above</td></tr>
+<tr><td>2026-03-10</td><td class='num'>฿8.10</td><td class='num red'>-4.71%</td><td class='num'>฿8.51</td><td>2026-03-31</td><td class='num'>15</td><td class='num'>21</td><td class='num green'>6.79%</td><td class='num red'>-6.17%</td><td>above</td></tr>
+<tr><td>2026-05-05</td><td class='num'>฿7.85</td><td class='num red'>-3.68%</td><td class='num'>฿8.24</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-8.92%</td><td>above</td></tr>
+<tr><td>2026-07-08</td><td class='num'>฿7.45</td><td class='num red'>-5.10%</td><td class='num'>฿7.82</td><td>2026-07-17</td><td class='num'>7</td><td class='num'>9</td><td class='num green'>5.37%</td><td class='num '>+0.00%</td><td>below</td></tr>
+<tr><td>2026-09-23</td><td class='num'>฿8.50</td><td class='num red'>-4.49%</td><td class='num'>฿8.93</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num red'>-8.24%</td><td>above</td></tr>
+<tr><td>2026-10-20</td><td class='num'>฿7.80</td><td class='num red'>-4.29%</td><td class='num'>฿8.19</td><td>—</td><td class='num'>—</td><td class='num'>—</td><td class='num red'>—</td><td class='num '>+0.00%</td><td>below</td></tr></tbody>
+  </table>
+  <div class="hint" style="margin-top:10px;">
+    Realized % is the simple gain from the down-day close to the first close
+    at or above the +5% target. Because the target itself is
+    +5%, every hit row will show ≥5%;
+    the interesting variation is how far above the target the first qualifying
+    close landed (gap-ups), and the <b>Max DD before hit</b> column.
+  </div>
+</section>
+
+<section class="card" style="grid-column:1 / -1; margin-top:16px;">
+  <h2>Method &amp; rationale — how to read this (collapsible)</h2>
+  <details>
+    <summary class="hint" style="cursor:pointer;">Click to expand the background notes</summary>
+    <div class="hint" style="line-height:1.6; margin-top:10px;">
+      <p><b>Why this section exists.</b> The initial question was
+      “how often does a buy-after-a-sharp-drop → sell-into-a-sharp-rise pattern
+      occur, and can I concentrate when it does?” The original closed-trade list
+      is <i>not</i> a base rate — it only shows trades that were actually taken.
+      This table scans the <i>entire</i> price history so we can see the
+      denominator: how many qualifying setups existed, and how many would have
+      paid off.</p>
+
+      <p><b>Why we switched from annualized to realized %.</b>
+      The earlier version ranked events by annualized return,
+      <code>(1+r)^(365/days) − 1</code>, which is exponential in <code>1/days</code>
+      and dominates the ranking with 2–4 day holds regardless of gain size.
+      The table now shows <b>realized %</b> — the simple gain from entry to the
+      first close at or above the +5% target — which is what
+      you would actually book on a real fill. Annualized numbers are still
+      recoverable from <code>cal_days</code> and <code>realized_pct</code> in the
+      JSON sidecar if needed.</p>
+
+      <p><b>Why the 200-MA gate matters.</b> In the sample, down-days that
+      occurred <i>below</i> the 200-MA have a much lower ≤20-row hit rate
+      than those above it — they are often the first leg of a real decline
+      (e.g. Apr 2024, Nov–Dec 2024). The tile
+      “200-MA gate: 25% vs 65%” is the
+      single most useful refinement. If you want a mechanical alert,
+      <b>require price &gt; 200-MA at the down-day close</b> before flagging.</p>
+
+      <p><b>Why we do not recommend “concentrate”.</b> A ≥3% down-day
+      followed by a +5% target within 5–10 rows is a real but
+      <i>small-edge</i> trade: hit rates in this sample are 12%–52%,
+      the wins are capped near +5%, and the misses (especially
+      below the MA) can give back more than that. The expected value is positive
+      but thin; position size should reflect that, not the annualized number.
+      Historical base rate: <b>36%</b> hit within 10 rows, median
+      7 rows, worst miss -17.84%.</p>
+
+      <p><b>Data caveats in the source CSV.</b> (1) The exported
+      <code>3-yrs-sales-data.csv</code> contains a handful of exact-duplicate
+      rows (e.g. 2024-12-12, 2025-01-28, 2026-10-08); they are harmless here
+      but would double-count a down-day if the duplicate itself qualified —
+      dedupe on <code>date</code> before trusting absolute counts.
+      (2) Thai holiday gaps compress calendar-day counts; the table reports
+      both <b>Rows</b> (trading) and <b>Cal days</b> so you can choose.
+      (3) The 200-MA is <code>rolling(200)</code> with
+      <code>min_periods=200</code>, so the first
+      199 rows are excluded from the MA gate — that is why
+      early down-days show <code>below</code> even when the trend looked up.</p>
+
+      <p><b>What to fine-tune next.</b> Change <code>DROP_PCT</code>,
+      <code>TARGET_PCT</code>, <code>HORIZONS_ROWS</code>, or
+      <code>MA_GATE_WINDOW</code> at the top of this cell; the HTML and the
+      JSON sidecar both regenerate deterministically. Suggested experiments:
+      (a) tighten to <code>DROP_PCT=0.05</code> — base rate drops but win size rises;
+      (b) loosen <code>TARGET_PCT=0.02</code> — hit rate jumps toward 80–90%;
+      (c) set <code>MA_GATE_WINDOW=50</code> to see whether a faster trend filter
+      catches the Apr-2024 failure earlier. Log each variant's JSON to compare.</p>
+    </div>
+  </details>
+</section>
+</div>
+
+<script>
+const P = {"name": "PTG", "latestPrice": 7.8, "latestDate": "2026-10-20", "lastMA": 7.9023, "maWindow": 200, "maLabel": "200-day MA", "maDistance": -1.2945598117003974, "activeCost": 60012.630000000005, "activeQty": 6000, "marketValue": 46800.0, "unrealized": -13212.630000000005, "unrealizedPct": -22.016415544527884, "realized": 38047.149999999994, "dividends": 3402.0, "totalReturn": 28236.51999999999, "buys": [{"status": "Sold", "date": "2020-12-23", "qty": 6000, "price": 16.3, "net": 98016.62, "kind": "DTD", "id": 791}, {"status": "Sold", "date": "2020-12-23", "qty": 6000, "price": 16.3, "net": 98016.62, "kind": "DTD", "id": 823}, {"status": "Active", "date": "2023-07-12", "qty": 3600, "price": 11.4, "net": 41130.9, "kind": "DTD", "id": 1273}, {"status": "Active", "date": "2026-10-20", "qty": 2400, "price": 7.85, "net": 18881.73, "kind": "HD", "id": 1372}], "sells": [{"sellDate": "2021-03-02", "buyDate": "2020-12-23", "days": 69, "qty": 6000, "cost": 98016.62, "proceeds": 114944.85, "profit": 16928.23, "pct": 17.27078, "kind": ""}, {"sellDate": "2021-03-02", "buyDate": "2020-12-23", "days": 69, "qty": 6000, "cost": 98016.62, "proceeds": 119135.54, "profit": 21118.92, "pct": 21.54626, "kind": ""}], "dividendsList": [{"year": 2023, "net": 1134.0}, {"year": 2024, "net": 324.0}, {"year": 2024, "net": 810.0}, {"year": 2025, "net": 1134.0}], "rcl": [{"date": "2023-10-20", "price": 8.5, "ma": null}, {"date": "2023-10-24", "price": 8.35, "ma": null}, {"date": "2023-10-25", "price": 8.45, "ma": null}, {"date": "2023-10-26", "price": 8.1, "ma": null}, {"date": "2023-10-27", "price": 8.15, "ma": null}, {"date": "2023-10-30", "price": 8.3, "ma": null}, {"date": "2023-10-31", "price": 8.15, "ma": null}, {"date": "2023-11-01", "price": 8.25, "ma": null}, {"date": "2023-11-02", "price": 8.35, "ma": null}, {"date": "2023-11-03", "price": 8.65, "ma": null}, {"date": "2023-11-06", "price": 8.55, "ma": null}, {"date": "2023-11-07", "price": 8.3, "ma": null}, {"date": "2023-11-08", "price": 8.35, "ma": null}, {"date": "2023-11-09", "price": 8.2, "ma": null}, {"date": "2023-11-10", "price": 8.1, "ma": null}, {"date": "2023-11-13", "price": 7.95, "ma": null}, {"date": "2023-11-14", "price": 8.05, "ma": null}, {"date": "2023-11-15", "price": 8.45, "ma": null}, {"date": "2023-11-16", "price": 8.5, "ma": null}, {"date": "2023-11-17", "price": 8.45, "ma": null}, {"date": "2023-11-20", "price": 8.7, "ma": null}, {"date": "2023-11-21", "price": 8.75, "ma": null}, {"date": "2023-11-22", "price": 8.65, "ma": null}, {"date": "2023-11-23", "price": 8.65, "ma": null}, {"date": "2023-11-24", "price": 8.45, "ma": null}, {"date": "2023-11-27", "price": 8.45, "ma": null}, {"date": "2023-11-28", "price": 8.6, "ma": null}, {"date": "2023-11-29", "price": 8.55, "ma": null}, {"date": "2023-11-30", "price": 8.4, "ma": null}, {"date": "2023-12-01", "price": 8.45, "ma": null}, {"date": "2023-12-04", "price": 8.55, "ma": null}, {"date": "2023-12-06", "price": 8.9, "ma": null}, {"date": "2023-12-07", "price": 9.0, "ma": null}, {"date": "2023-12-08", "price": 8.9, "ma": null}, {"date": "2023-12-12", "price": 8.9, "ma": null}, {"date": "2023-12-13", "price": 8.7, "ma": null}, {"date": "2023-12-14", "price": 9.0, "ma": null}, {"date": "2023-12-15", "price": 9.0, "ma": null}, {"date": "2023-12-18", "price": 8.95, "ma": null}, {"date": "2023-12-20", "price": 8.6, "ma": null}, {"date": "2023-12-21", "price": 8.5, "ma": null}, {"date": "2023-12-22", "price": 8.3, "ma": null}, {"date": "2023-12-25", "price": 8.3, "ma": null}, {"date": "2023-12-26", "price": 8.15, "ma": null}, {"date": "2023-12-27", "price": 8.3, "ma": null}, {"date": "2023-12-28", "price": 8.75, "ma": null}, {"date": "2024-01-02", "price": 9.05, "ma": null}, {"date": "2024-01-03", "price": 9.1, "ma": null}, {"date": "2024-01-04", "price": 9.1, "ma": null}, {"date": "2024-01-05", "price": 9.1, "ma": null}, {"date": "2024-01-08", "price": 9.05, "ma": null}, {"date": "2024-01-09", "price": 9.1, "ma": null}, {"date": "2024-01-10", "price": 9.15, "ma": null}, {"date": "2024-01-11", "price": 9.1, "ma": null}, {"date": "2024-01-12", "price": 9.05, "ma": null}, {"date": "2024-01-15", "price": 9.0, "ma": null}, {"date": "2024-01-16", "price": 8.9, "ma": null}, {"date": "2024-01-17", "price": 8.7, "ma": null}, {"date": "2024-01-18", "price": 8.9, "ma": null}, {"date": "2024-01-19", "price": 8.8, "ma": null}, {"date": "2024-01-22", "price": 8.65, "ma": null}, {"date": "2024-01-23", "price": 8.55, "ma": null}, {"date": "2024-01-24", "price": 8.7, "ma": null}, {"date": "2024-01-25", "price": 8.75, "ma": null}, {"date": "2024-01-26", "price": 8.65, "ma": null}, {"date": "2024-01-29", "price": 8.8, "ma": null}, {"date": "2024-01-30", "price": 8.75, "ma": null}, {"date": "2024-01-31", "price": 8.6, "ma": null}, {"date": "2024-02-01", "price": 8.55, "ma": null}, {"date": "2024-02-02", "price": 8.7, "ma": null}, {"date": "2024-02-05", "price": 8.75, "ma": null}, {"date": "2024-02-06", "price": 9.2, "ma": null}, {"date": "2024-02-07", "price": 9.3, "ma": null}, {"date": "2024-02-08", "price": 8.75, "ma": null}, {"date": "2024-02-09", "price": 8.7, "ma": null}, {"date": "2024-02-12", "price": 8.75, "ma": null}, {"date": "2024-02-13", "price": 8.9, "ma": null}, {"date": "2024-02-14", "price": 8.75, "ma": null}, {"date": "2024-02-15", "price": 8.7, "ma": null}, {"date": "2024-02-16", "price": 8.7, "ma": null}, {"date": "2024-02-19", "price": 8.7, "ma": null}, {"date": "2024-02-20", "price": 8.7, "ma": null}, {"date": "2024-02-21", "price": 8.9, "ma": null}, {"date": "2024-02-22", "price": 9.1, "ma": null}, {"date": "2024-02-23", "price": 9.2, "ma": null}, {"date": "2024-02-27", "price": 9.2, "ma": null}, {"date": "2024-02-28", "price": 9.15, "ma": null}, {"date": "2024-02-29", "price": 9.1, "ma": null}, {"date": "2024-03-01", "price": 9.2, "ma": null}, {"date": "2024-03-04", "price": 9.1, "ma": null}, {"date": "2024-03-05", "price": 9.25, "ma": null}, {"date": "2024-03-06", "price": 8.95, "ma": null}, {"date": "2024-03-07", "price": 8.8, "ma": null}, {"date": "2024-03-08", "price": 8.95, "ma": null}, {"date": "2024-03-11", "price": 9.0, "ma": null}, {"date": "2024-03-12", "price": 8.85, "ma": null}, {"date": "2024-03-13", "price": 8.85, "ma": null}, {"date": "2024-03-14", "price": 8.95, "ma": null}, {"date": "2024-03-15", "price": 8.8, "ma": null}, {"date": "2024-03-18", "price": 8.8, "ma": null}, {"date": "2024-03-19", "price": 8.75, "ma": null}, {"date": "2024-03-20", "price": 8.8, "ma": null}, {"date": "2024-03-21", "price": 8.9, "ma": null}, {"date": "2024-03-22", "price": 8.8, "ma": null}, {"date": "2024-03-25", "price": 8.6, "ma": null}, {"date": "2024-03-26", "price": 8.65, "ma": null}, {"date": "2024-03-27", "price": 8.6, "ma": null}, {"date": "2024-03-28", "price": 8.5, "ma": null}, {"date": "2024-03-29", "price": 8.9, "ma": null}, {"date": "2024-04-01", "price": 8.75, "ma": null}, {"date": "2024-04-02", "price": 8.8, "ma": null}, {"date": "2024-04-03", "price": 8.75, "ma": null}, {"date": "2024-04-04", "price": 8.55, "ma": null}, {"date": "2024-04-05", "price": 8.5, "ma": null}, {"date": "2024-04-09", "price": 8.7, "ma": null}, {"date": "2024-04-10", "price": 8.9, "ma": null}, {"date": "2024-04-11", "price": 8.95, "ma": null}, {"date": "2024-04-17", "price": 8.7, "ma": null}, {"date": "2024-04-18", "price": 8.75, "ma": null}, {"date": "2024-04-19", "price": 8.5, "ma": null}, {"date": "2024-04-22", "price": 8.7, "ma": null}, {"date": "2024-04-23", "price": 8.8, "ma": null}, {"date": "2024-04-24", "price": 8.7, "ma": null}, {"date": "2024-04-25", "price": 8.7, "ma": null}, {"date": "2024-04-26", "price": 8.65, "ma": null}, {"date": "2024-04-29", "price": 8.7, "ma": null}, {"date": "2024-04-30", "price": 8.75, "ma": null}, {"date": "2024-05-02", "price": 8.6, "ma": null}, {"date": "2024-05-03", "price": 8.6, "ma": null}, {"date": "2024-05-07", "price": 8.8, "ma": null}, {"date": "2024-05-08", "price": 8.65, "ma": null}, {"date": "2024-05-09", "price": 8.5, "ma": null}, {"date": "2024-05-10", "price": 8.55, "ma": null}, {"date": "2024-05-13", "price": 8.5, "ma": null}, {"date": "2024-05-14", "price": 8.5, "ma": null}, {"date": "2024-05-15", "price": 8.35, "ma": null}, {"date": "2024-05-16", "price": 8.4, "ma": null}, {"date": "2024-05-17", "price": 8.65, "ma": null}, {"date": "2024-05-20", "price": 8.75, "ma": null}, {"date": "2024-05-21", "price": 8.65, "ma": null}, {"date": "2024-05-23", "price": 8.65, "ma": null}, {"date": "2024-05-24", "price": 8.6, "ma": null}, {"date": "2024-05-27", "price": 8.6, "ma": null}, {"date": "2024-05-28", "price": 8.65, "ma": null}, {"date": "2024-05-29", "price": 8.5, "ma": null}, {"date": "2024-05-30", "price": 8.5, "ma": null}, {"date": "2024-05-31", "price": 8.75, "ma": null}, {"date": "2024-06-04", "price": 8.85, "ma": null}, {"date": "2024-06-05", "price": 9.35, "ma": null}, {"date": "2024-06-06", "price": 9.1, "ma": null}, {"date": "2024-06-07", "price": 9.2, "ma": null}, {"date": "2024-06-10", "price": 8.95, "ma": null}, {"date": "2024-06-11", "price": 8.8, "ma": null}, {"date": "2024-06-12", "price": 8.7, "ma": null}, {"date": "2024-06-13", "price": 8.55, "ma": null}, {"date": "2024-06-14", "price": 8.45, "ma": null}, {"date": "2024-06-17", "price": 8.35, "ma": null}, {"date": "2024-06-18", "price": 8.3, "ma": null}, {"date": "2024-06-19", "price": 8.25, "ma": null}, {"date": "2024-06-20", "price": 8.1, "ma": null}, {"date": "2024-06-21", "price": 8.35, "ma": null}, {"date": "2024-06-24", "price": 8.35, "ma": null}, {"date": "2024-06-25", "price": 8.45, "ma": null}, {"date": "2024-06-26", "price": 8.35, "ma": null}, {"date": "2024-06-27", "price": 8.15, "ma": null}, {"date": "2024-06-28", "price": 8.25, "ma": null}, {"date": "2024-07-01", "price": 8.2, "ma": null}, {"date": "2024-07-02", "price": 8.15, "ma": null}, {"date": "2024-07-03", "price": 8.25, "ma": null}, {"date": "2024-07-04", "price": 8.25, "ma": null}, {"date": "2024-07-05", "price": 8.3, "ma": null}, {"date": "2024-07-08", "price": 8.45, "ma": null}, {"date": "2024-07-09", "price": 8.35, "ma": null}, {"date": "2024-07-10", "price": 8.35, "ma": null}, {"date": "2024-07-11", "price": 8.45, "ma": null}, {"date": "2024-07-12", "price": 8.5, "ma": null}, {"date": "2024-07-15", "price": 8.35, "ma": null}, {"date": "2024-07-16", "price": 8.25, "ma": null}, {"date": "2024-07-17", "price": 8.15, "ma": null}, {"date": "2024-07-18", "price": 8.1, "ma": null}, {"date": "2024-07-19", "price": 8.05, "ma": null}, {"date": "2024-07-23", "price": 8.1, "ma": null}, {"date": "2024-07-24", "price": 8.05, "ma": null}, {"date": "2024-07-25", "price": 7.85, "ma": null}, {"date": "2024-07-26", "price": 7.85, "ma": null}, {"date": "2024-07-30", "price": 7.85, "ma": null}, {"date": "2024-07-31", "price": 7.9, "ma": null}, {"date": "2024-08-01", "price": 7.9, "ma": null}, {"date": "2024-08-02", "price": 7.9, "ma": null}, {"date": "2024-08-05", "price": 7.75, "ma": null}, {"date": "2024-08-06", "price": 7.75, "ma": null}, {"date": "2024-08-07", "price": 7.95, "ma": null}, {"date": "2024-08-08", "price": 8.0, "ma": null}, {"date": "2024-08-09", "price": 7.95, "ma": null}, {"date": "2024-08-13", "price": 8.05, "ma": null}, {"date": "2024-08-14", "price": 8.35, "ma": null}, {"date": "2024-08-15", "price": 8.2, "ma": null}, {"date": "2024-08-16", "price": 8.2, "ma": null}, {"date": "2024-08-19", "price": 8.45, "ma": null}, {"date": "2024-08-20", "price": 8.7, "ma": 8.5915}, {"date": "2024-08-21", "price": 8.75, "ma": 8.5928}, {"date": "2024-08-22", "price": 8.8, "ma": 8.595}, {"date": "2024-08-23", "price": 8.85, "ma": 8.597}, {"date": "2024-08-26", "price": 8.75, "ma": 8.6002}, {"date": "2024-08-27", "price": 8.75, "ma": 8.6033}, {"date": "2024-08-28", "price": 8.8, "ma": 8.6058}, {"date": "2024-08-29", "price": 9.05, "ma": 8.6103}, {"date": "2024-08-30", "price": 8.45, "ma": 8.6113}, {"date": "2024-09-02", "price": 8.7, "ma": 8.613}, {"date": "2024-09-03", "price": 8.95, "ma": 8.6145}, {"date": "2024-09-04", "price": 9.1, "ma": 8.6173}, {"date": "2024-09-05", "price": 9.25, "ma": 8.622}, {"date": "2024-09-06", "price": 9.7, "ma": 8.6288}, {"date": "2024-09-09", "price": 10.1, "ma": 8.6383}, {"date": "2024-09-10", "price": 10.0, "ma": 8.6478}, {"date": "2024-09-11", "price": 10.0, "ma": 8.658}, {"date": "2024-09-12", "price": 10.2, "ma": 8.6687}, {"date": "2024-09-13", "price": 10.1, "ma": 8.677}, {"date": "2024-09-16", "price": 10.2, "ma": 8.6855}, {"date": "2024-09-17", "price": 10.0, "ma": 8.6933}, {"date": "2024-09-18", "price": 10.2, "ma": 8.7008}, {"date": "2024-09-19", "price": 10.4, "ma": 8.709}, {"date": "2024-09-20", "price": 10.4, "ma": 8.7178}, {"date": "2024-09-23", "price": 10.4, "ma": 8.7265}, {"date": "2024-09-24", "price": 10.3, "ma": 8.7358}, {"date": "2024-09-25", "price": 10.2, "ma": 8.7445}, {"date": "2024-09-26", "price": 10.4, "ma": 8.7535}, {"date": "2024-09-27", "price": 10.5, "ma": 8.7633}, {"date": "2024-09-30", "price": 10.3, "ma": 8.7728}, {"date": "2024-10-01", "price": 10.4, "ma": 8.7825}, {"date": "2024-10-02", "price": 10.2, "ma": 8.7908}, {"date": "2024-10-03", "price": 10.2, "ma": 8.7973}, {"date": "2024-10-04", "price": 10.2, "ma": 8.8033}, {"date": "2024-10-07", "price": 10.2, "ma": 8.8098}, {"date": "2024-10-08", "price": 10.2, "ma": 8.8163}, {"date": "2024-10-09", "price": 10.3, "ma": 8.8242}, {"date": "2024-10-10", "price": 10.2, "ma": 8.8302}, {"date": "2024-10-11", "price": 10.1, "ma": 8.8358}, {"date": "2024-10-15", "price": 9.75, "ma": 8.8398}, {"date": "2024-10-16", "price": 9.85, "ma": 8.846}, {"date": "2024-10-17", "price": 10.1, "ma": 8.854}, {"date": "2024-10-18", "price": 9.9, "ma": 8.862}, {"date": "2024-10-21", "price": 9.75, "ma": 8.8692}, {"date": "2024-10-22", "price": 9.55, "ma": 8.8763}, {"date": "2024-10-24", "price": 9.3, "ma": 8.8812}, {"date": "2024-10-25", "price": 9.45, "ma": 8.8848}, {"date": "2024-10-29", "price": 9.5, "ma": 8.887}, {"date": "2024-10-30", "price": 9.5, "ma": 8.889}, {"date": "2024-10-31", "price": 9.65, "ma": 8.8918}, {"date": "2024-11-01", "price": 9.6, "ma": 8.8942}, {"date": "2024-11-04", "price": 9.5, "ma": 8.8965}, {"date": "2024-11-05", "price": 9.45, "ma": 8.8983}, {"date": "2024-11-06", "price": 9.15, "ma": 8.8983}, {"date": "2024-11-07", "price": 9.0, "ma": 8.8978}, {"date": "2024-11-08", "price": 9.2, "ma": 8.8985}, {"date": "2024-11-11", "price": 9.0, "ma": 8.8985}, {"date": "2024-11-12", "price": 8.9, "ma": 8.8985}, {"date": "2024-11-13", "price": 9.35, "ma": 8.9017}, {"date": "2024-11-14", "price": 9.5, "ma": 8.9047}, {"date": "2024-11-15", "price": 9.2, "ma": 8.9067}, {"date": "2024-11-18", "price": 9.25, "ma": 8.9098}, {"date": "2024-11-19", "price": 9.3, "ma": 8.9135}, {"date": "2024-11-20", "price": 9.2, "ma": 8.916}, {"date": "2024-11-21", "price": 9.05, "ma": 8.9175}, {"date": "2024-11-22", "price": 9.05, "ma": 8.9195}, {"date": "2024-11-26", "price": 8.65, "ma": 8.9187}, {"date": "2024-11-27", "price": 8.5, "ma": 8.9175}, {"date": "2024-11-28", "price": 8.55, "ma": 8.9173}, {"date": "2024-11-29", "price": 8.65, "ma": 8.9177}, {"date": "2024-12-02", "price": 8.6, "ma": 8.9173}, {"date": "2024-12-03", "price": 8.7, "ma": 8.917}, {"date": "2024-12-04", "price": 8.55, "ma": 8.9138}, {"date": "2024-12-06", "price": 8.55, "ma": 8.91}, {"date": "2024-12-09", "price": 8.4, "ma": 8.9083}, {"date": "2024-12-11", "price": 8.4, "ma": 8.9067}, {"date": "2024-12-12", "price": 8.25, "ma": 8.9042}, {"date": "2024-12-12", "price": 8.25, "ma": 8.901}, {"date": "2024-12-13", "price": 8.3, "ma": 8.8987}, {"date": "2024-12-16", "price": 8.35, "ma": 8.897}, {"date": "2024-12-17", "price": 8.1, "ma": 8.894}, {"date": "2024-12-20", "price": 8.0, "ma": 8.8905}, {"date": "2024-12-23", "price": 8.1, "ma": 8.8875}, {"date": "2024-12-24", "price": 8.25, "ma": 8.8842}, {"date": "2024-12-25", "price": 8.3, "ma": 8.8803}, {"date": "2024-12-26", "price": 8.3, "ma": 8.8758}, {"date": "2024-12-27", "price": 8.3, "ma": 8.8712}, {"date": "2024-12-30", "price": 8.2, "ma": 8.8665}, {"date": "2025-01-02", "price": 8.35, "ma": 8.8628}, {"date": "2025-01-03", "price": 8.4, "ma": 8.8588}, {"date": "2025-01-06", "price": 8.5, "ma": 8.8558}, {"date": "2025-01-07", "price": 8.35, "ma": 8.8513}, {"date": "2025-01-08", "price": 8.15, "ma": 8.8473}, {"date": "2025-01-09", "price": 7.85, "ma": 8.8425}, {"date": "2025-01-10", "price": 7.75, "ma": 8.8365}, {"date": "2025-01-13", "price": 7.75, "ma": 8.8302}, {"date": "2025-01-14", "price": 7.7, "ma": 8.8245}, {"date": "2025-01-15", "price": 7.8, "ma": 8.8193}, {"date": "2025-01-16", "price": 7.8, "ma": 8.8135}, {"date": "2025-01-17", "price": 7.65, "ma": 8.8078}, {"date": "2025-01-20", "price": 7.5, "ma": 8.8012}, {"date": "2025-01-21", "price": 7.6, "ma": 8.7955}, {"date": "2025-01-22", "price": 7.6, "ma": 8.7895}, {"date": "2025-01-23", "price": 7.5, "ma": 8.7825}, {"date": "2025-01-24", "price": 7.6, "ma": 8.7765}, {"date": "2025-01-27", "price": 7.75, "ma": 8.7722}, {"date": "2025-01-28", "price": 7.8, "ma": 8.768}, {"date": "2025-01-28", "price": 7.8, "ma": 8.764}, {"date": "2025-01-29", "price": 7.7, "ma": 8.76}, {"date": "2025-01-30", "price": 7.7, "ma": 8.754}, {"date": "2025-01-31", "price": 7.45, "ma": 8.7475}, {"date": "2025-02-03", "price": 7.35, "ma": 8.7402}, {"date": "2025-02-04", "price": 7.4, "ma": 8.7335}, {"date": "2025-02-05", "price": 7.3, "ma": 8.7272}, {"date": "2025-02-06", "price": 6.85, "ma": 8.719}, {"date": "2025-02-07", "price": 7.1, "ma": 8.711}, {"date": "2025-02-10", "price": 7.15, "ma": 8.7022}, {"date": "2025-02-11", "price": 7.1, "ma": 8.693}, {"date": "2025-02-13", "price": 7.05, "ma": 8.6848}, {"date": "2025-02-14", "price": 7.1, "ma": 8.6765}, {"date": "2025-02-17", "price": 7.25, "ma": 8.6702}, {"date": "2025-02-18", "price": 7.55, "ma": 8.6645}, {"date": "2025-02-19", "price": 7.75, "ma": 8.6593}, {"date": "2025-02-20", "price": 7.7, "ma": 8.6542}, {"date": "2025-02-21", "price": 7.65, "ma": 8.649}, {"date": "2025-02-24", "price": 7.5, "ma": 8.6433}, {"date": "2025-02-25", "price": 7.3, "ma": 8.6363}, {"date": "2025-02-26", "price": 7.6, "ma": 8.6305}, {"date": "2025-02-27", "price": 7.35, "ma": 8.6242}, {"date": "2025-02-28", "price": 7.2, "ma": 8.6173}, {"date": "2025-03-03", "price": 7.1, "ma": 8.6088}, {"date": "2025-03-04", "price": 7.1, "ma": 8.601}, {"date": "2025-03-05", "price": 7.45, "ma": 8.5958}, {"date": "2025-03-06", "price": 7.35, "ma": 8.5898}, {"date": "2025-03-07", "price": 7.4, "ma": 8.5842}, {"date": "2025-03-10", "price": 7.05, "ma": 8.577}, {"date": "2025-03-11", "price": 7.1, "ma": 8.5708}, {"date": "2025-03-12", "price": 6.85, "ma": 8.563}, {"date": "2025-03-13", "price": 6.7, "ma": 8.5533}, {"date": "2025-03-14", "price": 6.85, "ma": 8.5437}, {"date": "2025-03-17", "price": 6.75, "ma": 8.5343}, {"date": "2025-03-18", "price": 6.75, "ma": 8.5248}, {"date": "2025-03-19", "price": 6.8, "ma": 8.5158}, {"date": "2025-03-20", "price": 6.9, "ma": 8.5073}, {"date": "2025-03-21", "price": 6.95, "ma": 8.4987}, {"date": "2025-03-24", "price": 7.2, "ma": 8.4923}, {"date": "2025-03-25", "price": 7.05, "ma": 8.485}, {"date": "2025-03-26", "price": 7.0, "ma": 8.4763}, {"date": "2025-03-27", "price": 6.95, "ma": 8.4667}, {"date": "2025-03-28", "price": 6.9, "ma": 8.4545}, {"date": "2025-03-31", "price": 6.8, "ma": 8.443}, {"date": "2025-04-01", "price": 6.7, "ma": 8.4305}, {"date": "2025-04-02", "price": 6.8, "ma": 8.4198}, {"date": "2025-04-03", "price": 6.9, "ma": 8.4102}, {"date": "2025-04-04", "price": 6.65, "ma": 8.4}, {"date": "2025-04-08", "price": 6.15, "ma": 8.388}, {"date": "2025-04-09", "price": 6.25, "ma": 8.377}, {"date": "2025-04-10", "price": 6.5, "ma": 8.3677}, {"date": "2025-04-11", "price": 6.4, "ma": 8.3582}, {"date": "2025-04-16", "price": 6.55, "ma": 8.3498}, {"date": "2025-04-17", "price": 6.55, "ma": 8.342}, {"date": "2025-04-18", "price": 6.6, "ma": 8.3332}, {"date": "2025-04-21", "price": 6.6, "ma": 8.3245}, {"date": "2025-04-22", "price": 6.7, "ma": 8.3158}, {"date": "2025-04-23", "price": 6.65, "ma": 8.3072}, {"date": "2025-04-24", "price": 6.75, "ma": 8.3003}, {"date": "2025-04-25", "price": 6.8, "ma": 8.293}, {"date": "2025-04-28", "price": 6.85, "ma": 8.2863}, {"date": "2025-04-29", "price": 7.05, "ma": 8.2808}, {"date": "2025-04-30", "price": 7.05, "ma": 8.2748}, {"date": "2025-05-02", "price": 7.15, "ma": 8.2692}, {"date": "2025-05-06", "price": 7.0, "ma": 8.2628}, {"date": "2025-05-07", "price": 7.2, "ma": 8.2565}, {"date": "2025-05-08", "price": 7.2, "ma": 8.2508}, {"date": "2025-05-09", "price": 7.25, "ma": 8.2453}, {"date": "2025-05-13", "price": 7.05, "ma": 8.2383}, {"date": "2025-05-14", "price": 6.9, "ma": 8.2302}, {"date": "2025-05-15", "price": 6.4, "ma": 8.2205}, {"date": "2025-05-16", "price": 6.3, "ma": 8.2108}, {"date": "2025-05-19", "price": 6.5, "ma": 8.2025}, {"date": "2025-05-20", "price": 6.5, "ma": 8.1945}, {"date": "2025-05-21", "price": 6.45, "ma": 8.1865}, {"date": "2025-05-22", "price": 6.35, "ma": 8.1777}, {"date": "2025-05-23", "price": 6.4, "ma": 8.1695}, {"date": "2025-05-26", "price": 6.4, "ma": 8.1623}, {"date": "2025-05-27", "price": 6.4, "ma": 8.155}, {"date": "2025-05-28", "price": 6.35, "ma": 8.1475}, {"date": "2025-05-29", "price": 6.3, "ma": 8.1395}, {"date": "2025-05-30", "price": 6.3, "ma": 8.1315}, {"date": "2025-06-04", "price": 6.1, "ma": 8.1225}, {"date": "2025-06-05", "price": 6.05, "ma": 8.114}, {"date": "2025-06-06", "price": 6.1, "ma": 8.1058}, {"date": "2025-06-09", "price": 6.1, "ma": 8.0965}, {"date": "2025-06-10", "price": 6.2, "ma": 8.0875}, {"date": "2025-06-11", "price": 6.35, "ma": 8.0795}, {"date": "2025-06-12", "price": 6.35, "ma": 8.071}, {"date": "2025-06-13", "price": 6.25, "ma": 8.0605}, {"date": "2025-06-16", "price": 6.2, "ma": 8.0505}, {"date": "2025-06-17", "price": 6.2, "ma": 8.0405}, {"date": "2025-06-18", "price": 6.15, "ma": 8.029}, {"date": "2025-06-19", "price": 6.0, "ma": 8.0155}, {"date": "2025-06-20", "price": 5.75, "ma": 8.0005}, {"date": "2025-06-23", "price": 5.5, "ma": 7.984}, {"date": "2025-06-24", "price": 5.75, "ma": 7.9685}, {"date": "2025-06-25", "price": 5.85, "ma": 7.954}, {"date": "2025-06-26", "price": 5.9, "ma": 7.9398}, {"date": "2025-06-27", "price": 5.7, "ma": 7.9242}, {"date": "2025-06-30", "price": 5.7, "ma": 7.9075}, {"date": "2025-07-01", "price": 5.8, "ma": 7.8942}, {"date": "2025-07-02", "price": 5.75, "ma": 7.8795}, {"date": "2025-07-03", "price": 5.9, "ma": 7.8642}, {"date": "2025-07-04", "price": 5.85, "ma": 7.848}, {"date": "2025-07-07", "price": 5.75, "ma": 7.8305}, {"date": "2025-07-08", "price": 5.8, "ma": 7.811}, {"date": "2025-07-09", "price": 5.7, "ma": 7.789}, {"date": "2025-07-11", "price": 5.85, "ma": 7.7683}, {"date": "2025-07-14", "price": 5.9, "ma": 7.7477}, {"date": "2025-07-15", "price": 6.25, "ma": 7.728}, {"date": "2025-07-16", "price": 6.25, "ma": 7.7088}, {"date": "2025-07-17", "price": 6.5, "ma": 7.6902}, {"date": "2025-07-18", "price": 6.5, "ma": 7.6727}, {"date": "2025-07-21", "price": 6.5, "ma": 7.6542}, {"date": "2025-07-22", "price": 6.35, "ma": 7.634}, {"date": "2025-07-23", "price": 6.5, "ma": 7.6145}, {"date": "2025-07-24", "price": 6.45, "ma": 7.5948}, {"date": "2025-07-25", "price": 6.4, "ma": 7.5752}, {"date": "2025-07-29", "price": 6.6, "ma": 7.5572}, {"date": "2025-07-30", "price": 6.85, "ma": 7.5395}, {"date": "2025-07-31", "price": 6.75, "ma": 7.5208}, {"date": "2025-08-01", "price": 6.55, "ma": 7.502}, {"date": "2025-08-04", "price": 6.55, "ma": 7.4827}, {"date": "2025-08-05", "price": 6.55, "ma": 7.4645}, {"date": "2025-08-06", "price": 6.85, "ma": 7.4478}, {"date": "2025-08-07", "price": 6.8, "ma": 7.4308}, {"date": "2025-08-08", "price": 6.75, "ma": 7.4135}, {"date": "2025-08-13", "price": 7.05, "ma": 7.3977}, {"date": "2025-08-14", "price": 6.9, "ma": 7.3808}, {"date": "2025-08-15", "price": 7.0, "ma": 7.3647}, {"date": "2025-08-18", "price": 6.95, "ma": 7.349}, {"date": "2025-08-19", "price": 6.8, "ma": 7.3342}, {"date": "2025-08-20", "price": 7.05, "ma": 7.3202}, {"date": "2025-08-21", "price": 7.0, "ma": 7.3048}, {"date": "2025-08-22", "price": 7.15, "ma": 7.291}, {"date": "2025-08-25", "price": 7.35, "ma": 7.279}, {"date": "2025-08-26", "price": 7.45, "ma": 7.2685}, {"date": "2025-08-27", "price": 7.8, "ma": 7.261}, {"date": "2025-08-28", "price": 7.7, "ma": 7.2523}, {"date": "2025-08-29", "price": 7.75, "ma": 7.2435}, {"date": "2025-09-01", "price": 7.65, "ma": 7.2342}, {"date": "2025-09-02", "price": 7.7, "ma": 7.2245}, {"date": "2025-09-03", "price": 7.7, "ma": 7.215}, {"date": "2025-09-04", "price": 7.95, "ma": 7.2073}, {"date": "2025-09-05", "price": 8.45, "ma": 7.2023}, {"date": "2025-09-08", "price": 8.5, "ma": 7.199}, {"date": "2025-09-09", "price": 8.4, "ma": 7.196}, {"date": "2025-09-10", "price": 8.4, "ma": 7.192}, {"date": "2025-09-11", "price": 8.45, "ma": 7.1892}, {"date": "2025-09-12", "price": 8.4, "ma": 7.1867}, {"date": "2025-09-15", "price": 8.5, "ma": 7.1825}, {"date": "2025-09-16", "price": 8.8, "ma": 7.179}, {"date": "2025-09-17", "price": 9.0, "ma": 7.178}, {"date": "2025-09-18", "price": 9.0, "ma": 7.1767}, {"date": "2025-09-19", "price": 8.9, "ma": 7.1748}, {"date": "2025-09-22", "price": 8.7, "ma": 7.1723}, {"date": "2025-09-23", "price": 8.7, "ma": 7.1705}, {"date": "2025-09-24", "price": 8.8, "ma": 7.1692}, {"date": "2025-09-25", "price": 8.9, "ma": 7.1705}, {"date": "2025-09-26", "price": 9.1, "ma": 7.1735}, {"date": "2025-09-29", "price": 9.15, "ma": 7.1765}, {"date": "2025-09-30", "price": 9.2, "ma": 7.1792}, {"date": "2025-10-01", "price": 9.25, "ma": 7.1825}, {"date": "2025-10-02", "price": 9.15, "ma": 7.1848}, {"date": "2025-10-03", "price": 9.05, "ma": 7.1873}, {"date": "2025-10-06", "price": 9.0, "ma": 7.1895}, {"date": "2025-10-07", "price": 9.25, "ma": 7.1937}, {"date": "2025-10-08", "price": 9.25, "ma": 7.198}, {"date": "2025-10-09", "price": 9.15, "ma": 7.2025}, {"date": "2025-10-10", "price": 9.15, "ma": 7.207}, {"date": "2025-10-14", "price": 8.85, "ma": 7.2098}, {"date": "2025-10-15", "price": 9.5, "ma": 7.2155}, {"date": "2025-10-16", "price": 9.2, "ma": 7.221}, {"date": "2025-10-17", "price": 8.9, "ma": 7.2255}, {"date": "2025-10-20", "price": 8.95, "ma": 7.2298}, {"date": "2025-10-21", "price": 8.8, "ma": 7.2325}, {"date": "2025-10-22", "price": 8.75, "ma": 7.2348}, {"date": "2025-10-24", "price": 8.5, "ma": 7.2358}, {"date": "2025-10-27", "price": 8.45, "ma": 7.2365}, {"date": "2025-10-29", "price": 8.2, "ma": 7.2365}, {"date": "2025-10-30", "price": 8.0, "ma": 7.2348}, {"date": "2025-10-31", "price": 8.0, "ma": 7.2327}, {"date": "2025-11-03", "price": 7.6, "ma": 7.2283}, {"date": "2025-11-04", "price": 7.55, "ma": 7.2242}, {"date": "2025-11-05", "price": 7.45, "ma": 7.2208}, {"date": "2025-11-06", "price": 7.5, "ma": 7.219}, {"date": "2025-11-07", "price": 7.45, "ma": 7.2175}, {"date": "2025-11-10", "price": 7.5, "ma": 7.2162}, {"date": "2025-11-11", "price": 7.5, "ma": 7.2153}, {"date": "2025-11-12", "price": 7.25, "ma": 7.2125}, {"date": "2025-11-13", "price": 7.35, "ma": 7.2102}, {"date": "2025-11-14", "price": 7.05, "ma": 7.2073}, {"date": "2025-11-17", "price": 7.2, "ma": 7.2058}, {"date": "2025-11-18", "price": 7.2, "ma": 7.2038}, {"date": "2025-11-19", "price": 7.05, "ma": 7.201}, {"date": "2025-11-20", "price": 7.15, "ma": 7.1992}, {"date": "2025-11-21", "price": 7.0, "ma": 7.1963}, {"date": "2025-11-24", "price": 6.85, "ma": 7.1917}, {"date": "2025-11-25", "price": 6.9, "ma": 7.1873}, {"date": "2025-11-26", "price": 6.9, "ma": 7.1827}, {"date": "2025-11-27", "price": 6.95, "ma": 7.179}, {"date": "2025-11-28", "price": 7.15, "ma": 7.1762}, {"date": "2025-12-01", "price": 7.2, "ma": 7.175}, {"date": "2025-12-02", "price": 7.15, "ma": 7.174}, {"date": "2025-12-03", "price": 7.05, "ma": 7.1723}, {"date": "2025-12-04", "price": 6.95, "ma": 7.1705}, {"date": "2025-12-08", "price": 6.9, "ma": 7.1708}, {"date": "2025-12-09", "price": 6.95, "ma": 7.17}, {"date": "2025-12-11", "price": 6.9, "ma": 7.1688}, {"date": "2025-12-12", "price": 6.9, "ma": 7.1677}, {"date": "2025-12-16", "price": 6.95, "ma": 7.1673}, {"date": "2025-12-17", "price": 7.0, "ma": 7.1667}, {"date": "2025-12-18", "price": 6.85, "ma": 7.1648}, {"date": "2025-12-19", "price": 6.85, "ma": 7.1612}, {"date": "2025-12-22", "price": 7.0, "ma": 7.1575}, {"date": "2025-12-23", "price": 7.1, "ma": 7.1545}, {"date": "2025-12-24", "price": 7.05, "ma": 7.1515}, {"date": "2025-12-25", "price": 7.0, "ma": 7.149}, {"date": "2025-12-26", "price": 6.95, "ma": 7.1473}, {"date": "2025-12-29", "price": 6.9, "ma": 7.1437}, {"date": "2025-12-30", "price": 7.1, "ma": 7.1425}, {"date": "2026-01-05", "price": 7.15, "ma": 7.1423}, {"date": "2026-01-06", "price": 7.4, "ma": 7.1437}, {"date": "2026-01-07", "price": 7.6, "ma": 7.1463}, {"date": "2026-01-08", "price": 7.6, "ma": 7.147}, {"date": "2026-01-09", "price": 7.55, "ma": 7.148}, {"date": "2026-01-12", "price": 7.2, "ma": 7.147}, {"date": "2026-01-13", "price": 7.05, "ma": 7.147}, {"date": "2026-01-14", "price": 7.1, "ma": 7.147}, {"date": "2026-01-15", "price": 7.4, "ma": 7.1498}, {"date": "2026-01-16", "price": 7.45, "ma": 7.1535}, {"date": "2026-01-19", "price": 7.45, "ma": 7.1565}, {"date": "2026-01-20", "price": 7.5, "ma": 7.1602}, {"date": "2026-01-21", "price": 7.9, "ma": 7.166}, {"date": "2026-01-22", "price": 7.7, "ma": 7.1705}, {"date": "2026-01-23", "price": 7.6, "ma": 7.174}, {"date": "2026-01-26", "price": 7.4, "ma": 7.1762}, {"date": "2026-01-27", "price": 7.45, "ma": 7.1775}, {"date": "2026-01-28", "price": 7.55, "ma": 7.18}, {"date": "2026-01-29", "price": 7.55, "ma": 7.1827}, {"date": "2026-01-30", "price": 7.55, "ma": 7.1858}, {"date": "2026-02-02", "price": 7.65, "ma": 7.1895}, {"date": "2026-02-03", "price": 7.75, "ma": 7.1942}, {"date": "2026-02-04", "price": 7.75, "ma": 7.1995}, {"date": "2026-02-05", "price": 7.8, "ma": 7.2045}, {"date": "2026-02-06", "price": 7.8, "ma": 7.209}, {"date": "2026-02-09", "price": 8.35, "ma": 7.2175}, {"date": "2026-02-10", "price": 8.3, "ma": 7.2283}, {"date": "2026-02-11", "price": 8.6, "ma": 7.24}, {"date": "2026-02-12", "price": 9.3, "ma": 7.254}, {"date": "2026-02-13", "price": 9.2, "ma": 7.268}, {"date": "2026-02-16", "price": 9.2, "ma": 7.2812}, {"date": "2026-02-17", "price": 9.3, "ma": 7.295}, {"date": "2026-02-18", "price": 9.2, "ma": 7.308}, {"date": "2026-02-19", "price": 9.3, "ma": 7.3215}, {"date": "2026-02-20", "price": 9.3, "ma": 7.3345}, {"date": "2026-02-23", "price": 9.3, "ma": 7.3477}, {"date": "2026-02-24", "price": 9.85, "ma": 7.3633}, {"date": "2026-02-25", "price": 10.1, "ma": 7.3798}, {"date": "2026-02-26", "price": 9.8, "ma": 7.3945}, {"date": "2026-02-27", "price": 9.95, "ma": 7.409}, {"date": "2026-03-02", "price": 9.25, "ma": 7.42}, {"date": "2026-03-04", "price": 8.7, "ma": 7.4277}, {"date": "2026-03-05", "price": 8.6, "ma": 7.4358}, {"date": "2026-03-06", "price": 8.55, "ma": 7.4425}, {"date": "2026-03-09", "price": 8.5, "ma": 7.449}, {"date": "2026-03-10", "price": 8.1, "ma": 7.4533}, {"date": "2026-03-11", "price": 8.0, "ma": 7.458}, {"date": "2026-03-12", "price": 8.15, "ma": 7.4642}, {"date": "2026-03-13", "price": 8.0, "ma": 7.4722}, {"date": "2026-03-16", "price": 7.9, "ma": 7.4802}, {"date": "2026-03-17", "price": 8.1, "ma": 7.4883}, {"date": "2026-03-18", "price": 8.05, "ma": 7.496}, {"date": "2026-03-19", "price": 7.9, "ma": 7.5033}, {"date": "2026-03-20", "price": 7.85, "ma": 7.5108}, {"date": "2026-03-23", "price": 7.6, "ma": 7.5167}, {"date": "2026-03-24", "price": 7.9, "ma": 7.5242}, {"date": "2026-03-25", "price": 8.05, "ma": 7.5325}, {"date": "2026-03-26", "price": 8.5, "ma": 7.5433}, {"date": "2026-03-27", "price": 8.45, "ma": 7.554}, {"date": "2026-03-30", "price": 8.5, "ma": 7.565}, {"date": "2026-03-31", "price": 8.65, "ma": 7.5777}, {"date": "2026-04-01", "price": 8.4, "ma": 7.5895}, {"date": "2026-04-02", "price": 8.4, "ma": 7.601}, {"date": "2026-04-03", "price": 8.25, "ma": 7.6117}, {"date": "2026-04-07", "price": 8.6, "ma": 7.6238}, {"date": "2026-04-08", "price": 8.7, "ma": 7.6355}, {"date": "2026-04-09", "price": 8.5, "ma": 7.6463}, {"date": "2026-04-10", "price": 8.65, "ma": 7.6583}, {"date": "2026-04-16", "price": 8.65, "ma": 7.6705}, {"date": "2026-04-17", "price": 8.45, "ma": 7.6817}, {"date": "2026-04-20", "price": 8.55, "ma": 7.6937}, {"date": "2026-04-21", "price": 8.5, "ma": 7.7062}, {"date": "2026-04-22", "price": 8.45, "ma": 7.7198}, {"date": "2026-04-23", "price": 8.2, "ma": 7.7333}, {"date": "2026-04-24", "price": 8.25, "ma": 7.7458}, {"date": "2026-04-27", "price": 8.35, "ma": 7.7583}, {"date": "2026-04-28", "price": 8.2, "ma": 7.7698}, {"date": "2026-04-29", "price": 8.25, "ma": 7.7825}, {"date": "2026-04-30", "price": 8.15, "ma": 7.7948}, {"date": "2026-05-05", "price": 7.85, "ma": 7.805}, {"date": "2026-05-06", "price": 7.85, "ma": 7.8155}, {"date": "2026-05-07", "price": 7.85, "ma": 7.8252}, {"date": "2026-05-08", "price": 7.75, "ma": 7.8348}, {"date": "2026-05-11", "price": 7.7, "ma": 7.8445}, {"date": "2026-05-12", "price": 7.7, "ma": 7.854}, {"date": "2026-05-13", "price": 7.45, "ma": 7.8628}, {"date": "2026-05-14", "price": 7.5, "ma": 7.871}, {"date": "2026-05-15", "price": 7.35, "ma": 7.8783}, {"date": "2026-05-18", "price": 7.2, "ma": 7.883}, {"date": "2026-05-19", "price": 7.2, "ma": 7.8877}, {"date": "2026-05-20", "price": 7.4, "ma": 7.8923}, {"date": "2026-05-21", "price": 7.3, "ma": 7.8963}, {"date": "2026-05-22", "price": 7.25, "ma": 7.9}, {"date": "2026-05-25", "price": 7.25, "ma": 7.9045}, {"date": "2026-05-26", "price": 7.25, "ma": 7.9083}, {"date": "2026-05-27", "price": 7.35, "ma": 7.9127}, {"date": "2026-05-28", "price": 7.3, "ma": 7.9173}, {"date": "2026-05-29", "price": 7.3, "ma": 7.9208}, {"date": "2026-06-02", "price": 7.25, "ma": 7.9227}, {"date": "2026-06-04", "price": 7.15, "ma": 7.9248}, {"date": "2026-06-05", "price": 7.2, "ma": 7.928}, {"date": "2026-06-08", "price": 7.15, "ma": 7.931}, {"date": "2026-06-09", "price": 7.25, "ma": 7.9345}, {"date": "2026-06-10", "price": 7.2, "ma": 7.9363}, {"date": "2026-06-11", "price": 7.1, "ma": 7.9377}, {"date": "2026-06-12", "price": 7.35, "ma": 7.9408}, {"date": "2026-06-15", "price": 7.55, "ma": 7.9433}, {"date": "2026-06-16", "price": 7.4, "ma": 7.9458}, {"date": "2026-06-17", "price": 7.55, "ma": 7.9485}, {"date": "2026-06-18", "price": 7.45, "ma": 7.951}, {"date": "2026-06-19", "price": 7.45, "ma": 7.9542}, {"date": "2026-06-22", "price": 7.3, "ma": 7.9555}, {"date": "2026-06-23", "price": 7.15, "ma": 7.9562}, {"date": "2026-06-24", "price": 7.25, "ma": 7.9567}, {"date": "2026-06-25", "price": 7.25, "ma": 7.9562}, {"date": "2026-06-26", "price": 7.2, "ma": 7.955}, {"date": "2026-06-29", "price": 7.35, "ma": 7.9527}, {"date": "2026-06-30", "price": 7.4, "ma": 7.9512}, {"date": "2026-07-01", "price": 7.4, "ma": 7.9495}, {"date": "2026-07-02", "price": 7.4, "ma": 7.9483}, {"date": "2026-07-03", "price": 7.5, "ma": 7.9473}, {"date": "2026-07-06", "price": 7.65, "ma": 7.947}, {"date": "2026-07-07", "price": 7.85, "ma": 7.9465}, {"date": "2026-07-08", "price": 7.45, "ma": 7.9415}, {"date": "2026-07-09", "price": 7.55, "ma": 7.9367}, {"date": "2026-07-10", "price": 7.6, "ma": 7.9327}, {"date": "2026-07-13", "price": 7.75, "ma": 7.9295}, {"date": "2026-07-14", "price": 7.6, "ma": 7.9253}, {"date": "2026-07-15", "price": 7.65, "ma": 7.9215}, {"date": "2026-07-16", "price": 7.8, "ma": 7.918}, {"date": "2026-07-17", "price": 7.85, "ma": 7.9133}, {"date": "2026-07-20", "price": 7.85, "ma": 7.9075}, {"date": "2026-07-21", "price": 7.75, "ma": 7.9013}, {"date": "2026-07-22", "price": 7.7, "ma": 7.8952}, {"date": "2026-07-23", "price": 7.6, "ma": 7.8898}, {"date": "2026-07-24", "price": 7.5, "ma": 7.8838}, {"date": "2026-07-27", "price": 7.55, "ma": 7.8775}, {"date": "2026-07-30", "price": 7.5, "ma": 7.8705}, {"date": "2026-07-31", "price": 7.55, "ma": 7.8628}, {"date": "2026-08-03", "price": 7.5, "ma": 7.8545}, {"date": "2026-08-04", "price": 7.5, "ma": 7.846}, {"date": "2026-08-05", "price": 7.4, "ma": 7.8367}, {"date": "2026-08-06", "price": 7.3, "ma": 7.8275}, {"date": "2026-08-07", "price": 7.4, "ma": 7.8192}, {"date": "2026-08-10", "price": 7.45, "ma": 7.8115}, {"date": "2026-08-11", "price": 7.45, "ma": 7.8025}, {"date": "2026-08-13", "price": 7.45, "ma": 7.7935}, {"date": "2026-08-14", "price": 7.3, "ma": 7.7842}, {"date": "2026-08-17", "price": 7.5, "ma": 7.776}, {"date": "2026-08-18", "price": 7.45, "ma": 7.769}, {"date": "2026-08-19", "price": 7.75, "ma": 7.7603}, {"date": "2026-08-20", "price": 7.65, "ma": 7.7525}, {"date": "2026-08-21", "price": 7.75, "ma": 7.7467}, {"date": "2026-08-24", "price": 7.65, "ma": 7.7402}, {"date": "2026-08-25", "price": 7.65, "ma": 7.7345}, {"date": "2026-08-26", "price": 8.0, "ma": 7.7308}, {"date": "2026-08-27", "price": 7.85, "ma": 7.7275}, {"date": "2026-08-28", "price": 7.8, "ma": 7.7242}, {"date": "2026-08-31", "price": 7.65, "ma": 7.7215}, {"date": "2026-09-01", "price": 7.65, "ma": 7.7198}, {"date": "2026-09-02", "price": 7.55, "ma": 7.7175}, {"date": "2026-09-03", "price": 7.65, "ma": 7.7177}, {"date": "2026-09-04", "price": 7.9, "ma": 7.7195}, {"date": "2026-09-07", "price": 7.9, "ma": 7.7217}, {"date": "2026-09-08", "price": 8.45, "ma": 7.7265}, {"date": "2026-09-09", "price": 8.4, "ma": 7.7313}, {"date": "2026-09-10", "price": 8.35, "ma": 7.7355}, {"date": "2026-09-11", "price": 8.2, "ma": 7.739}, {"date": "2026-09-14", "price": 8.2, "ma": 7.7438}, {"date": "2026-09-15", "price": 8.2, "ma": 7.748}, {"date": "2026-09-16", "price": 8.0, "ma": 7.7527}, {"date": "2026-09-17", "price": 8.35, "ma": 7.7585}, {"date": "2026-09-18", "price": 8.35, "ma": 7.7642}, {"date": "2026-09-21", "price": 8.65, "ma": 7.7723}, {"date": "2026-09-22", "price": 8.9, "ma": 7.781}, {"date": "2026-09-23", "price": 8.5, "ma": 7.7885}, {"date": "2026-09-24", "price": 8.3, "ma": 7.7958}, {"date": "2026-09-25", "price": 8.25, "ma": 7.8025}, {"date": "2026-09-28", "price": 8.35, "ma": 7.8098}, {"date": "2026-09-29", "price": 8.3, "ma": 7.8165}, {"date": "2026-09-30", "price": 8.05, "ma": 7.821}, {"date": "2026-10-01", "price": 8.3, "ma": 7.8265}, {"date": "2026-10-02", "price": 8.25, "ma": 7.832}, {"date": "2026-10-05", "price": 8.3, "ma": 7.8383}, {"date": "2026-10-06", "price": 8.35, "ma": 7.8453}, {"date": "2026-10-07", "price": 8.5, "ma": 7.8533}, {"date": "2026-10-08", "price": 8.25, "ma": 7.8598}, {"date": "2026-10-08", "price": 8.25, "ma": 7.8665}, {"date": "2026-10-09", "price": 8.3, "ma": 7.8735}, {"date": "2026-10-12", "price": 8.1, "ma": 7.8792}, {"date": "2026-10-14", "price": 8.2, "ma": 7.8853}, {"date": "2026-10-15", "price": 8.15, "ma": 7.8917}, {"date": "2026-10-19", "price": 8.15, "ma": 7.8983}, {"date": "2026-10-20", "price": 7.8, "ma": 7.9023}], "set": [{"date": "2023-10-20", "value": 1399.35}, {"date": "2023-10-24", "value": 1391.03}, {"date": "2023-10-25", "value": 1401.7}, {"date": "2023-10-25", "value": 1401.7}, {"date": "2023-10-26", "value": 1371.22}, {"date": "2023-10-27", "value": 1388.23}, {"date": "2023-10-30", "value": 1395.85}, {"date": "2023-10-31", "value": 1381.83}, {"date": "2023-11-01", "value": 1379.96}, {"date": "2023-11-02", "value": 1403.99}, {"date": "2023-11-03", "value": 1419.76}, {"date": "2023-11-06", "value": 1417.21}, {"date": "2023-11-07", "value": 1408.3}, {"date": "2023-11-08", "value": 1411.77}, {"date": "2023-11-09", "value": 1404.97}, {"date": "2023-11-10", "value": 1389.57}, {"date": "2023-11-13", "value": 1387.13}, {"date": "2023-11-14", "value": 1386.04}, {"date": "2023-11-15", "value": 1415.17}, {"date": "2023-11-16", "value": 1415.34}, {"date": "2023-11-17", "value": 1415.78}, {"date": "2023-11-20", "value": 1419.44}, {"date": "2023-11-21", "value": 1423.61}, {"date": "2023-11-22", "value": 1414.15}, {"date": "2023-11-23", "value": 1406.61}, {"date": "2023-11-24", "value": 1397.43}, {"date": "2023-11-27", "value": 1393.42}, {"date": "2023-11-28", "value": 1401.42}, {"date": "2023-11-29", "value": 1387.69}, {"date": "2023-11-30", "value": 1380.18}, {"date": "2023-12-01", "value": 1380.31}, {"date": "2023-12-04", "value": 1383.54}, {"date": "2023-12-06", "value": 1389.55}, {"date": "2023-12-07", "value": 1378.73}, {"date": "2023-12-08", "value": 1380.99}, {"date": "2023-12-12", "value": 1373.92}, {"date": "2023-12-13", "value": 1357.97}, {"date": "2023-12-14", "value": 1357.97}, {"date": "2023-12-15", "value": 1391.03}, {"date": "2023-12-18", "value": 1393.41}, {"date": "2023-12-19", "value": 1394.9}, {"date": "2023-12-20", "value": 1400.37}, {"date": "2023-12-21", "value": 1404.84}, {"date": "2023-12-22", "value": 1405.09}, {"date": "2023-12-25", "value": 1408.83}, {"date": "2023-12-26", "value": 1413.45}, {"date": "2023-12-27", "value": 1410.43}, {"date": "2023-12-28", "value": 1415.85}, {"date": "2024-01-02", "value": 1433.38}, {"date": "2024-01-03", "value": 1429.62}, {"date": "2024-01-04", "value": 1434.59}, {"date": "2024-01-05", "value": 1427.96}, {"date": "2024-01-08", "value": 1418.45}, {"date": "2024-01-09", "value": 1414.93}, {"date": "2024-01-10", "value": 1413.52}, {"date": "2024-01-11", "value": 1408.24}, {"date": "2024-01-12", "value": 1413.53}, {"date": "2024-01-15", "value": 1407.02}, {"date": "2024-01-16", "value": 1401.72}, {"date": "2024-01-17", "value": 1380.65}, {"date": "2024-01-18", "value": 1377.93}, {"date": "2024-01-19", "value": 1382.51}, {"date": "2024-01-22", "value": 1369.92}, {"date": "2024-01-23", "value": 1356.54}, {"date": "2024-01-24", "value": 1381.19}, {"date": "2024-01-25", "value": 1376.09}, {"date": "2024-01-26", "value": 1368.15}, {"date": "2024-01-29", "value": 1376.28}, {"date": "2024-01-30", "value": 1373.14}, {"date": "2024-01-31", "value": 1364.52}, {"date": "2024-02-01", "value": 1367.96}, {"date": "2024-02-02", "value": 1384.08}, {"date": "2024-02-05", "value": 1383.93}, {"date": "2024-02-06", "value": 1396.96}, {"date": "2024-02-07", "value": 1400.02}, {"date": "2024-02-08", "value": 1388.6}, {"date": "2024-02-09", "value": 1388.37}, {"date": "2024-02-12", "value": 1389.3}, {"date": "2024-02-13", "value": 1391.73}, {"date": "2024-02-14", "value": 1385.11}, {"date": "2024-02-15", "value": 1387.27}, {"date": "2024-02-16", "value": 1386.27}, {"date": "2024-02-19", "value": 1387.33}, {"date": "2024-02-20", "value": 1381.07}, {"date": "2024-02-21", "value": 1393.61}, {"date": "2024-02-22", "value": 1402.47}, {"date": "2024-02-23", "value": 1398.14}, {"date": "2024-02-27", "value": 1393.7}, {"date": "2024-02-28", "value": 1382.05}, {"date": "2024-02-29", "value": 1370.67}, {"date": "2024-03-01", "value": 1367.42}, {"date": "2024-03-04", "value": 1362.59}, {"date": "2024-03-05", "value": 1359.26}, {"date": "2024-03-06", "value": 1370.55}, {"date": "2024-03-07", "value": 1372.16}, {"date": "2024-03-08", "value": 1386.42}, {"date": "2024-03-11", "value": 1380.23}, {"date": "2024-03-12", "value": 1379.63}, {"date": "2024-03-13", "value": 1384.51}, {"date": "2024-03-14", "value": 1394.93}, {"date": "2024-03-15", "value": 1386.04}, {"date": "2024-03-18", "value": 1385.94}, {"date": "2024-03-19", "value": 1382.46}, {"date": "2024-03-20", "value": 1373.18}, {"date": "2024-03-21", "value": 1387.62}, {"date": "2024-03-22", "value": 1381.04}, {"date": "2024-03-25", "value": 1372.49}, {"date": "2024-03-26", "value": 1377.23}, {"date": "2024-03-27", "value": 1380.83}, {"date": "2024-03-28", "value": 1370.34}, {"date": "2024-03-29", "value": 1377.94}, {"date": "2024-04-01", "value": 1379.48}, {"date": "2024-04-01", "value": 1379.48}, {"date": "2024-04-02", "value": 1379.46}, {"date": "2024-04-03", "value": 1375.69}, {"date": "2024-04-04", "value": 1373.89}, {"date": "2024-04-05", "value": 1375.58}, {"date": "2024-04-09", "value": 1401.11}, {"date": "2024-04-10", "value": 1408.17}, {"date": "2024-04-11", "value": 1396.38}, {"date": "2024-04-17", "value": 1366.94}, {"date": "2024-04-18", "value": 1361.02}, {"date": "2024-04-19", "value": 1332.08}, {"date": "2024-04-22", "value": 1349.52}, {"date": "2024-04-23", "value": 1357.46}, {"date": "2024-04-24", "value": 1361.1}, {"date": "2024-04-25", "value": 1364.27}, {"date": "2024-04-26", "value": 1359.94}, {"date": "2024-04-29", "value": 1361.97}, {"date": "2024-04-30", "value": 1367.95}, {"date": "2024-05-02", "value": 1363.25}, {"date": "2024-05-03", "value": 1369.92}, {"date": "2024-05-07", "value": 1376.37}, {"date": "2024-05-08", "value": 1373.33}, {"date": "2024-05-09", "value": 1369.29}, {"date": "2024-05-10", "value": 1371.9}, {"date": "2024-05-13", "value": 1372.5}, {"date": "2024-05-14", "value": 1376.57}, {"date": "2024-05-15", "value": 1370.44}, {"date": "2024-05-16", "value": 1377.72}, {"date": "2024-05-17", "value": 1382.68}, {"date": "2024-05-20", "value": 1378.7}, {"date": "2024-05-21", "value": 1370.83}, {"date": "2024-05-23", "value": 1367.84}, {"date": "2024-05-24", "value": 1364.48}, {"date": "2024-05-27", "value": 1366.37}, {"date": "2024-05-28", "value": 1362.7}, {"date": "2024-05-29", "value": 1349.83}, {"date": "2024-05-30", "value": 1351.52}, {"date": "2024-05-31", "value": 1345.66}, {"date": "2024-06-04", "value": 1337.32}, {"date": "2024-06-05", "value": 1338.32}, {"date": "2024-06-06", "value": 1328.41}, {"date": "2024-06-07", "value": 1332.74}, {"date": "2024-06-10", "value": 1318.57}, {"date": "2024-06-11", "value": 1316.1}, {"date": "2024-06-12", "value": 1316.69}, {"date": "2024-06-13", "value": 1311.78}, {"date": "2024-06-14", "value": 1306.56}, {"date": "2024-06-17", "value": 1296.59}, {"date": "2024-06-18", "value": 1297.41}, {"date": "2024-06-19", "value": 1303.82}, {"date": "2024-06-20", "value": 1298.29}, {"date": "2024-06-21", "value": 1306.41}, {"date": "2024-06-24", "value": 1316.73}, {"date": "2024-06-25", "value": 1319.14}, {"date": "2024-06-26", "value": 1319.15}, {"date": "2024-06-27", "value": 1309.46}, {"date": "2024-06-28", "value": 1300.96}, {"date": "2024-07-01", "value": 1299.35}, {"date": "2024-07-02", "value": 1288.58}, {"date": "2024-07-03", "value": 1294.7}, {"date": "2024-07-04", "value": 1301.04}, {"date": "2024-07-05", "value": 1311.99}, {"date": "2024-07-08", "value": 1322.5}, {"date": "2024-07-09", "value": 1319.92}, {"date": "2024-07-10", "value": 1323.28}, {"date": "2024-07-11", "value": 1329.37}, {"date": "2024-07-12", "value": 1332.04}, {"date": "2024-07-15", "value": 1327.43}, {"date": "2024-07-16", "value": 1321.31}, {"date": "2024-07-17", "value": 1319.79}, {"date": "2024-07-18", "value": 1324.76}, {"date": "2024-07-19", "value": 1317.14}, {"date": "2024-07-23", "value": 1301.54}, {"date": "2024-07-24", "value": 1298.08}, {"date": "2024-07-25", "value": 1291.58}, {"date": "2024-07-26", "value": 1307.21}, {"date": "2024-07-30", "value": 1308.09}, {"date": "2024-07-31", "value": 1320.86}, {"date": "2024-08-01", "value": 1322.75}, {"date": "2024-08-02", "value": 1313.08}, {"date": "2024-08-05", "value": 1274.67}, {"date": "2024-08-06", "value": 1274.01}, {"date": "2024-08-07", "value": 1290.55}, {"date": "2024-08-08", "value": 1296.25}, {"date": "2024-08-09", "value": 1297.07}, {"date": "2024-08-13", "value": 1297.79}, {"date": "2024-08-14", "value": 1292.69}, {"date": "2024-08-15", "value": 1289.84}, {"date": "2024-08-16", "value": 1303.0}, {"date": "2024-08-19", "value": 1323.38}, {"date": "2024-08-20", "value": 1329.78}, {"date": "2024-08-21", "value": 1337.83}, {"date": "2024-08-22", "value": 1341.03}, {"date": "2024-08-23", "value": 1354.87}, {"date": "2024-08-26", "value": 1364.81}, {"date": "2024-08-27", "value": 1364.31}, {"date": "2024-08-28", "value": 1365.72}, {"date": "2024-08-29", "value": 1357.41}, {"date": "2024-08-30", "value": 1359.07}, {"date": "2024-09-02", "value": 1353.64}, {"date": "2024-09-03", "value": 1364.6}, {"date": "2024-09-04", "value": 1365.49}, {"date": "2024-09-05", "value": 1404.28}, {"date": "2024-09-06", "value": 1427.64}, {"date": "2024-09-09", "value": 1431.13}, {"date": "2024-09-10", "value": 1428.03}, {"date": "2024-09-11", "value": 1415.41}, {"date": "2024-09-12", "value": 1421.58}, {"date": "2024-09-13", "value": 1424.39}, {"date": "2024-09-16", "value": 1435.53}, {"date": "2024-09-17", "value": 1436.6}, {"date": "2024-09-18", "value": 1435.77}, {"date": "2024-09-19", "value": 1454.84}, {"date": "2024-09-20", "value": 1451.69}, {"date": "2024-09-23", "value": 1447.9}, {"date": "2024-09-24", "value": 1462.1}, {"date": "2024-09-25", "value": 1461.58}, {"date": "2024-09-26", "value": 1455.03}, {"date": "2024-09-27", "value": 1450.15}, {"date": "2024-09-30", "value": 1448.83}, {"date": "2024-10-01", "value": 1464.66}, {"date": "2024-10-02", "value": 1451.4}, {"date": "2024-10-03", "value": 1442.73}, {"date": "2024-10-04", "value": 1444.25}, {"date": "2024-10-07", "value": 1452.2}, {"date": "2024-10-08", "value": 1452.8}, {"date": "2024-10-09", "value": 1456.97}, {"date": "2024-10-10", "value": 1468.52}, {"date": "2024-10-11", "value": 1470.1}, {"date": "2024-10-15", "value": 1465.03}, {"date": "2024-10-16", "value": 1485.01}, {"date": "2024-10-17", "value": 1495.02}, {"date": "2024-10-18", "value": 1489.82}, {"date": "2024-10-21", "value": 1488.74}, {"date": "2024-10-22", "value": 1470.32}, {"date": "2024-10-24", "value": 1460.64}, {"date": "2024-10-25", "value": 1463.42}, {"date": "2024-10-29", "value": 1451.16}, {"date": "2024-10-30", "value": 1447.2}, {"date": "2024-10-31", "value": 1466.04}, {"date": "2024-11-01", "value": 1464.17}, {"date": "2024-11-04", "value": 1462.95}, {"date": "2024-11-05", "value": 1481.67}, {"date": "2024-11-06", "value": 1467.42}, {"date": "2024-11-07", "value": 1474.69}, {"date": "2024-11-08", "value": 1464.69}, {"date": "2024-11-11", "value": 1456.47}, {"date": "2024-11-12", "value": 1445.07}, {"date": "2024-11-13", "value": 1451.47}, {"date": "2024-11-14", "value": 1450.12}, {"date": "2024-11-15", "value": 1442.63}, {"date": "2024-11-18", "value": 1452.78}, {"date": "2024-11-19", "value": 1460.11}, {"date": "2024-11-20", "value": 1462.48}, {"date": "2024-11-21", "value": 1440.46}, {"date": "2024-11-22", "value": 1446.3}, {"date": "2024-11-26", "value": 1438.25}, {"date": "2024-11-27", "value": 1430.4}, {"date": "2024-11-28", "value": 1428.01}, {"date": "2024-11-29", "value": 1427.54}, {"date": "2024-12-02", "value": 1437.11}, {"date": "2024-12-03", "value": 1454.76}, {"date": "2024-12-04", "value": 1450.82}, {"date": "2024-12-06", "value": 1451.14}, {"date": "2024-12-09", "value": 1447.53}, {"date": "2024-12-11", "value": 1443.05}, {"date": "2024-12-12", "value": 1439.89}, {"date": "2024-12-13", "value": 1431.67}, {"date": "2024-12-16", "value": 1419.72}, {"date": "2024-12-17", "value": 1395.57}, {"date": "2024-12-20", "value": 1365.07}, {"date": "2024-12-23", "value": 1386.91}, {"date": "2024-12-24", "value": 1394.67}, {"date": "2024-12-25", "value": 1400.85}, {"date": "2024-12-26", "value": 1397.8}, {"date": "2024-12-27", "value": 1401.46}, {"date": "2024-12-30", "value": 1400.21}, {"date": "2025-01-02", "value": 1379.85}, {"date": "2025-01-03", "value": 1384.76}, {"date": "2025-01-06", "value": 1372.65}, {"date": "2025-01-07", "value": 1390.88}, {"date": "2025-01-08", "value": 1387.72}, {"date": "2025-01-09", "value": 1362.97}, {"date": "2025-01-10", "value": 1367.99}, {"date": "2025-01-13", "value": 1354.34}, {"date": "2025-01-14", "value": 1340.25}, {"date": "2025-01-15", "value": 1353.17}, {"date": "2025-01-16", "value": 1352.56}, {"date": "2025-01-17", "value": 1340.63}, {"date": "2025-01-20", "value": 1340.5}, {"date": "2025-01-21", "value": 1352.53}, {"date": "2025-01-22", "value": 1361.77}, {"date": "2025-01-23", "value": 1344.17}, {"date": "2025-01-24", "value": 1354.07}, {"date": "2025-01-27", "value": 1340.94}, {"date": "2025-01-28", "value": 1345.77}, {"date": "2025-01-29", "value": 1343.19}, {"date": "2025-01-30", "value": 1335.64}, {"date": "2025-01-31", "value": 1314.5}, {"date": "2025-02-03", "value": 1304.39}, {"date": "2025-02-04", "value": 1301.02}, {"date": "2025-02-05", "value": 1286.74}, {"date": "2025-02-06", "value": 1262.07}, {"date": "2025-02-07", "value": 1282.09}, {"date": "2025-02-10", "value": 1270.49}, {"date": "2025-02-11", "value": 1283.97}, {"date": "2025-02-13", "value": 1284.11}, {"date": "2025-02-14", "value": 1272.1}, {"date": "2025-02-17", "value": 1256.48}, {"date": "2025-02-18", "value": 1257.48}, {"date": "2025-02-19", "value": 1262.67}, {"date": "2025-02-20", "value": 1245.61}, {"date": "2025-02-21", "value": 1246.21}, {"date": "2025-02-24", "value": 1235.85}, {"date": "2025-02-25", "value": 1206.39}, {"date": "2025-02-26", "value": 1231.14}, {"date": "2025-02-27", "value": 1215.73}, {"date": "2025-02-28", "value": 1203.72}, {"date": "2025-03-03", "value": 1188.41}, {"date": "2025-03-04", "value": 1177.64}, {"date": "2025-03-05", "value": 1206.96}, {"date": "2025-03-06", "value": 1189.55}, {"date": "2025-03-07", "value": 1202.03}, {"date": "2025-03-10", "value": 1177.44}, {"date": "2025-03-11", "value": 1187.63}, {"date": "2025-03-12", "value": 1160.06}, {"date": "2025-03-13", "value": 1159.64}, {"date": "2025-03-14", "value": 1173.74}, {"date": "2025-03-17", "value": 1170.2}, {"date": "2025-03-18", "value": 1176.17}, {"date": "2025-03-19", "value": 1189.66}, {"date": "2025-03-20", "value": 1181.71}, {"date": "2025-03-21", "value": 1186.61}, {"date": "2025-03-24", "value": 1190.06}, {"date": "2025-03-25", "value": 1184.93}, {"date": "2025-03-26", "value": 1190.36}, {"date": "2025-03-27", "value": 1187.9}, {"date": "2025-03-28", "value": 1175.45}, {"date": "2025-03-31", "value": 1158.09}, {"date": "2025-04-01", "value": 1168.02}, {"date": "2025-04-02", "value": 1172.69}, {"date": "2025-04-03", "value": 1161.81}, {"date": "2025-04-04", "value": 1125.21}, {"date": "2025-04-08", "value": 1074.59}, {"date": "2025-04-09", "value": 1088.18}, {"date": "2025-04-10", "value": 1133.95}, {"date": "2025-04-11", "value": 1128.66}, {"date": "2025-04-16", "value": 1138.9}, {"date": "2025-04-17", "value": 1141.28}, {"date": "2025-04-18", "value": 1150.95}, {"date": "2025-04-21", "value": 1134.71}, {"date": "2025-04-22", "value": 1144.05}, {"date": "2025-04-23", "value": 1153.77}, {"date": "2025-04-24", "value": 1146.86}, {"date": "2025-04-25", "value": 1159.0}, {"date": "2025-04-28", "value": 1159.53}, {"date": "2025-04-29", "value": 1171.12}, {"date": "2025-04-30", "value": 1197.26}, {"date": "2025-05-02", "value": 1198.98}, {"date": "2025-05-06", "value": 1187.86}, {"date": "2025-05-07", "value": 1220.27}, {"date": "2025-05-08", "value": 1206.59}, {"date": "2025-05-09", "value": 1210.94}, {"date": "2025-05-13", "value": 1214.39}, {"date": "2025-05-14", "value": 1216.71}, {"date": "2025-05-15", "value": 1194.49}, {"date": "2025-05-16", "value": 1195.77}, {"date": "2025-05-19", "value": 1187.06}, {"date": "2025-05-20", "value": 1189.14}, {"date": "2025-05-21", "value": 1179.81}, {"date": "2025-05-22", "value": 1173.37}, {"date": "2025-05-23", "value": 1176.36}, {"date": "2025-05-26", "value": 1178.43}, {"date": "2025-05-27", "value": 1163.42}, {"date": "2025-05-28", "value": 1160.74}, {"date": "2025-05-29", "value": 1164.01}, {"date": "2025-05-30", "value": 1149.18}, {"date": "2025-06-04", "value": 1132.02}, {"date": "2025-06-05", "value": 1140.63}, {"date": "2025-06-06", "value": 1136.43}, {"date": "2025-06-09", "value": 1135.24}, {"date": "2025-06-10", "value": 1139.16}, {"date": "2025-06-11", "value": 1141.58}, {"date": "2025-06-12", "value": 1128.62}, {"date": "2025-06-13", "value": 1122.7}, {"date": "2025-06-16", "value": 1114.49}, {"date": "2025-06-17", "value": 1113.58}, {"date": "2025-06-18", "value": 1094.58}, {"date": "2025-06-19", "value": 1068.73}, {"date": "2025-06-20", "value": 1067.63}, {"date": "2025-06-23", "value": 1062.78}, {"date": "2025-06-24", "value": 1100.01}, {"date": "2025-06-25", "value": 1107.69}, {"date": "2025-06-26", "value": 1106.73}, {"date": "2025-06-27", "value": 1082.42}, {"date": "2025-06-30", "value": 1089.56}, {"date": "2025-07-01", "value": 1110.01}, {"date": "2025-07-02", "value": 1115.69}, {"date": "2025-07-03", "value": 1127.21}, {"date": "2025-07-04", "value": 1119.94}, {"date": "2025-07-07", "value": 1123.0}, {"date": "2025-07-08", "value": 1115.65}, {"date": "2025-07-09", "value": 1110.4}, {"date": "2025-07-11", "value": 1121.13}, {"date": "2025-07-14", "value": 1143.31}, {"date": "2025-07-15", "value": 1161.01}, {"date": "2025-07-16", "value": 1157.63}, {"date": "2025-07-17", "value": 1198.11}, {"date": "2025-07-18", "value": 1206.58}, {"date": "2025-07-21", "value": 1208.13}, {"date": "2025-07-22", "value": 1191.75}, {"date": "2025-07-23", "value": 1219.62}, {"date": "2025-07-24", "value": 1212.49}, {"date": "2025-07-25", "value": 1217.15}, {"date": "2025-07-29", "value": 1233.68}, {"date": "2025-07-30", "value": 1244.14}, {"date": "2025-07-31", "value": 1242.35}, {"date": "2025-08-01", "value": 1218.33}, {"date": "2025-08-04", "value": 1229.4}, {"date": "2025-08-05", "value": 1246.96}, {"date": "2025-08-06", "value": 1264.47}, {"date": "2025-08-07", "value": 1265.15}, {"date": "2025-08-08", "value": 1259.07}, {"date": "2025-08-13", "value": 1277.43}, {"date": "2025-08-14", "value": 1266.67}, {"date": "2025-08-15", "value": 1259.42}, {"date": "2025-08-18", "value": 1242.31}, {"date": "2025-08-19", "value": 1235.76}, {"date": "2025-08-20", "value": 1248.13}, {"date": "2025-08-21", "value": 1244.79}, {"date": "2025-08-22", "value": 1253.39}, {"date": "2025-08-25", "value": 1262.67}, {"date": "2025-08-26", "value": 1251.26}, {"date": "2025-08-27", "value": 1248.03}, {"date": "2025-08-28", "value": 1250.09}, {"date": "2025-08-29", "value": 1236.61}, {"date": "2025-09-01", "value": 1244.48}, {"date": "2025-09-02", "value": 1248.78}, {"date": "2025-09-03", "value": 1259.31}, {"date": "2025-09-04", "value": 1252.55}, {"date": "2025-09-05", "value": 1264.8}, {"date": "2025-09-08", "value": 1266.11}, {"date": "2025-09-09", "value": 1276.08}, {"date": "2025-09-10", "value": 1278.05}, {"date": "2025-09-11", "value": 1288.03}, {"date": "2025-09-12", "value": 1293.62}, {"date": "2025-09-15", "value": 1299.78}, {"date": "2025-09-16", "value": 1308.19}, {"date": "2025-09-17", "value": 1306.69}, {"date": "2025-09-18", "value": 1297.01}, {"date": "2025-09-19", "value": 1292.72}, {"date": "2025-09-22", "value": 1282.54}, {"date": "2025-09-23", "value": 1273.2}, {"date": "2025-09-24", "value": 1278.41}, {"date": "2025-09-25", "value": 1288.26}, {"date": "2025-09-26", "value": 1278.74}, {"date": "2025-09-29", "value": 1288.07}, {"date": "2025-09-30", "value": 1274.17}, {"date": "2025-10-01", "value": 1275.03}, {"date": "2025-10-02", "value": 1288.29}, {"date": "2025-10-03", "value": 1293.61}, {"date": "2025-10-06", "value": 1286.54}, {"date": "2025-10-07", "value": 1305.24}, {"date": "2025-10-08", "value": 1304.92}, {"date": "2025-10-09", "value": 1313.99}, {"date": "2025-10-10", "value": 1286.98}, {"date": "2025-10-14", "value": 1266.38}, {"date": "2025-10-15", "value": 1286.69}, {"date": "2025-10-16", "value": 1291.46}, {"date": "2025-10-17", "value": 1274.61}, {"date": "2025-10-20", "value": 1284.47}, {"date": "2025-10-21", "value": 1290.72}, {"date": "2025-10-22", "value": 1302.35}, {"date": "2025-10-24", "value": 1313.91}, {"date": "2025-10-27", "value": 1323.52}, {"date": "2025-10-29", "value": 1315.64}, {"date": "2025-10-30", "value": 1314.65}, {"date": "2025-10-31", "value": 1309.5}, {"date": "2025-11-03", "value": 1308.86}, {"date": "2025-11-04", "value": 1298.6}, {"date": "2025-11-05", "value": 1295.29}, {"date": "2025-11-06", "value": 1313.31}, {"date": "2025-11-07", "value": 1302.91}, {"date": "2025-11-10", "value": 1306.26}, {"date": "2025-11-11", "value": 1300.47}, {"date": "2025-11-12", "value": 1284.81}, {"date": "2025-11-13", "value": 1287.44}, {"date": "2025-11-14", "value": 1269.26}, {"date": "2025-11-17", "value": 1280.07}, {"date": "2025-11-18", "value": 1270.04}, {"date": "2025-11-19", "value": 1272.17}, {"date": "2025-11-20", "value": 1281.81}, {"date": "2025-11-21", "value": 1254.4}, {"date": "2025-11-24", "value": 1252.73}, {"date": "2025-11-25", "value": 1268.78}, {"date": "2025-11-26", "value": 1261.18}, {"date": "2025-11-27", "value": 1252.71}, {"date": "2025-11-28", "value": 1256.69}, {"date": "2025-12-01", "value": 1276.57}, {"date": "2025-12-02", "value": 1277.58}, {"date": "2025-12-03", "value": 1274.82}, {"date": "2025-12-04", "value": 1273.77}, {"date": "2025-12-08", "value": 1261.39}, {"date": "2025-12-09", "value": 1269.87}, {"date": "2025-12-11", "value": 1253.54}, {"date": "2025-12-12", "value": 1254.1}, {"date": "2025-12-16", "value": 1260.68}, {"date": "2025-12-17", "value": 1256.85}, {"date": "2025-12-18", "value": 1250.07}, {"date": "2025-12-19", "value": 1252.19}, {"date": "2025-12-22", "value": 1269.68}, {"date": "2025-12-23", "value": 1271.11}, {"date": "2025-12-24", "value": 1275.33}, {"date": "2025-12-25", "value": 1264.77}, {"date": "2025-12-26", "value": 1259.25}, {"date": "2025-12-29", "value": 1254.03}, {"date": "2025-12-30", "value": 1259.67}, {"date": "2026-01-05", "value": 1280.05}, {"date": "2026-01-06", "value": 1274.75}, {"date": "2026-01-07", "value": 1280.82}, {"date": "2026-01-08", "value": 1253.6}, {"date": "2026-01-09", "value": 1254.09}, {"date": "2026-01-12", "value": 1242.2}, {"date": "2026-01-13", "value": 1235.3}, {"date": "2026-01-14", "value": 1244.3}, {"date": "2026-01-15", "value": 1261.39}, {"date": "2026-01-16", "value": 1275.6}, {"date": "2026-01-19", "value": 1283.2}, {"date": "2026-01-20", "value": 1296.37}, {"date": "2026-01-21", "value": 1317.56}, {"date": "2026-01-22", "value": 1311.64}, {"date": "2026-01-23", "value": 1314.39}, {"date": "2026-01-26", "value": 1307.07}, {"date": "2026-01-27", "value": 1334.45}, {"date": "2026-01-28", "value": 1338.9}, {"date": "2026-01-29", "value": 1331.07}, {"date": "2026-01-30", "value": 1325.62}, {"date": "2026-02-02", "value": 1321.42}, {"date": "2026-02-03", "value": 1336.11}, {"date": "2026-02-04", "value": 1346.54}, {"date": "2026-02-05", "value": 1346.23}, {"date": "2026-02-06", "value": 1354.01}, {"date": "2026-02-09", "value": 1400.89}, {"date": "2026-02-10", "value": 1410.44}, {"date": "2026-02-11", "value": 1411.7}, {"date": "2026-02-12", "value": 1441.53}, {"date": "2026-02-13", "value": 1430.41}, {"date": "2026-02-16", "value": 1438.09}, {"date": "2026-02-17", "value": 1459.68}, {"date": "2026-02-18", "value": 1466.67}, {"date": "2026-02-19", "value": 1493.91}, {"date": "2026-02-20", "value": 1479.71}, {"date": "2026-02-23", "value": 1480.24}, {"date": "2026-02-24", "value": 1490.4}, {"date": "2026-02-25", "value": 1516.01}, {"date": "2026-02-26", "value": 1533.64}, {"date": "2026-02-27", "value": 1528.26}, {"date": "2026-03-02", "value": 1466.51}, {"date": "2026-03-04", "value": 1384.61}, {"date": "2026-03-05", "value": 1417.29}, {"date": "2026-03-06", "value": 1410.37}, {"date": "2026-03-09", "value": 1382.97}, {"date": "2026-03-10", "value": 1405.76}, {"date": "2026-03-11", "value": 1407.34}, {"date": "2026-03-12", "value": 1429.8}, {"date": "2026-03-13", "value": 1409.35}, {"date": "2026-03-16", "value": 1405.02}, {"date": "2026-03-17", "value": 1433.88}, {"date": "2026-03-18", "value": 1440.85}, {"date": "2026-03-19", "value": 1417.45}, {"date": "2026-03-20", "value": 1432.99}, {"date": "2026-03-23", "value": 1397.34}, {"date": "2026-03-24", "value": 1410.39}, {"date": "2026-03-25", "value": 1457.91}, {"date": "2026-03-26", "value": 1442.92}, {"date": "2026-03-27", "value": 1447.05}, {"date": "2026-03-30", "value": 1449.62}, {"date": "2026-03-31", "value": 1448.14}, {"date": "2026-04-01", "value": 1470.99}, {"date": "2026-04-02", "value": 1465.72}, {"date": "2026-04-03", "value": 1454.0}, {"date": "2026-04-07", "value": 1464.43}, {"date": "2026-04-08", "value": 1485.03}, {"date": "2026-04-09", "value": 1489.66}, {"date": "2026-04-10", "value": 1506.84}, {"date": "2026-04-16", "value": 1489.73}, {"date": "2026-04-17", "value": 1482.45}, {"date": "2026-04-20", "value": 1481.85}, {"date": "2026-04-21", "value": 1483.5}, {"date": "2026-04-22", "value": 1479.75}, {"date": "2026-04-23", "value": 1461.35}, {"date": "2026-04-24", "value": 1456.1}, {"date": "2026-04-27", "value": 1479.13}, {"date": "2026-04-28", "value": 1480.2}, {"date": "2026-04-29", "value": 1491.47}, {"date": "2026-04-30", "value": 1493.69}, {"date": "2026-05-05", "value": 1490.1}, {"date": "2026-05-06", "value": 1516.91}, {"date": "2026-05-07", "value": 1507.53}, {"date": "2026-05-08", "value": 1500.36}, {"date": "2026-05-11", "value": 1489.29}, {"date": "2026-05-12", "value": 1483.56}, {"date": "2026-05-13", "value": 1517.26}, {"date": "2026-05-14", "value": 1539.12}, {"date": "2026-05-15", "value": 1517.95}, {"date": "2026-05-18", "value": 1517.74}, {"date": "2026-05-19", "value": 1516.69}, {"date": "2026-05-20", "value": 1528.43}, {"date": "2026-05-21", "value": 1532.67}, {"date": "2026-05-22", "value": 1538.67}, {"date": "2026-05-25", "value": 1550.33}, {"date": "2026-05-26", "value": 1553.36}, {"date": "2026-05-27", "value": 1570.95}, {"date": "2026-05-28", "value": 1568.97}, {"date": "2026-05-29", "value": 1568.37}, {"date": "2026-06-02", "value": 1588.06}, {"date": "2026-06-04", "value": 1594.79}, {"date": "2026-06-05", "value": 1582.6}, {"date": "2026-06-08", "value": 1561.68}, {"date": "2026-06-09", "value": 1584.14}, {"date": "2026-06-10", "value": 1563.59}, {"date": "2026-06-11", "value": 1572.32}, {"date": "2026-06-12", "value": 1592.41}, {"date": "2026-06-15", "value": 1591.72}, {"date": "2026-06-16", "value": 1588.05}, {"date": "2026-06-17", "value": 1587.07}, {"date": "2026-06-18", "value": 1585.06}, {"date": "2026-06-19", "value": 1572.5}, {"date": "2026-06-22", "value": 1574.13}, {"date": "2026-06-23", "value": 1540.9}, {"date": "2026-06-24", "value": 1548.22}, {"date": "2026-06-25", "value": 1558.55}, {"date": "2026-06-26", "value": 1542.34}, {"date": "2026-06-29", "value": 1577.81}, {"date": "2026-06-30", "value": 1591.24}, {"date": "2026-07-01", "value": 1588.23}, {"date": "2026-07-02", "value": 1593.56}, {"date": "2026-07-03", "value": 1611.28}, {"date": "2026-07-06", "value": 1616.88}, {"date": "2026-07-07", "value": 1604.13}, {"date": "2026-07-08", "value": 1576.25}, {"date": "2026-07-09", "value": 1608.3}, {"date": "2026-07-10", "value": 1621.55}, {"date": "2026-07-13", "value": 1627.9}, {"date": "2026-07-14", "value": 1626.03}, {"date": "2026-07-15", "value": 1630.21}, {"date": "2026-07-16", "value": 1635.29}, {"date": "2026-07-17", "value": 1639.04}, {"date": "2026-07-20", "value": 1646.0}, {"date": "2026-07-21", "value": 1652.97}, {"date": "2026-07-22", "value": 1639.34}, {"date": "2026-07-23", "value": 1641.03}, {"date": "2026-07-24", "value": 1644.39}, {"date": "2026-07-27", "value": 1624.47}, {"date": "2026-07-30", "value": 1598.11}, {"date": "2026-07-31", "value": 1623.64}, {"date": "2026-08-03", "value": 1621.9}, {"date": "2026-08-04", "value": 1617.13}, {"date": "2026-08-05", "value": 1609.78}, {"date": "2026-08-06", "value": 1614.64}, {"date": "2026-08-07", "value": 1612.0}, {"date": "2026-08-10", "value": 1624.36}, {"date": "2026-08-11", "value": 1612.62}, {"date": "2026-08-13", "value": 1614.36}, {"date": "2026-08-14", "value": 1609.06}, {"date": "2026-08-17", "value": 1626.44}, {"date": "2026-08-18", "value": 1621.62}, {"date": "2026-08-19", "value": 1609.76}, {"date": "2026-08-20", "value": 1609.99}, {"date": "2026-08-21", "value": 1613.78}, {"date": "2026-08-24", "value": 1601.05}, {"date": "2026-08-25", "value": 1596.01}, {"date": "2026-08-26", "value": 1601.92}, {"date": "2026-08-27", "value": 1600.7}, {"date": "2026-08-28", "value": 1588.22}, {"date": "2026-08-31", "value": 1595.16}, {"date": "2026-09-01", "value": 1588.68}, {"date": "2026-09-02", "value": 1575.07}, {"date": "2026-09-03", "value": 1576.92}, {"date": "2026-09-04", "value": 1595.58}, {"date": "2026-09-07", "value": 1618.82}, {"date": "2026-09-08", "value": 1621.89}, {"date": "2026-09-09", "value": 1617.89}, {"date": "2026-09-10", "value": 1615.07}, {"date": "2026-09-11", "value": 1604.52}, {"date": "2026-09-14", "value": 1591.07}, {"date": "2026-09-15", "value": 1578.66}, {"date": "2026-09-16", "value": 1562.73}, {"date": "2026-09-17", "value": 1583.34}, {"date": "2026-09-18", "value": 1584.15}, {"date": "2026-09-21", "value": 1598.03}, {"date": "2026-09-22", "value": 1604.44}, {"date": "2026-09-23", "value": 1610.7}, {"date": "2026-09-24", "value": 1602.58}, {"date": "2026-09-25", "value": 1607.63}, {"date": "2026-09-28", "value": 1602.73}, {"date": "2026-09-29", "value": 1594.3}, {"date": "2026-09-30", "value": 1559.01}, {"date": "2026-10-01", "value": 1563.91}, {"date": "2026-10-02", "value": 1571.62}, {"date": "2026-10-05", "value": 1576.45}, {"date": "2026-10-06", "value": 1582.22}, {"date": "2026-10-07", "value": 1584.63}, {"date": "2026-10-08", "value": 1570.61}, {"date": "2026-10-09", "value": 1577.65}, {"date": "2026-10-12", "value": 1571.74}, {"date": "2026-10-14", "value": 1575.88}, {"date": "2026-10-15", "value": 1573.01}, {"date": "2026-10-19", "value": 1571.72}, {"date": "2026-10-20", "value": 1554.94}], "buyZones": [{"label": "Trend-following", "sub": "Buy on pullback to just above the 200-MA", "lo": 7.9, "hi": 8.3, "color": "#4caf50", "note": "Healthy uptrend entry. Lowest risk, lowest reward."}, {"label": "Mean-reversion", "sub": "Buy when price dips below the 200-MA and turns back up", "lo": 7.11, "hi": 7.9, "color": "#4fc3f7", "note": "Classic dip-buy zone in an intact long-term trend."}, {"label": "Deep value", "sub": "Aggressive buy only if the thesis is intact", "lo": 5.93, "hi": 7.11, "color": "#ffb74d", "note": "Rare. High reward, but verify fundamentals first."}], "buyZoneStatus": "INSIDE — Mean-reversion zone", "maTrend": "RISING", "maTrendColor": "#4caf50", "maTrend20dPct": 1.6726065643374532, "maTrend60dPct": 0.089928057553961};
+const THB  = n => '฿' + Number(n).toLocaleString('en-US', {maximumFractionDigits:0});
+const THB2 = n => '฿' + Number(n).toLocaleString('en-US', {minimumFractionDigits:2,maximumFractionDigits:2});
+const fmt  = n => Number(n).toLocaleString('en-US', {maximumFractionDigits:0});
+
+function annualizedPct(dec, days) {
+  if (days <= 0) return 0;
+  return (Math.pow(1 + dec, 365/days) - 1) * 100;
+}
+
+Chart.defaults.color = '#8b9aa8';
+Chart.defaults.borderColor = '#26333f';
+
+document.getElementById('subline').innerHTML =
+  `Snapshot ${P.latestDate} · ${P.name} ฿${P.latestPrice.toFixed(2)} · 200-MA ฿${P.lastMA.toFixed(2)} · All amounts in Thai Baht (฿)`;
+
+// ---- KPIs ----
+const kpis = [
+    {label:'Buy Zone Signal', value: P.buyZoneStatus.split(' — ')[0],
+     sub:'200-MA ฿' + P.lastMA.toFixed(2),
+     cls: P.buyZoneStatus.includes('INSIDE') ? 'green'
+        : P.buyZoneStatus.includes('BELOW')  ? 'amber' : 'red'},
+    {label:'200-MA Trend', value: P.maTrend,
+      sub: (P.maTrend20dPct>=0?'+':'') + P.maTrend20dPct.toFixed(2) + '% over 20d',
+      cls: P.maTrend === 'RISING' ? 'green'
+         : P.maTrend === 'FALLING' ? 'red' : 'amber'},        
+  {label:'Active Position', value:THB(P.marketValue),
+    sub: fmt(P.activeQty) + ' sh @ ฿' + P.latestPrice.toFixed(2)},
+  {label:'Active Cost Basis', value:THB(P.activeCost),
+    sub:'avg ฿' + (P.activeCost/P.activeQty).toFixed(2) + '/sh'},
+  {label:'Unrealized P&L', value:(P.unrealized>=0?'+':'−')+THB(Math.abs(P.unrealized)),
+    sub:(P.unrealizedPct>=0?'+':'')+P.unrealizedPct.toFixed(2)+'%',
+    cls: P.unrealized>=0?'green':'red'},
+    
+
+
+    {label:'Realized Gains', value:(P.realized>=0?'+':'−')+THB(Math.abs(P.realized)),
+      sub:P.sells.length + ' closed trades',
+      cls: P.realized>=0?'green':'red'},
+    
+  {label:'Net Dividends', value:THB(P.dividends),
+    sub:P.dividendsList.length + ' payments', cls:'green'},
+    
+    {label:'Total Return',
+      value:(P.totalReturn>=0?'+':'−')+THB(Math.abs(P.totalReturn)),
+      sub:'realized + dividends + unrealized',
+      cls: P.totalReturn>=0?'green':'red'},
+    
+  {label:'Price vs 200-MA', value:'฿' + P.latestPrice.toFixed(2),
+    sub:(P.maDistance>=0?'+':'')+P.maDistance.toFixed(2)+'% vs ฿'+P.lastMA.toFixed(2),
+    cls: P.maDistance>=0?'green':'red'},
+];
+document.getElementById('kpis').innerHTML = kpis.map(k =>
+  `<div class="kpi"><div class="label">${k.label}</div>
+   <div class="value ${k.cls||''}">${k.value}</div>
+   <div class="sub-value">${k.sub}</div></div>`).join('');
+
+// ---- 1. Composition ----
+new Chart(document.getElementById('composeChart'), {
+  type:'doughnut',
+  data:{ labels:['Net Dividends','Realized Gains','Unrealized P&L'],
+    datasets:[{ data:[P.dividends, P.realized, Math.max(P.unrealized,0)],
+      backgroundColor:['#4fc3f7','#4caf50','#ffb74d'],
+      borderColor:'#17212b', borderWidth:3 }] },
+  options:{responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{position:'bottom', labels:{padding:14, boxWidth:12}},
+             tooltip:{callbacks:{label:c => c.label + ': ' + THB(c.raw)}}}}
+});
+
+// ---- 2. Year stack ----
+const years = [...new Set([...P.dividendsList.map(d=>d.year),
+                            ...P.sells.map(s=>+s.sellDate.slice(0,4))])].sort();
+const divByYear  = years.map(y => P.dividendsList.filter(d=>d.year===y).reduce((s,d)=>s+d.net,0));
+const gainByYear = years.map(y => P.sells.filter(s=>+s.sellDate.slice(0,4)===y).reduce((s,x)=>s+x.profit,0));
+new Chart(document.getElementById('yearChart'), {
+  type:'bar',
+  data:{labels:years, datasets:[
+    {label:'Net Dividends', data:divByYear, backgroundColor:'#4fc3f7'},
+    {label:'Realized Gains', data:gainByYear, backgroundColor:'#4caf50'} ]},
+  options:{responsive:true, maintainAspectRatio:false,
+    scales:{x:{stacked:true, grid:{display:false}},
+            y:{stacked:true, ticks:{callback:v => '฿' + (v/1000).toFixed(0) + 'k'}}},
+    plugins:{legend:{position:'bottom', labels:{padding:12, boxWidth:12}},
+             tooltip:{callbacks:{label:c => c.dataset.label + ': ' + THB(c.raw)}}}}
+});
+
+// ---- 3. MA chart ----
+new Chart(document.getElementById('maChart'), {
+  type:'line',
+  data:{labels:P.rcl.map(p=>p.date), datasets:[
+    {label:'Close', data:P.rcl.map(p=>p.price), borderColor:'#4fc3f7',
+      backgroundColor:'rgba(79,195,247,0.08)', fill:true, tension:0.15,
+      pointRadius:0, borderWidth:1.5},
+    {label:'200-Day MA', data:P.rcl.map(p=>p.ma), borderColor:'#ffb74d',
+      borderWidth:2, pointRadius:0, tension:0.15, spanGaps:true} ]},
+  options:{responsive:true, maintainAspectRatio:false,
+    interaction:{mode:'index', intersect:false},
+    scales:{x:{ticks:{maxRotation:0, autoSkip:true, maxTicksLimit:8}},
+            y:{ticks:{callback:v => '฿' + v}}},
+    plugins:{legend:{position:'bottom', labels:{padding:12, boxWidth:12}},
+             tooltip:{callbacks:{label:c => c.dataset.label + ': ฿' + (c.raw!=null ? c.raw.toFixed(2) : '—')}}}}
+});
+
+// ---- Buy zones overlay on price + MA ----
+(function(){
+  const zones = P.buyZones;
+  const lastMA = P.lastMA;
+
+  const xStart = P.rcl[0].date;
+  const xEnd   = P.rcl[P.rcl.length - 1].date;
+
+  const shapes = zones.map(z => ({
+    type: 'rect',
+    xref: 'x', yref: 'y',
+    x0: xStart, x1: xEnd,
+    y0: z.lo,   y1: z.hi,
+    fillcolor: z.color,
+    opacity: 0.12,
+    line: { width: 0 },
+    layer: 'below',
+  }));
+
+  shapes.push({
+    type: 'line',
+    xref: 'paper', yref: 'y',
+    x0: 0, x1: 1,
+    y0: lastMA, y1: lastMA,
+    line: { color: '#ffb74d', width: 1.5, dash: 'dot' },
+  });
+
+  shapes.push({
+    type: 'line',
+    xref: 'paper', yref: 'y',
+    x0: 0, x1: 1,
+    y0: P.latestPrice, y1: P.latestPrice,
+    line: { color: '#4fc3f7', width: 1.5, dash: 'dash' },
+  });
+
+  const trace1 = {
+    x: P.rcl.map(p => p.date),
+    y: P.rcl.map(p => p.price),
+    mode: 'lines',
+    name: 'Close',
+    line: { color: '#e6edf3', width: 1.5 },
+    hovertemplate: '%{x}<br>฿%{y:.2f}<extra></extra>',
+  };
+
+  const trace2 = {
+    x: P.rcl.map(p => p.date),
+    y: P.rcl.map(p => p.ma),
+    mode: 'lines',
+    name: '200-MA',
+    line: { color: '#ffb74d', width: 2 },
+    connectgaps: false,
+    hovertemplate: '%{x}<br>MA ฿%{y:.2f}<extra></extra>',
+  };
+
+    const maDirectionText = P.maTrend === 'RISING'   ? '↗ MA RISING'
+                           : P.maTrend === 'FALLING' ? '↘ MA FALLING'
+                           :                            '→ MA FLAT';
+
+    const annotations = zones.map(z => ({
+      x: xEnd, y: (z.lo + z.hi) / 2,
+      xref: 'x', yref: 'y',
+      text: `${z.label}<br>฿${z.lo}–฿${z.hi}`,
+      showarrow: false,
+      xanchor: 'right',
+      font: { size: 10, color: z.color },
+    })).concat([{
+      x: xEnd,
+      y: P.lastMA,
+      xref: 'x', yref: 'y',
+      text: maDirectionText,
+      showarrow: false,
+      xanchor: 'right',
+      yanchor: 'bottom',
+      font: { size: 11, color: P.maTrendColor, weight: 'bold' },
+    }]);
+
+  Plotly.newPlot('buyZoneChart', [trace1, trace2], {
+    margin: { t: 20, b: 40, l: 55, r: 90 },
+    shapes,
+    annotations,
+    xaxis: { showgrid: false, tickfont: { size: 10 } },
+    yaxis: { title: 'Price (฿)', tickprefix: '฿' },
+    legend: { orientation: 'h', y: 1.05 },
+    plot_bgcolor: '#17212b',
+    paper_bgcolor: '#17212b',
+    font: { color: '#8b9aa8' },
+    hovermode: 'x unified',
+  }, { responsive: true, displayModeBar: false });
+
+  document.getElementById('buyZoneHint').innerHTML =
+    `<b>Today:</b> ฿${P.latestPrice.toFixed(2)} — ${P.buyZoneStatus}.<br>` +
+    zones.map(z => `&nbsp;&nbsp;<span style="color:${z.color}">■</span> ${z.label}: ฿${z.lo}–฿${z.hi} — ${z.sub}`).join('<br>');
+})();
+
+// ---- 4. vs SET ----
+const setMap = new Map(P.set.map(p => [p.date, p.value]));
+const aligned = P.rcl.filter(p => setMap.has(p.date));
+if (aligned.length > 0) {
+  const baseRCL = aligned[0].price;
+  const baseSET = setMap.get(aligned[0].date);
+  const rclN = aligned.map(p => +(p.price/baseRCL*100).toFixed(2));
+  const setN = aligned.map(p => +(setMap.get(p.date)/baseSET*100).toFixed(2));
+  new Chart(document.getElementById('vsChart'), {
+    type:'line',
+    data:{labels:aligned.map(p=>p.date), datasets:[
+      {label:P.name+' (rebased)', data:rclN, borderColor:'#4fc3f7', borderWidth:2, pointRadius:0, tension:0.15},
+      {label:'SET Index (rebased)', data:setN, borderColor:'#ffb74d', borderWidth:2, pointRadius:0, tension:0.15} ]},
+    options:{responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index', intersect:false},
+      scales:{x:{ticks:{maxRotation:0, autoSkip:true, maxTicksLimit:8}}},
+      plugins:{legend:{position:'bottom', labels:{padding:12, boxWidth:12}}}}
+  });
+}
+
+// ---- 5. Scatter ----
+new Chart(document.getElementById('scatterChart'), {
+  type:'scatter',
+  data:{datasets:[{ label:'Closed Trades',
+    data:P.sells.map(s=>({x:s.days, y:s.pct})),
+    backgroundColor:P.sells.map(s => s.pct>=20?'#4caf50':s.pct>=10?'#4fc3f7':'#ffb74d'),
+    pointRadius:8, pointHoverRadius:11 }]},
+  options:{responsive:true, maintainAspectRatio:false,
+    scales:{x:{title:{display:true, text:'Days Held (log)', color:'#8b9aa8'}, type:'logarithmic'},
+            y:{title:{display:true, text:'Profit %', color:'#8b9aa8'}, ticks:{callback:v => v + '%'}}},
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c => {
+        const s = P.sells.find(x => x.days===c.raw.x && x.pct===c.raw.y);
+        return [`${s.days} days · ${s.pct}%`, `Profit: ${THB(s.profit)}`, `Qty: ${fmt(s.qty)}`];
+      }}}}}
+});
+
+// ---- 6. Annualized scatter ----
+const annualPts = P.sells.map(s => ({x:s.days, y:Math.min(annualizedPct(s.pct/100,s.days),999), meta:s}));
+new Chart(document.getElementById('annualChart'), {
+  type:'scatter',
+  data:{datasets:[{ label:'Annualized %', data:annualPts,
+    backgroundColor:annualPts.map(p => p.meta.days>=365?'#4caf50':p.meta.days>=30?'#4fc3f7':'#ffb74d'),
+    pointRadius:9, pointHoverRadius:12 }]},
+  options:{responsive:true, maintainAspectRatio:false,
+    scales:{x:{type:'logarithmic', title:{display:true, text:'Days Held (log)', color:'#8b9aa8'}},
+            y:{title:{display:true, text:'Annualized %', color:'#8b9aa8'}, ticks:{callback:v => v + '%'}}},
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c => {
+        const s = c.raw.meta; const ann = annualizedPct(s.pct/100, s.days);
+        return [`${s.days} days · raw ${s.pct}%`,
+                `Annualized: ${ann > 999 ? '>999' : ann.toFixed(1)}%`,
+                `Profit: ${THB(s.profit)}`];
+      }}}}}
+});
+
+// ---- 7. Signal table ----
+const maDelta = P.maDistance;
+document.querySelector('#signalTable tbody').innerHTML =
+  P.buys.filter(b => b.status === 'Active').map(b => {
+    const mv = b.qty * P.latestPrice;
+    const pl = mv - b.net;
+    const plPct = pl / b.net * 100;
+    let signal, cls;
+    if (P.latestPrice > P.lastMA && plPct > 15) { signal = 'TAKE PROFIT'; cls = 'green'; }
+    else if (P.latestPrice > P.lastMA)          { signal = 'HOLD · TREND UP'; cls = 'green'; }
+    else if (plPct < -10)                        { signal = 'REASSESS'; cls = 'red'; }
+    else                                          { signal = 'HOLD'; cls = 'amber'; }
+    return `<tr>
+      <td>${b.id}</td><td>${b.date}</td>
+      <td class="num">${fmt(b.qty)}</td>
+      <td class="num">฿${b.price.toFixed(2)}</td>
+      <td class="num">${THB(b.net)}</td>
+      <td class="num">${THB(mv)}</td>
+      <td class="num ${pl>=0?'green':'red'}">${pl>=0?'+':'−'}${THB(Math.abs(pl))}</td>
+      <td class="num ${plPct>=0?'green':'red'}">${plPct>=0?'+':''}${plPct.toFixed(1)}%</td>
+      <td class="num ${maDelta>=0?'green':'red'}">${maDelta>=0?'+':''}${maDelta.toFixed(1)}%</td>
+      <td class="${cls}">${signal}</td>
+    </tr>`;
+  }).join('');
+
+// ---- 8. Sells table ----
+document.querySelector('#sellsTable tbody').innerHTML = P.sells.map(s => {
+  const ann = annualizedPct(s.pct/100, s.days);
+  const annDisplay = ann > 999 ? '>999%' : ann.toFixed(1) + '%';
+  return `<tr>
+    <td>${s.sellDate}</td><td>${s.buyDate}</td>
+    <td class="num">${s.days}</td>
+    <td class="num">${fmt(s.qty)}</td>
+    <td class="num">${THB2(s.cost)}</td>
+    <td class="num">${THB2(s.proceeds)}</td>
+    <td class="num green">+${THB2(s.profit)}</td>
+    <td class="num ${s.pct>=20?'green':s.pct>=10?'':'amber'}">${s.pct.toFixed(2)}%</td>
+    <td class="num ${ann>=50?'green':ann>=15?'amber':'red'}">${annDisplay}</td>
+  </tr>`;
+}).join('');
+
+document.querySelector('#buyZoneTable tbody').innerHTML =
+  P.buyZones.map(z => {
+    const mid  = (z.lo + z.hi) / 2;
+    const dist = ((P.latestPrice - mid) / mid * 100);
+    const distCls = Math.abs(dist) <= 5 ? 'green' : dist > 0 ? 'amber' : 'green';
+    const distLabel = dist > 0
+      ? `+${dist.toFixed(1)}% above`
+      : `${dist.toFixed(1)}% below`;
+
+    // Trend context per zone
+    let trendNote = '';
+    if (z.label === 'Trend-following') {
+      trendNote = P.maTrend === 'RISING'
+        ? '✅ MA rising — pullbacks are buyable'
+        : P.maTrend === 'FALLING'
+          ? '⚠️ MA falling — wait for a reclaim'
+          : '➖ MA flat — wait for direction';
+    } else if (z.label === 'Mean-reversion') {
+      trendNote = P.maTrend === 'RISING'
+        ? '✅ Healthy dip in an uptrend'
+        : P.maTrend === 'FALLING'
+          ? '⚠️ Catching a falling knife — size small'
+          : '➖ Range-bound — normal accumulation';
+    } else {
+      trendNote = P.maTrend === 'FALLING'
+        ? '⚠️ Only if thesis is intact'
+        : '✅ Best entry if thesis holds';
+    }
+
+    return `<tr>
+      <td style="color:${z.color}; font-weight:600">${z.label}</td>
+      <td class="num">฿${z.lo.toFixed(2)}</td>
+      <td class="num">฿${z.hi.toFixed(2)}</td>
+      <td class="num ${distCls}">${distLabel}</td>
+      <td style="color:${P.maTrendColor}">${trendNote}</td>
+      <td>${z.note}</td>
+    </tr>`;
+  }).join('');
+
+</script>
+</body>
+</html>
